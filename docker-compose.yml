@@ -8,3 +8,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3006:80
+  bankoftime-backend:
+    image: backend
+    build:
+      context: ./backend/BankOfTimeKotlin
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
