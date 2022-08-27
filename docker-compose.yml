@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+  bankoftime-frontend:
+    image: bankoftime-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3006:80
