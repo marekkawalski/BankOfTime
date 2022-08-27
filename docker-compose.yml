@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   bankoftime-frontend:
-    image: bankoftime-frontend
+    image: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
