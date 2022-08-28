@@ -2,22 +2,27 @@ version: "3.4"
 
 services:
   bankoftime-frontend:
+    container_name: bankoftime-frontend
     image: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 3006:80
+      - "3006:80"
+
   bankoftime-backend:
+    container_name: bankoftime-backend
     image: backend
     build:
       context: ./backend/BankOfTimeKotlin
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - "8080:8080"
     depends_on:
       - bankoftime-db
+
   bankoftime-db:
+    container_name: bankoftime-db
     image: "mcr.microsoft.com/mssql/server:2017-latest-ubuntu"
     environment:
       MSSQL_SA_PASSWORD: "Password123!"
