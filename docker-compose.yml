@@ -14,7 +14,7 @@ services:
     container_name: bankoftime-backend
     image: backend
     build:
-      context: ./backend/BankOfTimeKotlin
+      context: ./backend/BankOfTime
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
