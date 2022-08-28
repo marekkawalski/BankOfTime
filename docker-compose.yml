@@ -15,3 +15,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:8080
+    depends_on:
+      - bankoftime-db
+  bankoftime-db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest-ubuntu"
+    environment:
+      MSSQL_SA_PASSWORD: "Password123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
