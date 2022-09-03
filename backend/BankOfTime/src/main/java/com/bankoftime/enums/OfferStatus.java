@@ -1,6 +1,6 @@
 package com.bankoftime.enums;
 
-public enum OfferState {
+public enum OfferStatus {
     ACTIVE,
     INACTIVE,
     LOCKED

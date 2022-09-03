@@ -1,2 +1,6 @@
-package com.bankoftime.enums;public enum UserType {
+package com.bankoftime.enums;
+
+public enum UserType {
+    ADMIN,
+    NORMAL
 }

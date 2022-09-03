@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="com.bankoftime.models.User">
+        <table name="User" schema="dbo" catalog="BankOfTime"/>
+        <attributes>
+            <id name="id">
+                <column name="Id"/>
+            </id>
+            <basic name="name">
+                <column name="Name"/>
+            </basic>
+            <basic name="lastName">
+                <column name="LastName"/>
+            </basic>
+            <basic name="city">
+                <column name="City"/>
+            </basic>
+            <basic name="country">
+                <column name="Country"/>
+            </basic>
+            <basic name="email">
+                <column name="Email"/>
+            </basic>
+            <basic name="login">
+                <column name="Login"/>
+            </basic>
+            <basic name="password">
+                <column name="Password"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="PhoneNumber"/>
+            </basic>
+            <basic name="userType">
+                <column name="UserType"/>
+            </basic>
+            <one-to-many name="sellOffers" mapped-by="seller" target-entity="com.bankoftime.models.Offer"/>
+            <one-to-many name="purchaseOffers" mapped-by="buyer" target-entity="com.bankoftime.models.Offer"/>
+            <one-to-many name="purchaseTransactions" mapped-by="buyer"
+                         target-entity="com.bankoftime.models.Transaction"/>
+            <one-to-many name="sellTransactions" mapped-by="seller" target-entity="com.bankoftime.models.Transaction"/>
+            <one-to-one name="image" optional="true" target-entity="com.bankoftime.models.Image">
+                <join-column name="Id" referenced-column-name="Id"/>
+            </one-to-one>
+        </attributes>
+    </entity>
+</entity-mappings>
