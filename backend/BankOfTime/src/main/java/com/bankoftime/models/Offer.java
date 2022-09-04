@@ -15,7 +15,7 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "ShortDescription")
     private String shortDescription;
@@ -32,16 +32,18 @@ public class Offer {
     @Column(name = "LongDescription")
     private String longDescription;
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "OfferType")
     private OfferType offerType;
     @Basic
     @Column(name = "State")
+    @Enumerated(EnumType.STRING)
     private OfferStatus state;
     @ManyToOne
-    @JoinColumn(name = "SellerId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "SellerId", nullable = false)
     private User seller;
     @ManyToOne
-    @JoinColumn(name = "BuyerId", referencedColumnName = "Id")
+    @JoinColumn(name = "BuyerId")
     private User buyer;
     @ManyToMany(mappedBy = "offers")
     private Collection<Category> categories = new java.util.ArrayList<>();

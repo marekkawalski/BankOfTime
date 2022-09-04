@@ -12,7 +12,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "Url")
     private String url;

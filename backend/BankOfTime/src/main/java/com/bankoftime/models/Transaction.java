@@ -13,21 +13,19 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
-    private long id;
-    @Basic
-    @Column(name = "OfferId")
-    private long offerId;
+    private Long id;
     @Basic
     @Column(name = "Status")
+    @Enumerated(EnumType.STRING)
     private OfferStatus status;
     @OneToOne
-    @JoinColumn(name = "Id", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "Id", nullable = false)
     private Offer offer;
     @ManyToOne
-    @JoinColumn(name = "BuyerId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "BuyerId", nullable = false)
     private User buyer;
     @ManyToOne
-    @JoinColumn(name = "SellerId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "SellerId", nullable = false)
     private User seller;
 
 }

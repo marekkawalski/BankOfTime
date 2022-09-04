@@ -12,12 +12,12 @@ public class OfferImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "Url")
     private String url;
     @ManyToOne
-    @JoinColumn(name = "OfferId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "OfferId", nullable = false)
     private Offer offer;
 
 }
