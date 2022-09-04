@@ -1,8 +1,13 @@
 package com.bankoftime.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -13,28 +18,4 @@ public class Image {
     private String url;
     @OneToOne(mappedBy = "image")
     private User user;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

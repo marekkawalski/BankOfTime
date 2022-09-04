@@ -2,11 +2,15 @@ package com.bankoftime.models;
 
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Getter
+@Setter
 public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -45,108 +49,4 @@ public class Offer {
     private Collection<OfferImage> images;
     @OneToOne(mappedBy = "offer")
     private Transaction transaction;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getLongDescription() {
-        return longDescription;
-    }
-
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
-    }
-
-    public OfferType getOfferType() {
-        return offerType;
-    }
-
-    public void setOfferType(OfferType offerType) {
-        this.offerType = offerType;
-    }
-
-    public OfferStatus getState() {
-        return state;
-    }
-
-    public void setState(OfferStatus state) {
-        this.state = state;
-    }
-
-    public User getSeller() {
-        return seller;
-    }
-
-    public void setSeller(User seller) {
-        this.seller = seller;
-    }
-
-    public User getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(User buyer) {
-        this.buyer = buyer;
-    }
-
-    public Collection<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Collection<Category> offers) {
-        this.categories = offers;
-    }
-
-    public Collection<OfferImage> getImages() {
-        return images;
-    }
-
-    public void setImages(Collection<OfferImage> images) {
-        this.images = images;
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
 }
