@@ -20,21 +20,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["java", "javascript"]
-
+        language: ["javascript"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
 
-      - if: matrix.language == 'java'
-        name: Build Java code
-        run: ./mvnw package
-        working-directory: ./backend/BankOfTime/
-
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2

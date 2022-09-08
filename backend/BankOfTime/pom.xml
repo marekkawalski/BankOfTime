@@ -14,9 +14,9 @@
     <packaging>war</packaging>
     <name>BankOfTime</name>
     <description>BankOfTime</description>
-    <!--    <properties>-->
-    <!--        <java.version>18</java.version>-->
-    <!--    </properties>-->
+    <properties>
+        <java.version>18</java.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
