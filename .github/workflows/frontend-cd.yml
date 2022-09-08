@@ -5,15 +5,15 @@ on:
     branches:
       - main
     paths:
-      - "backend/**"
-      - ".github/workflows/backend-cd.yml"
+      - "frontend/**"
+      - ".github/workflows/frontend-cd.yml"
       - "!**/*.md"
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/BankOfTime
+        working-directory: ./frontend
 
     steps:
       - uses: actions/checkout@v3
@@ -23,6 +23,6 @@ jobs:
           username: ${{secrets.DOCKER_HUB_USERNAME}}
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
       - name: Build the docker image
-        run: docker build --file Dockerfile --tag marekkawalski/bankoftime-backend:latest .
+        run: docker build --file Dockerfile --tag marekkawalski/bankoftime-frontend:latest .
       - name: Docker Push
-        run: docker push marekkawalski/bankoftime-backend:latest
+        run: docker push marekkawalski/bankoftime-frontend:latest
