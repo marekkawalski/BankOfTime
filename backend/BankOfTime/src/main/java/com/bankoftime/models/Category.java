@@ -2,6 +2,7 @@ package com.bankoftime.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -9,6 +10,7 @@ import java.util.Collection;
 @Entity
 @Setter
 @Getter
+@Accessors(fluent = true)
 public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

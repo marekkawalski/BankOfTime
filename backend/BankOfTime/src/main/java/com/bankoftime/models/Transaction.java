@@ -3,12 +3,14 @@ package com.bankoftime.models;
 import com.bankoftime.enums.OfferStatus;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Accessors(fluent = true)
 public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
