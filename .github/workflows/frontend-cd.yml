@@ -30,4 +30,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/bankoftime-frontend:latest
+          tags: ${{secrets.DOCKER_USERNAME}}/bankoftime-frontend:latest
