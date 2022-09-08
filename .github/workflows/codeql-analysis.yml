@@ -34,7 +34,7 @@ jobs:
       - if: matrix.language == 'java'
         name: Build Java code
         run: ./target bankoftime.war
-        working-directory: ./backend/BankOfTime
+        working-directory: ./mvn ./backend/BankOfTime/bankoftime.war
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
