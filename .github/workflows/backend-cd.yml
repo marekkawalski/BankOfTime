@@ -16,7 +16,6 @@ jobs:
         working-directory: ./backend/BankOfTime
 
     steps:
-      - uses: actions/checkout@v3
       - name: docker login
         uses: docker/login-action@1
         with:
