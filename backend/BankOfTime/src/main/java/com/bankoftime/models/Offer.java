@@ -2,16 +2,22 @@ package com.bankoftime.models;
 
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Getter
+@Setter
+@Accessors(fluent = true)
 public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "ShortDescription")
     private String shortDescription;
@@ -28,16 +34,18 @@ public class Offer {
     @Column(name = "LongDescription")
     private String longDescription;
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "OfferType")
     private OfferType offerType;
     @Basic
     @Column(name = "State")
+    @Enumerated(EnumType.STRING)
     private OfferStatus state;
     @ManyToOne
-    @JoinColumn(name = "SellerId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "SellerId", nullable = false)
     private User seller;
     @ManyToOne
-    @JoinColumn(name = "BuyerId", referencedColumnName = "Id")
+    @JoinColumn(name = "BuyerId")
     private User buyer;
     @ManyToMany(mappedBy = "offers")
     private Collection<Category> categories = new java.util.ArrayList<>();
@@ -45,108 +53,4 @@ public class Offer {
     private Collection<OfferImage> images;
     @OneToOne(mappedBy = "offer")
     private Transaction transaction;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getLongDescription() {
-        return longDescription;
-    }
-
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
-    }
-
-    public OfferType getOfferType() {
-        return offerType;
-    }
-
-    public void setOfferType(OfferType offerType) {
-        this.offerType = offerType;
-    }
-
-    public OfferStatus getState() {
-        return state;
-    }
-
-    public void setState(OfferStatus state) {
-        this.state = state;
-    }
-
-    public User getSeller() {
-        return seller;
-    }
-
-    public void setSeller(User seller) {
-        this.seller = seller;
-    }
-
-    public User getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(User buyer) {
-        this.buyer = buyer;
-    }
-
-    public Collection<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Collection<Category> offers) {
-        this.categories = offers;
-    }
-
-    public Collection<OfferImage> getImages() {
-        return images;
-    }
-
-    public void setImages(Collection<OfferImage> images) {
-        this.images = images;
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
 }

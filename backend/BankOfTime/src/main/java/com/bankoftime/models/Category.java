@@ -1,14 +1,21 @@
 package com.bankoftime.models;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Setter
+@Getter
+@Accessors(fluent = true)
 public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "Name")
     private String name;
@@ -20,27 +27,4 @@ public class Category {
     )
     private Collection<Offer> offers;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Collection<Offer> getOffers() {
-        return offers;
-    }
-
-    public void setOffers(Collection<Offer> offers) {
-        this.offers = offers;
-    }
 }
