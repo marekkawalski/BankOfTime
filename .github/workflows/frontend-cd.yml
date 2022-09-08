@@ -4,24 +4,30 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-cd.yml"
       - "!**/*.md"
 jobs:
   build:
+    name: Build frontend Docker image
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontend
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: docker login
+        uses: docker/login-action@1
         with:
           username: ${{secrets.DOCKER_HUB_USERNAME}}
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
       - name: Build the docker image
-        run: docker build --file Dockerfile --tag marekkawalski/bankoftime-frontend:latest .
-      - name: Docker Push
-        run: docker push marekkawalski/bankoftime-frontend:latest
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/bankoftime-frontend:latest
