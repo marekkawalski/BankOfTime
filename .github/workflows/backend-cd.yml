@@ -16,8 +16,8 @@ jobs:
         working-directory: ./backend/BankOfTime
 
     steps:
+      - uses: actions/checkout@v3
       - name: docker login
-        uses: docker/login-action@1
         with:
           username: ${{secrets.DOCKER_HUB_USERNAME}}
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
