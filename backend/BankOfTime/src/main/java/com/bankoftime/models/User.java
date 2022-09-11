@@ -1,6 +1,7 @@
 package com.bankoftime.models;
 
 import com.bankoftime.enums.UserType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -17,8 +19,10 @@ import java.util.Collections;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Accessors(fluent = true)
-public abstract class User implements UserDetails {
+public class User implements UserDetails {
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "Id")
@@ -35,9 +39,6 @@ public abstract class User implements UserDetails {
     @Basic
     @Column(name = "Country")
     private String country;
-    @Basic
-    @Column(name = "Email")
-    private String email;
     @Basic
     @Column(name = "Username")
     private String username;
@@ -69,9 +70,27 @@ public abstract class User implements UserDetails {
     @JoinColumn(name = "Id", nullable = false)
     private Image image;
 
+    public User(String name, String lastName, String userName, String password, UserType userType) {
+        this.name = name;
+        this.lastName = lastName;
+        this.username = userName;
+        this.password = password;
+        this.userType = userType;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(userType.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
     }
 
     @Override
