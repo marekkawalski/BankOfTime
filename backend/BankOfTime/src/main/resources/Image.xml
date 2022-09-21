@@ -2,16 +2,4 @@
 <entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
                  version="3.0">
 
-    <entity class="com.bankoftime.models.Image">
-        <table name="Image" schema="dbo" catalog="BankOfTime"/>
-        <attributes>
-            <id name="id">
-                <column name="Id"/>
-            </id>
-            <basic name="url">
-                <column name="Url"/>
-            </basic>
-            <one-to-one name="user" optional="true" mapped-by="image" target-entity="com.bankoftime.models.User"/>
-        </attributes>
-    </entity>
 </entity-mappings>

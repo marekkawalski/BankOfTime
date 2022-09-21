@@ -11,9 +11,16 @@ import javax.persistence.*;
 @Setter
 @Accessors(fluent = true)
 public class OfferImage {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "offer_image_sequence",
+            sequenceName = "offer_image_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "offer_image_sequence"
+    )
     private Long id;
     @Basic
     @Column(name = "Url")

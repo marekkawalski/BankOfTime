@@ -1,7 +1,7 @@
 package com.bankoftime.services;
 
-import com.bankoftime.models.User;
-import com.bankoftime.repositories.UserRepository;
+import com.bankoftime.models.AppUser;
+import com.bankoftime.repositories.AppUserRepository;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,29 +12,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class AppUserService implements UserDetailsService {
     private static final String USER_WAS_NOT_FOUND = "User %s was not found!";
-    private final UserRepository userRepository;
+    private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        return appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_WAS_NOT_FOUND, username)));
     }
 
-    public String signUpUser(User user) {
+    public String signUpUser(AppUser appUser) {
 
-        val userExists = userRepository
-                .findByUsername(user.username())
+        val userExists = appUserRepository
+                .findByUsername(appUser.getUsername())
                 .isPresent();
         if (userExists) {
             return String.valueOf(new IllegalStateException("user exists"));
         }
 
-        val encodedPassword = bCryptPasswordEncoder.encode(user.password());
-        user.password(encodedPassword);
-        userRepository.save(user);
+        val encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
+        appUser.password(encodedPassword);
+        appUserRepository.save(appUser);
 
         return "user added";
     }

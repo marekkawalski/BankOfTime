@@ -2,8 +2,8 @@
 <entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
                  version="3.0">
 
-    <entity class="com.bankoftime.models.User">
-        <table name="User" schema="dbo" catalog="BankOfTime"/>
+    <entity class="com.bankoftime.lol.AppUser">
+        <table name="AppUser" schema="dbo" catalog="BankOfTime"/>
         <attributes>
             <id name="id">
                 <column name="Id"/>
@@ -20,11 +20,8 @@
             <basic name="country">
                 <column name="Country"/>
             </basic>
-            <basic name="email">
-                <column name="Email"/>
-            </basic>
-            <basic name="login">
-                <column name="Login"/>
+            <basic name="username">
+                <column name="Username"/>
             </basic>
             <basic name="password">
                 <column name="Password"/>
@@ -35,14 +32,12 @@
             <basic name="userType">
                 <column name="UserType"/>
             </basic>
-            <one-to-many name="sellOffers" mapped-by="seller" target-entity="com.bankoftime.models.Offer"/>
-            <one-to-many name="purchaseOffers" mapped-by="buyer" target-entity="com.bankoftime.models.Offer"/>
-            <one-to-many name="purchaseTransactions" mapped-by="buyer"
-                         target-entity="com.bankoftime.models.Transaction"/>
-            <one-to-many name="sellTransactions" mapped-by="seller" target-entity="com.bankoftime.models.Transaction"/>
-            <one-to-one name="image" optional="true" target-entity="com.bankoftime.models.Image">
-                <join-column name="Id" referenced-column-name="Id"/>
-            </one-to-one>
+            <basic name="locked">
+                <column name="Locked"/>
+            </basic>
+            <basic name="enabled">
+                <column name="Enabled"/>
+            </basic>
         </attributes>
     </entity>
 </entity-mappings>

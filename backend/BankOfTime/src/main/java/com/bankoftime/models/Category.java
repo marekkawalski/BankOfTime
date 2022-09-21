@@ -12,9 +12,16 @@ import java.util.Collection;
 @Getter
 @Accessors(fluent = true)
 public class Category {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "category_sequence",
+            sequenceName = "category_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "category_sequence"
+    )
     private Long id;
     @Basic
     @Column(name = "Name")

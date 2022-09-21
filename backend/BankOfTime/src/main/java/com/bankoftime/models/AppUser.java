@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -21,11 +20,20 @@ import java.util.Collections;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(fluent = true)
-public class User implements UserDetails {
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "AppUser")
+public class AppUser implements UserDetails {
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @Column(name = "Id",
+            table = "AppUser")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
     private Long id;
     @Basic
     @Column(name = "Name")
@@ -59,22 +67,21 @@ public class User implements UserDetails {
     @Column(name = "UserType")
     private UserType userType;
     @OneToMany(mappedBy = "seller")
-    private Collection<Offer> sellOffers;
+    private transient Collection<Offer> sellOffers = Collections.emptyList();
     @OneToMany(mappedBy = "buyer")
-    private Collection<Offer> purchaseOffers;
+    private transient Collection<Offer> purchaseOffers = Collections.emptyList();
     @OneToMany(mappedBy = "buyer")
-    private Collection<Transaction> purchaseTransactions;
+    private transient Collection<Transaction> purchaseTransactions = Collections.emptyList();
     @OneToMany(mappedBy = "seller")
-    private Collection<Transaction> sellTransactions;
-    @OneToOne
-    @JoinColumn(name = "Id", nullable = false)
+    private transient Collection<Transaction> sellTransactions = Collections.emptyList();
+    @OneToOne(mappedBy = "appUser")
     private Image image;
 
-    public User(String name, String lastName, String userName, String password, UserType userType) {
+    public AppUser(String name, String lastName, String username, String password, UserType userType) {
         this.name = name;
         this.lastName = lastName;
-        this.username = userName;
         this.password = password;
+        this.username = username;
         this.userType = userType;
     }
 

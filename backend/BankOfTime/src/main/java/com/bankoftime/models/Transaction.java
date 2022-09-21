@@ -12,9 +12,16 @@ import javax.persistence.*;
 @Setter
 @Accessors(fluent = true)
 public class Transaction {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "transaction_sequence",
+            sequenceName = "transaction_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "transaction_sequence"
+    )
     private Long id;
     @Basic
     @Column(name = "Status")
@@ -25,9 +32,9 @@ public class Transaction {
     private Offer offer;
     @ManyToOne
     @JoinColumn(name = "BuyerId", nullable = false)
-    private User buyer;
+    private AppUser buyer;
     @ManyToOne
     @JoinColumn(name = "SellerId", nullable = false)
-    private User seller;
+    private AppUser seller;
 
 }

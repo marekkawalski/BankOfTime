@@ -8,15 +8,23 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Getter
 @Setter
 @Accessors(fluent = true)
 public class Offer {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "offer_sequence",
+            sequenceName = "offer_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "offer_sequence"
+    )
     private Long id;
     @Basic
     @Column(name = "ShortDescription")
@@ -43,12 +51,12 @@ public class Offer {
     private OfferStatus state;
     @ManyToOne
     @JoinColumn(name = "SellerId", nullable = false)
-    private User seller;
+    private AppUser seller;
     @ManyToOne
     @JoinColumn(name = "BuyerId")
-    private User buyer;
+    private AppUser buyer;
     @ManyToMany(mappedBy = "offers")
-    private Collection<Category> categories = new java.util.ArrayList<>();
+    private Collection<Category> categories = Collections.emptyList();
     @OneToMany(mappedBy = "offer")
     private Collection<OfferImage> images;
     @OneToOne(mappedBy = "offer")

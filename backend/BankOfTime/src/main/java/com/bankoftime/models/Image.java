@@ -5,21 +5,29 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
 @Setter
 @Accessors(fluent = true)
 public class Image {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "image_sequence",
+            sequenceName = "image_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @Column(name = "Id",
+            table = "Image")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "image_sequence"
+    )
     private Long id;
     @Basic
     @Column(name = "Url")
     private String url;
-    @NotNull
-    @OneToOne(mappedBy = "image")
-    private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "Id")
+    private AppUser appUser;
 }
