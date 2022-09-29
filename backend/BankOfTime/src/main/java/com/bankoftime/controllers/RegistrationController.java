@@ -1,5 +1,6 @@
 package com.bankoftime.controllers;
 
+import com.bankoftime.exceptions.EmailException;
 import com.bankoftime.requests.RegistrationRequest;
 import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,10 @@ public class RegistrationController {
 
     @PostMapping
     public String register(@RequestBody RegistrationRequest request) {
-        return registrationService.register(request);
+        try {
+            return registrationService.register(request);
+        } catch (EmailException emailException) {
+            return emailException.getMessage();
+        }
     }
 }

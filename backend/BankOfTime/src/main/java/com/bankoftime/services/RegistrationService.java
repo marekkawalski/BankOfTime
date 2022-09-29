@@ -1,10 +1,11 @@
 package com.bankoftime.services;
 
 import com.bankoftime.enums.UserType;
+import com.bankoftime.exceptions.EmailException;
+import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.requests.RegistrationRequest;
 import lombok.AllArgsConstructor;
-import lombok.val;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,19 +15,23 @@ public class RegistrationService {
     private final AppUserService appUserService;
     private final EmailValidator emailValidator;
 
-    public String register(RegistrationRequest request) {
-        val isValidEmail = emailValidator.test(request.username());
-        if (!isValidEmail) {
-            throw new IllegalStateException("email invalid");
+    public String register(RegistrationRequest request) throws EmailException {
+        if (!emailValidator.test(request.username())) {
+            throw new EmailException("Email is invalid!");
         }
-        return appUserService.signUpUser(
-                new AppUser(
-                        request.name(),
-                        request.lastName(),
-                        request.username(),
-                        request.password(),
-                        UserType.NORMAL
-                )
-        );
+        try {
+            return appUserService.signUpUser(
+                    new AppUser(
+                            request.name(),
+                            request.lastName(),
+                            request.username(),
+                            request.password(),
+                            UserType.NORMAL
+                    )
+            );
+        } catch (UserException userException) {
+            return userException.getMessage();
+        }
+
     }
 }

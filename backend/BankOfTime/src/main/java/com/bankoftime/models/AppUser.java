@@ -75,7 +75,7 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "seller")
     private transient Collection<Transaction> sellTransactions = Collections.emptyList();
     @OneToOne(mappedBy = "appUser")
-    private Image image;
+    private transient Image image;
 
     public AppUser(String name, String lastName, String username, String password, UserType userType) {
         this.name = name;
