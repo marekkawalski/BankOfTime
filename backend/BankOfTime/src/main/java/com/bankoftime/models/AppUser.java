@@ -74,6 +74,8 @@ public class AppUser implements UserDetails {
     private transient Collection<Transaction> purchaseTransactions = Collections.emptyList();
     @OneToMany(mappedBy = "seller")
     private transient Collection<Transaction> sellTransactions = Collections.emptyList();
+    @OneToMany(mappedBy = "appUser")
+    private transient Collection<ConfirmationToken> confirmationTokens = Collections.emptyList();
     @OneToOne(mappedBy = "appUser")
     private transient Image image;
 

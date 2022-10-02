@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="com.bankoftime.models.ConfirmationToken">
+        <table name="ConfirmationToken" schema="dbo" catalog="BankOfTime"/>
+        <attributes>
+            <id name="id">
+                <column name="Id"/>
+            </id>
+            <basic name="token">
+                <column name="token"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="createdAt"/>
+            </basic>
+            <basic name="expiresAt">
+                <column name="expiresAt"/>
+            </basic>
+            <basic name="confirmedAt">
+                <column name="confirmedAt"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
