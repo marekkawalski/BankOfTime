@@ -1,6 +1,7 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.exceptions.EmailException;
+import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.requests.RegistrationRequest;
 import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,10 @@ public class RegistrationController {
 
     @GetMapping(path = "confirm")
     public String confirm(@RequestParam("token") String token) {
-        return registrationService.confirmToken(token);
+        try {
+            return registrationService.confirmToken(token);
+        } catch (TokenException tokenException) {
+            return tokenException.getMessage();
+        }
     }
 }

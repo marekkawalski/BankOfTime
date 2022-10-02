@@ -21,7 +21,6 @@ public class AppUserService implements UserDetailsService {
     private static final String USER_WAS_NOT_FOUND = "User %s was not found!";
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final ConfirmationTokenService confirmationTokenService;
 
     @Override
