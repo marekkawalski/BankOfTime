@@ -4,6 +4,7 @@ import com.bankoftime.services.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,10 +29,12 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                             try {
                                 authorize
-                                        .antMatchers("/registration/**", "/login/**")
+
+                                        .antMatchers(HttpMethod.OPTIONS, "/**", "/registration/**")
                                         .permitAll()
                                         .anyRequest()
-                                        .authenticated().and()
+                                        .authenticated()
+                                        .and()
                                         .httpBasic();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
