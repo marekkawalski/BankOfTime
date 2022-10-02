@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - develop
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend-cd.yml"
 jobs:
   build:
     name: Build frontend Docker image
