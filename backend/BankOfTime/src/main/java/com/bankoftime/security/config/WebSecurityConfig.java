@@ -28,11 +28,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                             try {
                                 authorize
-                                        .antMatchers("/registration/**")
+                                        .antMatchers("/registration/**", "/login/**")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated().and()
-                                        .formLogin();
+                                        .httpBasic();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
