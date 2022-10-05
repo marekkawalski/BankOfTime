@@ -29,8 +29,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                             try {
                                 authorize
-
-                                        .antMatchers(HttpMethod.OPTIONS, "/**", "/registration/**")
+                                        .antMatchers( "/registration/**")
+                                        .permitAll()
+                                        .antMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()
