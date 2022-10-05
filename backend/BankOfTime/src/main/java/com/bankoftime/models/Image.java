@@ -29,7 +29,6 @@ public class Image {
     @Basic
     @Column(name = "Url")
     private String url;
-    //Todo fix naming convetion - apply Pascal case
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "Id")
     private AppUser appUser;

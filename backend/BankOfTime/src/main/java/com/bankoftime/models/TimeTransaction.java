@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Accessors(fluent = true)
-public class Transaction {
+public class TimeTransaction {
     @SequenceGenerator(
             name = "transaction_sequence",
             sequenceName = "transaction_sequence",
@@ -28,7 +28,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private OfferStatus status;
     @OneToOne
-    @JoinColumn(name = "Id", nullable = false)
+    @JoinColumn(name = "OfferId", nullable = false)
     private Offer offer;
     @ManyToOne
     @JoinColumn(name = "BuyerId", nullable = false)

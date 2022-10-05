@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Accessors(fluent = true)
+@Table(name = "OfferImage")
 public class OfferImage {
     @SequenceGenerator(
             name = "offer_image_sequence",

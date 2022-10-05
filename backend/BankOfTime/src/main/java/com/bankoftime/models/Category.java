@@ -1,6 +1,7 @@
 package com.bankoftime.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -11,6 +12,8 @@ import java.util.Collection;
 @Setter
 @Getter
 @Accessors(fluent = true)
+@NoArgsConstructor
+@Table(name = "Category")
 public class Category {
     @SequenceGenerator(
             name = "category_sequence",

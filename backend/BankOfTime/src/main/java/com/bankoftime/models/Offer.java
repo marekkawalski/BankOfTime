@@ -60,5 +60,5 @@ public class Offer {
     @OneToMany(mappedBy = "offer")
     private Collection<OfferImage> images;
     @OneToOne(mappedBy = "offer")
-    private Transaction transaction;
+    private TimeTransaction timeTransaction;
 }
