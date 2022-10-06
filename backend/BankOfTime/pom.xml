@@ -15,7 +15,7 @@
     <name>BankOfTime</name>
     <description>BankOfTime</description>
     <properties>
-        <java.version>18</java.version>
+        <java.version>19</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>11.2.0.jre18</version>
+            <version>11.2.1.jre18</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

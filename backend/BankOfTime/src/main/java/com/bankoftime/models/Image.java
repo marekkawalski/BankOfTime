@@ -30,6 +30,6 @@ public class Image {
     @Column(name = "Url")
     private String url;
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "Id")
+    @JoinColumn(name = "UserId", referencedColumnName = "Id")
     private AppUser appUser;
 }
