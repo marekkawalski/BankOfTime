@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -67,15 +68,15 @@ public class AppUser implements UserDetails {
     @Column(name = "UserType")
     private UserType userType;
     @OneToMany(mappedBy = "seller")
-    private transient Collection<Offer> sellOffers = Collections.emptyList();
+    private transient Collection<Offer> sellOffers = new ArrayList<>();
     @OneToMany(mappedBy = "buyer")
-    private transient Collection<Offer> purchaseOffers = Collections.emptyList();
+    private transient Collection<Offer> purchaseOffers = new ArrayList<>();
     @OneToMany(mappedBy = "buyer")
-    private transient Collection<TimeTransaction> purchaseTransactions = Collections.emptyList();
+    private transient Collection<TimeTransaction> purchaseTransactions = new ArrayList<>();
     @OneToMany(mappedBy = "seller")
-    private transient Collection<TimeTransaction> sellTransactions = Collections.emptyList();
+    private transient Collection<TimeTransaction> sellTransactions = new ArrayList<>();
     @OneToMany(mappedBy = "appUser")
-    private transient Collection<ConfirmationToken> confirmationTokens = Collections.emptyList();
+    private transient Collection<ConfirmationToken> confirmationTokens = new ArrayList<>();
     @OneToOne(mappedBy = "appUser")
     private transient Image image;
 

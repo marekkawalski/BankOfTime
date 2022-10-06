@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -35,6 +36,6 @@ public class Category {
             joinColumns = @JoinColumn(name = "CategoryId"),
             inverseJoinColumns = @JoinColumn(name = "OfferId")
     )
-    private Collection<Offer> offers;
+    private Collection<Offer> offers = new ArrayList<>();
 
 }

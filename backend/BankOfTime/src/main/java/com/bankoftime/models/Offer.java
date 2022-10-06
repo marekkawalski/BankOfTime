@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -56,7 +57,7 @@ public class Offer {
     @JoinColumn(name = "BuyerId")
     private AppUser buyer;
     @ManyToMany(mappedBy = "offers")
-    private Collection<Category> categories = Collections.emptyList();
+    private Collection<Category> categories = new ArrayList<>();
     @OneToMany(mappedBy = "offer")
     private Collection<OfferImage> images;
     @OneToOne(mappedBy = "offer")
