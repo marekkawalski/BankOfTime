@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Getter
@@ -27,14 +26,11 @@ public class Offer {
             generator = "offer_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "ShortDescription")
+    @Column(name = "ShortDescription", nullable = false)
     private String shortDescription;
-    @Basic
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     private double price;
-    @Basic
-    @Column(name = "Title")
+    @Column(name = "Title", nullable = false)
     private String title;
     @Basic
     @Column(name = "Location")
@@ -42,16 +38,15 @@ public class Offer {
     @Basic
     @Column(name = "LongDescription")
     private String longDescription;
-    @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "OfferType")
+    @Column(name = "OfferType", nullable = false)
     private OfferType offerType;
     @Basic
     @Column(name = "State")
     @Enumerated(EnumType.STRING)
     private OfferStatus state;
     @ManyToOne
-    @JoinColumn(name = "SellerId", nullable = false)
+    @JoinColumn(name = "SellerId")
     private AppUser seller;
     @ManyToOne
     @JoinColumn(name = "BuyerId")

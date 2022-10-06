@@ -23,8 +23,7 @@ public class OfferImage {
             generator = "offer_image_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "Url")
+    @Column(name = "Url", nullable = false)
     private String url;
     @ManyToOne
     @JoinColumn(name = "OfferId", nullable = false)

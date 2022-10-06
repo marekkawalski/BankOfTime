@@ -7,6 +7,8 @@ import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/registration")
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping
-    public String register(@RequestBody RegistrationRequest request) {
+    public String register(@Valid @RequestBody RegistrationRequest request) {
         try {
             return registrationService.register(request);
         } catch (EmailException emailException) {

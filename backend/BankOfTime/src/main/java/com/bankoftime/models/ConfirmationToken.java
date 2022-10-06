@@ -28,14 +28,11 @@ public class ConfirmationToken {
             generator = "token_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "Token")
+    @Column(name = "Token", nullable = false)
     private String token;
-    @Basic
-    @Column(name = "CreatedAt")
+    @Column(name = "CreatedAt", nullable = false)
     private LocalDateTime createdAt;
-    @Basic
-    @Column(name = "ExpiresAt")
+    @Column(name = "ExpiresAt", nullable = false)
     private LocalDateTime expiresAt;
     @Basic
     @Column(name = "ConfirmedAt")

@@ -26,8 +26,7 @@ public class Image {
             generator = "image_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "Url")
+    @Column(name = "Url", nullable = false)
     private String url;
     @OneToOne
     @JoinColumn(name = "UserId", referencedColumnName = "Id")

@@ -27,8 +27,7 @@ public class Category {
             generator = "category_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false)
     private String name;
     @ManyToMany
     @JoinTable(

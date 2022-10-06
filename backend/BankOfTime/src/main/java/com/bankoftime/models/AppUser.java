@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,11 +37,11 @@ public class AppUser implements UserDetails {
             generator = "user_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false)
+    @NotBlank(message = "Name is mandatory")
     private String name;
-    @Basic
-    @Column(name = "LastName")
+    @Column(name = "LastName", nullable = false)
+    @NotBlank(message = "LastName is mandatory")
     private String lastName;
     @Basic
     @Column(name = "City")
@@ -48,11 +49,11 @@ public class AppUser implements UserDetails {
     @Basic
     @Column(name = "Country")
     private String country;
-    @Basic
-    @Column(name = "Username")
+    @Column(name = "Username", nullable = false)
+    @NotBlank(message = "Username is mandatory")
     private String username;
-    @Basic
-    @Column(name = "Password")
+    @Column(name = "Password", nullable = false)
+    @NotBlank(message = "Password is mandatory")
     private String password;
     @Basic
     @Column(name = "PhoneNumber")
