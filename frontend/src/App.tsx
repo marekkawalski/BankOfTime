@@ -1,13 +1,22 @@
 import React from "react";
 import "./App.css";
-import { Button } from "./components/Button/Button";
 import LoginComponent from "./components/Login/Login";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import LogoutComponent from "./components/Logout/Logout";
 
 function App() {
   return (
-    <div className="App">
-      <LoginComponent />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/** Protected Routes */}
+        <Route path="/logout" element={<ProtectedRoute />}>
+          <Route path="" element={<LogoutComponent />} />
+        </Route>
+        {/** Public Routes */}
+        <Route path="/" element={<LoginComponent />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

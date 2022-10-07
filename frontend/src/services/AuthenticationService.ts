@@ -34,5 +34,8 @@ class AuthenticationService {
       return config;
     });
   }
+  logout() {
+    sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+  }
 }
 export default new AuthenticationService();
