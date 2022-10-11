@@ -15,7 +15,7 @@ function LoginComponent() {
         console.log("Succeed");
         setShowSuccessMessage(true);
         setHasLoginFailed(false);
-        navigate("/home");
+        navigate("/");
       })
       .catch(() => {
         console.log("Login failed");
