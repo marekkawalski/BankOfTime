@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - develop
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-cd.yml"
 jobs:
   build:
     name: Build backend Docker image

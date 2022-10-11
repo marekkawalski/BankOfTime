@@ -1,9 +1,10 @@
 package com.bankoftime.security.config;
 
-import com.bankoftime.services.UserService;
+import com.bankoftime.services.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,20 +19,24 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final UserService userService;
+    private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeHttpRequests(authorize -> {
                             try {
                                 authorize
-                                        .antMatchers("/registration/**")
+                                        .antMatchers( "/registration/**")
+                                        .permitAll()
+                                        .antMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()
                                         .anyRequest()
-                                        .authenticated().and()
-                                        .formLogin();
+                                        .authenticated()
+                                        .and()
+                                        .httpBasic();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -50,7 +55,7 @@ public class WebSecurityConfig {
         DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(userService);
+        provider.setUserDetailsService(appUserService);
         return provider;
     }
 }

@@ -10,13 +10,20 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Accessors(fluent = true)
+@Table(name = "OfferImage")
 public class OfferImage {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "offer_image_sequence",
+            sequenceName = "offer_image_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "offer_image_sequence"
+    )
     private Long id;
-    @Basic
-    @Column(name = "Url")
+    @Column(name = "Url", nullable = false)
     private String url;
     @ManyToOne
     @JoinColumn(name = "OfferId", nullable = false)

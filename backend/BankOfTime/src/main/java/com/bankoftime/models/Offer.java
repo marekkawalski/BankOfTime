@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -14,18 +15,22 @@ import java.util.Collection;
 @Setter
 @Accessors(fluent = true)
 public class Offer {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "offer_sequence",
+            sequenceName = "offer_sequence",
+            allocationSize = 1
+    )
     @Id
-    @Column(name = "Id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "offer_sequence"
+    )
     private Long id;
-    @Basic
-    @Column(name = "ShortDescription")
+    @Column(name = "ShortDescription", nullable = false)
     private String shortDescription;
-    @Basic
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     private double price;
-    @Basic
-    @Column(name = "Title")
+    @Column(name = "Title", nullable = false)
     private String title;
     @Basic
     @Column(name = "Location")
@@ -33,24 +38,23 @@ public class Offer {
     @Basic
     @Column(name = "LongDescription")
     private String longDescription;
-    @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "OfferType")
+    @Column(name = "OfferType", nullable = false)
     private OfferType offerType;
     @Basic
     @Column(name = "State")
     @Enumerated(EnumType.STRING)
     private OfferStatus state;
     @ManyToOne
-    @JoinColumn(name = "SellerId", nullable = false)
-    private User seller;
+    @JoinColumn(name = "SellerId")
+    private AppUser seller;
     @ManyToOne
     @JoinColumn(name = "BuyerId")
-    private User buyer;
+    private AppUser buyer;
     @ManyToMany(mappedBy = "offers")
-    private Collection<Category> categories = new java.util.ArrayList<>();
+    private Collection<Category> categories = new ArrayList<>();
     @OneToMany(mappedBy = "offer")
     private Collection<OfferImage> images;
     @OneToOne(mappedBy = "offer")
-    private Transaction transaction;
+    private TimeTransaction timeTransaction;
 }
