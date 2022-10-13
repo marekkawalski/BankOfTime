@@ -3,12 +3,16 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = "authenticatedUser";
+export const USER_ROLE = "userRole";
 class AuthenticationService {
-  executeBasicAuthenticationService(username: string, password: string) {
+  async executeBasicAuthenticationService(username: string, password: string) {
     console.log(username + password);
-    return axios.get(`${API_URL}/login`, {
-      headers: { authorization: this.createBasicAuthToken(username, password) },
+    const resp = await axios.get(`${API_URL}/login/${username}`, {
+      headers: {
+        authorization: this.createBasicAuthToken(username, password),
+      },
     });
+    sessionStorage.setItem(USER_ROLE, resp.data);
   }
 
   createBasicAuthToken(username: string, password: string): string {
@@ -36,6 +40,9 @@ class AuthenticationService {
   }
   logout() {
     sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+  }
+  getUserRole() {
+    return sessionStorage.getItem(USER_ROLE);
   }
 }
 export default new AuthenticationService();

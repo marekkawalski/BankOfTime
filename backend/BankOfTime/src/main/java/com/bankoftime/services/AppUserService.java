@@ -1,5 +1,6 @@
 package com.bankoftime.services;
 
+import com.bankoftime.enums.UserType;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -53,4 +55,11 @@ public class AppUserService implements UserDetailsService {
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
     }
+
+    public String getUserRoleByUsername(String username){
+
+       Optional<AppUser> appUser= appUserRepository.findByUsername(username);
+        return appUser.map(user -> user.userType().toString()).orElse(null);
+    }
+
 }

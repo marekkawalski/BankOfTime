@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthenticationService from "../../services/AuthenticationService";
 
@@ -8,6 +8,11 @@ function LoginComponent() {
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    AuthenticationService.logout();
+  }, []);
+
   function loginClicked() {
     AuthenticationService.executeBasicAuthenticationService(username, password)
       .then(() => {

@@ -7,25 +7,27 @@ import LogoutComponent from "./components/Logout/Logout";
 import Home from "./components/pages/Home/Home";
 import Layout from "./components/Layout/Layout";
 import NotFound from "./components/NotFound/NotFound";
-import AlreadyLoggedIn from "./components/AlreadyLoggedIn/AlreadyLoggedIn";
-import AuthenticationService from "./services/AuthenticationService";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 function App() {
+  enum Role {
+    ADMIN = "ADMIN",
+    NORMAL = "NORMAL",
+  }
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/** Public Routes */}
-        {AuthenticationService.isUserLoggedIn() ? (
-          <Route path="login" element={<AlreadyLoggedIn />} />
-        ) : (
-          <Route path="login" element={<LoginComponent />} />
-        )}
+        <Route path="login" element={<LoginComponent />} />
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/logout" element={<LogoutComponent />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
+        </Route>
+        <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>
