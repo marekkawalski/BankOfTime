@@ -14,7 +14,7 @@ function ProtectedRoute({ allowedRole }: ProtectedRouteProps) {
       allowedRole === AuthenticationService.getUserRole() ? (
       <Outlet />
     ) : (
-      <Navigate to="/home" state={{ from: location }} replace />
+      <Navigate to="/" state={{ from: location }} replace />
     );
   } else {
     return <Navigate to="/login" state={{ from: location }} replace />;

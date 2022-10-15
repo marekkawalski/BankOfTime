@@ -9,7 +9,9 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.56",
     "axios": "^0.27.2",
+    "bootstrap": "^5.2.2",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
@@ -41,7 +43,9 @@
     ]
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.5",
     "@types/react": "^18.0.21",
+    "@types/react-bootstrap": "^0.32.31",
     "@types/react-dom": "^18.0.6"
   }
 }
