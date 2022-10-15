@@ -91,7 +91,7 @@ function LoginComponent() {
             </div>
             <div className="links">
               <Link to="/">Forget password</Link>
-              <Link to="/">SignUp</Link>
+              <Link to="/register">SignUp</Link>
             </div>
             <input type="submit" value="Login" onClick={loginClicked} />
           </div>

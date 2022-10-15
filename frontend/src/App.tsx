@@ -8,6 +8,7 @@ import Home from "./components/pages/Home/Home";
 import Layout from "./components/Layout/Layout";
 import NotFound from "./components/NotFound/NotFound";
 import AdminPage from "./components/AdminPage/AdminPage";
+import Register from "./components/Register/Register";
 
 function App() {
   enum Role {
@@ -19,6 +20,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />
+        <Route path="register" element={<Register />} />
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/logout" element={<LogoutComponent />} />

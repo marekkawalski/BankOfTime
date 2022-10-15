@@ -1,9 +1,10 @@
 import axios from "axios";
+import {
+  API_URL,
+  USER_NAME_SESSION_ATTRIBUTE_NAME,
+  USER_ROLE,
+} from "../config/config";
 
-const API_URL = "http://localhost:8080";
-
-export const USER_NAME_SESSION_ATTRIBUTE_NAME = "authenticatedUser";
-export const USER_ROLE = "userRole";
 class AuthenticationService {
   async executeBasicAuthenticationService(username: string, password: string) {
     console.log(username + password);
