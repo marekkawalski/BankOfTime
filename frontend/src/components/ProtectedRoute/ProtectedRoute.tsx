@@ -4,7 +4,7 @@ import { Outlet, Navigate } from "react-router";
 import { useLocation } from "react-router-dom";
 
 interface ProtectedRouteProps {
-  allowedRole?: String;
+  allowedRole?: string;
 }
 function ProtectedRoute({ allowedRole }: ProtectedRouteProps) {
   const location = useLocation();

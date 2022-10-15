@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationService from "../../services/AuthenticationService";
 import "./Login.css";
-import { Toast } from "react-bootstrap";
-import ToastContainer from "react-bootstrap/ToastContainer";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 function LoginComponent() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const navigate = useNavigate();
   const [showA, setShowA] = useState(true);
-  const toggleShowA = () => setShowA(!showA);
+  const navigate = useNavigate();
 
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
+
+  const toggleShowA = () => setShowA(!showA);
 
   const loginClicked = (): void => {
     AuthenticationService.executeBasicAuthenticationService(username, password)
@@ -40,7 +40,8 @@ function LoginComponent() {
   };
 
   return (
-    <div>
+    <div className="login-component">
+      <h1>Best Bank of time</h1>
       {hasLoginFailed && (
         <ToastContainer className="p-3" position="bottom-end">
           <Toast show={showA} onClose={toggleShowA} bg="danger">
