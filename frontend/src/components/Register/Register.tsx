@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { UserToRegister } from "../models/User";
 import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../config/config";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { getCurrentTime } from "../utils/utils";
 import { MyToast } from "../models/MyToast";
@@ -31,6 +31,7 @@ function Register() {
     background: "danger",
     message: "message",
   });
+  const navigate = useNavigate();
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
@@ -226,6 +227,7 @@ function Register() {
         </Col>
         <Button type="submit">Register</Button>
       </Form>
+      <Button onClick={() => navigate("/login")}>Login</Button>
     </div>
   );
 }
