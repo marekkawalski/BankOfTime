@@ -8,9 +8,13 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { UserToRegister } from "../models/User";
 import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../config/config";
 import { Navigate } from "react-router-dom";
+import { Toast, ToastContainer } from "react-bootstrap";
+import { getCurrentTime } from "../utils/utils";
+import { MyToast } from "../models/MyToast";
+
 function Register() {
   const [validated, setValidated] = useState(false);
-  const [user] = useState<UserToRegister>({
+  const [user, setUser] = useState<UserToRegister>({
     name: "name",
     lastName: "lastName",
     password: "password",
@@ -21,24 +25,73 @@ function Register() {
   const [isValidLastName, setIsValidLastName] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidUsername, setIsValidUsername] = useState(false);
+  const [myToast, setMyToast] = useState<MyToast>({
+    show: false,
+    title: "toast",
+    background: "danger",
+    message: "message",
+  });
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
 
   const handleSubmit = async (event: any) => {
     const form = event.currentTarget;
+    event.preventDefault();
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      setMyToast({
+        background: "danger",
+        message: "Invalid input in form",
+        title: "Error",
+        show: true,
+      });
     } else {
-      let resp = await RegistrationService.register(user);
-      console.log(resp);
+      try {
+        const resp = await RegistrationService.register(user);
+        if (resp.status === 201) {
+          setMyToast({
+            background: "success",
+            message: resp.data,
+            title: "Success",
+            show: true,
+          });
+        }
+      } catch (e: any) {
+        setMyToast({
+          background: "danger",
+          message: e.message.response.data,
+          title: "Error",
+          show: true,
+        });
+        console.log(e);
+      }
     }
+
     setValidated(true);
+    return false;
   };
 
   return (
     <div>
+      <ToastContainer className="p-3" position="bottom-end">
+        <Toast
+          show={myToast.show}
+          onClose={() => setMyToast({ show: !myToast.show })}
+          bg={myToast.background}
+        >
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">{myToast.title}</strong>
+            <small>{getCurrentTime()}</small>
+          </Toast.Header>
+          <Toast.Body>{myToast.message}</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Col className="mb-2">
           <Form.Group as={Col} md="4" className="mb-3" controlId="validateName">

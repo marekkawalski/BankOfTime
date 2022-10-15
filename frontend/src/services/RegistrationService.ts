@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { UserToRegister } from "../components/models/User";
 import { API_URL } from "../config/config";
 
@@ -9,11 +9,9 @@ class RegistrationService {
         `${API_URL}/registration`,
         user
       );
-      console.log(resp.data);
       return resp;
-    } catch (err) {
-      console.error(err);
-      return err;
+    } catch (err: any) {
+      throw new AxiosError(err);
     }
   }
 }

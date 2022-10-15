@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthenticationService from "../../services/AuthenticationService";
 import "./Login.css";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { getCurrentTime } from "../utils/utils";
 
 function LoginComponent() {
   const [username, setUsername] = useState("");
@@ -33,10 +34,6 @@ function LoginComponent() {
         setHasLoginFailed(true);
         setShowA(true);
       });
-  };
-  const getCurrentTime = (): string => {
-    let today = new Date();
-    return new Date().getHours() + ":" + today.getMinutes();
   };
 
   return (

@@ -23,7 +23,7 @@ public class RegistrationService {
 
     private final EmailSender emailSender;
 
-    public String register(RegistrationRequest request) throws EmailException {
+    public String register(RegistrationRequest request) throws EmailException, UserException {
         if (!emailValidator.test(request.username())) {
             throw new EmailException("Email is invalid!");
         }
@@ -40,7 +40,7 @@ public class RegistrationService {
             emailSender.send(request.username(), buildEmail(request.name(), "http://localhost:8080/registration/confirm?token=" + token));
             return token;
         } catch (UserException userException) {
-            return userException.getMessage();
+           throw new UserException(userException.getMessage());
         }
     }
 
