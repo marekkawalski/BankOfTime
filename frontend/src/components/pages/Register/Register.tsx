@@ -5,14 +5,12 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { useNavigate } from "react-router-dom";
-import { Toast, ToastContainer } from "react-bootstrap";
 import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../../config/config";
 import { MyToast } from "../../../models/MyToast";
 import { UserToRegister } from "../../../models/User";
 import AuthenticationService from "../../../services/AuthenticationService";
 import RegistrationService from "../../../services/RegistrationService";
-import { getCurrentTime } from "../../../utils/utils";
-import { AxiosError } from "axios";
+import MyToastComponent from "../../Toast/MyToastComponent";
 
 function Register() {
   const [validated, setValidated] = useState(false);
@@ -77,24 +75,10 @@ function Register() {
 
   return (
     <div>
-      <ToastContainer className="p-3" position="bottom-end">
-        <Toast
-          show={myToast.show}
-          onClose={() => setMyToast({ show: !myToast.show })}
-          bg={myToast.background}
-        >
-          <Toast.Header>
-            <img
-              src="holder.js/20x20?text=%20"
-              className="rounded me-2"
-              alt=""
-            />
-            <strong className="me-auto">{myToast.title}</strong>
-            <small>{getCurrentTime()}</small>
-          </Toast.Header>
-          <Toast.Body>{myToast.message}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+      <MyToastComponent
+        myToast={myToast}
+        setMyToast={setMyToast}
+      ></MyToastComponent>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Col className="mb-2">
           <Form.Group as={Col} md="4" className="mb-3" controlId="validateName">
