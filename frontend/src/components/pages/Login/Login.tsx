@@ -1,62 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.scss";
-import { Toast, ToastContainer } from "react-bootstrap";
 import AuthenticationService from "../../../services/AuthenticationService";
-import { getCurrentTime } from "../../../utils/utils";
+import MyToastComponent from "../../Toast/MyToastComponent";
+import { MyToast } from "../../../models/MyToast";
 
 function LoginComponent() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [hasLoginFailed, setHasLoginFailed] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showA, setShowA] = useState(true);
   const navigate = useNavigate();
+  const [myToast, setMyToast] = useState<MyToast>({
+    show: false,
+    title: "toast",
+    background: "danger",
+    message: "message",
+  });
 
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
 
-  const toggleShowA = () => setShowA(!showA);
-
-  const loginClicked = (): void => {
-    AuthenticationService.executeBasicAuthenticationService(username, password)
-      .then(() => {
-        AuthenticationService.registerSuccessfulLogin(username, password);
-        console.log("Succeed");
-        setShowSuccessMessage(true);
-        setHasLoginFailed(false);
-        navigate("/");
-      })
-      .catch(() => {
-        console.log("Login failed");
-        setShowSuccessMessage(false);
-        setHasLoginFailed(true);
-        setShowA(true);
+  const loginClicked = async () => {
+    try {
+      const resp =
+        await AuthenticationService.executeBasicAuthenticationService(
+          username,
+          password
+        );
+      console.log(resp);
+      AuthenticationService.registerSuccessfulLogin(username, password);
+      navigate("/");
+    } catch (e: any) {
+      console.log(e);
+      setMyToast({
+        background: "danger",
+        message: e.message,
+        title: "Error",
+        show: true,
       });
+    }
   };
 
   return (
     <div className="login-component">
+      <MyToastComponent
+        myToast={myToast}
+        setMyToast={setMyToast}
+      ></MyToastComponent>
       <h1>Bank of time</h1>
-      {hasLoginFailed && (
-        <ToastContainer className="p-3" position="bottom-end">
-          <Toast show={showA} onClose={toggleShowA} bg="danger">
-            <Toast.Header>
-              <img
-                src="holder.js/20x20?text=%20"
-                className="rounded me-2"
-                alt=""
-              />
-              <strong className="me-auto">Error</strong>
-              <small>{getCurrentTime()}</small>
-            </Toast.Header>
-            <Toast.Body>Invalid credentials</Toast.Body>
-          </Toast>
-        </ToastContainer>
-      )}
       <div className="login-container">
-        {showSuccessMessage && <div>Login Successful</div>}
         <div className="box">
           <div className="form">
             <h2>SIGN IN</h2>

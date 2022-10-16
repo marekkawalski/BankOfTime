@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   API_URL,
   USER_NAME_SESSION_ATTRIBUTE_NAME,
@@ -7,13 +7,18 @@ import {
 
 class AuthenticationService {
   async executeBasicAuthenticationService(username: string, password: string) {
-    console.log(username + password);
-    const resp = await axios.get(`${API_URL}/login/${username}`, {
-      headers: {
-        authorization: this.createBasicAuthToken(username, password),
-      },
-    });
-    sessionStorage.setItem(USER_ROLE, resp.data);
+    try {
+      const resp = await axios.get(`${API_URL}/login/${username}`, {
+        headers: {
+          authorization: this.createBasicAuthToken(username, password),
+        },
+      });
+      sessionStorage.setItem(USER_ROLE, resp.data);
+      return resp;
+    } catch (e: any) {
+      console.log(e);
+      throw new Error("Login failed");
+    }
   }
 
   createBasicAuthToken(username: string, password: string): string {
