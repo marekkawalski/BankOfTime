@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 * {
   margin: 0;
   padding: 0;
@@ -30,4 +32,10 @@ h1 {
 main {
   height: 100%;
   width: 100%;
+}
+
+section {
+  padding-top: 100px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
