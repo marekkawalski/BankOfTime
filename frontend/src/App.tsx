@@ -1,14 +1,16 @@
 import React from "react";
 import "./App.css";
-import LoginComponent from "./components/Login/Login";
+
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import LogoutComponent from "./components/Logout/Logout";
+
 import Home from "./components/pages/Home/Home";
 import Layout from "./components/Layout/Layout";
-import NotFound from "./components/NotFound/NotFound";
-import AdminPage from "./components/AdminPage/AdminPage";
-import Register from "./components/Register/Register";
+import AdminPage from "./components/pages/AdminPage/AdminPage";
+import LoginComponent from "./components/pages/Login/Login";
+import LogoutComponent from "./components/pages/Logout/Logout";
+import NotFound from "./components/pages/NotFound/NotFound";
+import Register from "./components/pages/Register/Register";
 
 function App() {
   enum Role {

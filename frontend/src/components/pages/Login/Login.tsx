@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthenticationService from "../../services/AuthenticationService";
 import "./Login.css";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { getCurrentTime } from "../utils/utils";
+import AuthenticationService from "../../../services/AuthenticationService";
+import { getCurrentTime } from "../../../utils/utils";
 
 function LoginComponent() {
   const [username, setUsername] = useState("");

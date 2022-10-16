@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthenticationService from "../../services/AuthenticationService";
-import { Button } from "../Button/Button";
+import AuthenticationService from "../../../services/AuthenticationService";
+import { Button } from "../../Button/Button";
 
 function LogoutComponent() {
   const navigate = useNavigate();

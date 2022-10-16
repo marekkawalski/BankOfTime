@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import AuthenticationService from "../../services/AuthenticationService";
-import RegistrationService from "../../services/RegistrationService";
+
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { UserToRegister } from "../models/User";
-import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../config/config";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { getCurrentTime } from "../utils/utils";
-import { MyToast } from "../models/MyToast";
+import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../../config/config";
+import { MyToast } from "../../../models/MyToast";
+import { UserToRegister } from "../../../models/User";
+import AuthenticationService from "../../../services/AuthenticationService";
+import RegistrationService from "../../../services/RegistrationService";
+import { getCurrentTime } from "../../../utils/utils";
 
 function Register() {
   const [validated, setValidated] = useState(false);
-  const [user, setUser] = useState<UserToRegister>({
+  const [user] = useState<UserToRegister>({
     name: "name",
     lastName: "lastName",
     password: "password",

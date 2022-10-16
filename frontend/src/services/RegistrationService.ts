@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { UserToRegister } from "../components/models/User";
 import { API_URL } from "../config/config";
+import { UserToRegister } from "../models/User";
 
 class RegistrationService {
   async register(user: UserToRegister) {
