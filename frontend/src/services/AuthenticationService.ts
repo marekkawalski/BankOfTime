@@ -42,6 +42,9 @@ class AuthenticationService {
   logout() {
     sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
   }
+  logoutAndNavigateToLogin() {
+    sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+  }
   getUserRole() {
     return sessionStorage.getItem(USER_ROLE);
   }

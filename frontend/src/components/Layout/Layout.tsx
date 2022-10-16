@@ -1,11 +1,8 @@
+import { Navbar } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
-  return (
-    <main className="App">
-      <Outlet />
-    </main>
-  );
+  return <Outlet />;
 };
 
 export default Layout;
