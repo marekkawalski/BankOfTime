@@ -1,5 +1,6 @@
 import React from "react";
 import SidebarMenu from "react-bootstrap-sidebar-menu";
+import "./Navbar.scss";
 
 function Navbar() {
   return (

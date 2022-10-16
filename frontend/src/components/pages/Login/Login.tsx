@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./Login.scss";
 import { Toast, ToastContainer } from "react-bootstrap";
 import AuthenticationService from "../../../services/AuthenticationService";
 import { getCurrentTime } from "../../../utils/utils";
