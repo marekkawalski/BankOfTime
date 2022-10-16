@@ -11,12 +11,9 @@ import LoginComponent from "./components/pages/Login/Login";
 import LogoutComponent from "./components/pages/Logout/Logout";
 import NotFound from "./components/pages/NotFound/NotFound";
 import Register from "./components/pages/Register/Register";
+import { Role } from "./enums/Role";
 
 function App() {
-  enum Role {
-    ADMIN = "ADMIN",
-    NORMAL = "NORMAL",
-  }
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

@@ -38,7 +38,7 @@ function LoginComponent() {
 
   return (
     <div className="login-component">
-      <h1>Best Bank of time</h1>
+      <h1>Bank of time</h1>
       {hasLoginFailed && (
         <ToastContainer className="p-3" position="bottom-end">
           <Toast show={showA} onClose={toggleShowA} bg="danger">

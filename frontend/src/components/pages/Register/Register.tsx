@@ -12,6 +12,7 @@ import { UserToRegister } from "../../../models/User";
 import AuthenticationService from "../../../services/AuthenticationService";
 import RegistrationService from "../../../services/RegistrationService";
 import { getCurrentTime } from "../../../utils/utils";
+import { AxiosError } from "axios";
 
 function Register() {
   const [validated, setValidated] = useState(false);
@@ -62,7 +63,7 @@ function Register() {
       } catch (e: any) {
         setMyToast({
           background: "danger",
-          message: e.message.response.data,
+          message: e.message.response.data ?? e.message.message,
           title: "Error",
           show: true,
         });
