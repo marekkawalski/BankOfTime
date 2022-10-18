@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../../config/config";
 import { MyToast } from "../../../models/MyToast";
@@ -74,13 +75,13 @@ function Register() {
   };
 
   return (
-    <div>
+    <Container fluid>
       <MyToastComponent
         myToast={myToast}
         setMyToast={setMyToast}
       ></MyToastComponent>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Col className="mb-2">
+        <Col lg={true} className="mb-2">
           <Form.Group as={Col} md="4" className="mb-3" controlId="validateName">
             <Form.Label>First name</Form.Label>
             <Form.Control
@@ -214,7 +215,7 @@ function Register() {
         <Button type="submit">Register</Button>
       </Form>
       <Button onClick={() => navigate("/login")}>Login</Button>
-    </div>
+    </Container>
   );
 }
 
