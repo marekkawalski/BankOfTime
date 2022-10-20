@@ -22,6 +22,7 @@ public class OfferController {
         this.offerService = offerService;
     }
 
+
     @PostMapping("/offers")
     public ResponseEntity<Offer> createOffer(@Valid @RequestBody CreateOfferDTO offerDTO) {
 
@@ -35,18 +36,63 @@ public class OfferController {
     }
 
     @GetMapping(value = "/offers/{offerType}")
-    public ResponseEntity<List<Offer>> getOffers(@PathVariable("offerType") OfferType offerType) {
+    public ResponseEntity<List<Offer>> getAllOffers(@PathVariable("offerType") OfferType offerType) {
         List<Offer> offers = offerService.getAllOffersOfType(offerType);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
     }
 
-    @GetMapping(value = "/clients/offers/{clientId}")
-    public ResponseEntity<List<Offer>> getClientOffers(@PathVariable("clientId") Long userId) {
-        List<Offer> selOffers = offerService.getClientSellOffers(userId);
+    @GetMapping(value = "/clients/{clientId}/sellOffers")
+    public ResponseEntity<List<Offer>> getClientSellOffers(@PathVariable("clientId") Long clientId) {
+        List<Offer> selOffers = offerService.getClientSellOffers(clientId);
         if (selOffers.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(selOffers);
+    }
+
+    @GetMapping(value = "/clients/{clientId}/purchaseOffers")
+    public ResponseEntity<List<Offer>> getClientPurchaseOffers(@PathVariable("clientId") Long clientId) {
+        List<Offer> purchaseOffers = offerService.getClientPurchaseOffers(clientId);
+        if (purchaseOffers.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
+    }
+
+    @GetMapping(value = "/clients/{clientId}/purchaseOffers/{offerId}")
+    public ResponseEntity<Offer> getClientPurchaseOffer(@PathVariable("clientId") Long clientId,
+                                                        @PathVariable("offerId") Long offerId) {
+        Optional<Offer> oOffer = offerService.getOnePurchaseOfferOfClient(clientId, offerId);
+
+        if (oOffer.isEmpty())
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(oOffer.get());
+    }
+
+    @GetMapping(value = "/clients/{clientId}/sellOffers/{offerId}")
+    public ResponseEntity<Offer> getClientSellOffer(@PathVariable("clientId") Long clientId,
+                                                    @PathVariable("offerId") Long offerId) {
+        Optional<Offer> oOffer = offerService.getOneSellOfferOfClient(clientId, offerId);
+
+        if (oOffer.isEmpty())
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(oOffer.get());
+    }
+
+    @DeleteMapping(value = "/offers/{id}")
+    public ResponseEntity<Void> deleteOffer(@PathVariable Long id) {
+        return offerService.deleteOffer(id) ?
+                ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(null)
+                : ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(null);
     }
 }

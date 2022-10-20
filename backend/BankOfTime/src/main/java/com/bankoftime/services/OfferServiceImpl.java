@@ -25,8 +25,8 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<Offer> findOffer(Long id) {
-        return offerRepository.findById(id);
+    public Optional<Offer> findOffer(Long offerId) {
+        return offerRepository.findById(offerId);
     }
 
 
@@ -56,13 +56,43 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<Offer> getOneSellOfferOfClient(Long offerId, Long sellerId) {
+    public Optional<Offer> getOneSellOfferOfClient(Long sellerId, Long offerId) {
         return offerRepository.findByIdAndSellerId(offerId, sellerId);
     }
 
     @Override
-    public Optional<Offer> getOnePurchaseOfferOfClient(Long offerId, Long buyerId) {
+    public Optional<Offer> getOnePurchaseOfferOfClient(Long buyerId, Long offerId) {
         return offerRepository.findByIdAndBuyerId(offerId, buyerId);
+    }
+
+    @Override
+    public Optional<Offer> modifyOffer(Offer offerToSave) {
+        Optional<Offer> oOffer = offerRepository.findById(offerToSave.getId());
+        if (oOffer.isEmpty()) {
+            return Optional.empty();
+        }
+        Offer offer = oOffer.get();
+        offer.setTitle(offerToSave.getTitle());
+        offer.setOfferType(offerToSave.getOfferType());
+        offer.setPrice(offerToSave.getPrice());
+        offer.setShortDescription(offerToSave.getShortDescription());
+        offer.setBuyer(offer.getBuyer());
+        offer.setSeller(offer.getSeller());
+        offer.setLongDescription(offer.getLongDescription());
+        offer.setLocation(offer.getLocation());
+        offer.setState(offer.getState());
+
+        offer = offerRepository.save(offer);
+        return Optional.of(offer);
+    }
+
+    @Override
+    public boolean deleteOffer(Long offerId) {
+        Optional<Offer> oOffer = offerRepository.findById(offerId);
+        if (oOffer.isEmpty())
+            return false;
+        offerRepository.delete(oOffer.get());
+        return true;
     }
 
 }

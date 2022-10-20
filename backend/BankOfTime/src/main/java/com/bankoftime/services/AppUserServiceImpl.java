@@ -64,4 +64,9 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         return appUser.map(user -> user.getUserType().toString()).orElse(null);
     }
 
+    @Override
+    public Optional<AppUser> find(Long id) {
+        return appUserRepository.findById(id);
+    }
+
 }

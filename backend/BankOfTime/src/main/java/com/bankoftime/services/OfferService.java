@@ -11,7 +11,7 @@ public interface OfferService {
 
     Optional<Offer> createOffer(Offer offer);
 
-    Optional<Offer> findOffer(Long id);
+    Optional<Offer> findOffer(Long offerId);
 
     Offer mapCreateOffer(CreateOfferDTO createOfferDTO);
 
@@ -21,8 +21,12 @@ public interface OfferService {
 
     List<Offer> getClientPurchaseOffers(Long userId);
 
-    Optional<Offer> getOneSellOfferOfClient(Long userId, Long offerId);
+    Optional<Offer> getOneSellOfferOfClient(Long clientId, Long offerId);
 
-    Optional<Offer> getOnePurchaseOfferOfClient(Long userId, Long offerId);
+    Optional<Offer> getOnePurchaseOfferOfClient(Long clientId, Long offerId);
+
+    Optional<Offer> modifyOffer(Offer offerToSave);
+
+    boolean deleteOffer(Long offerId);
 
 }
