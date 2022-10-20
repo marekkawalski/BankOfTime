@@ -2,7 +2,9 @@ package com.bankoftime.models;
 
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 
@@ -11,9 +13,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Table(name = "Offer")
 public class Offer {
     @SequenceGenerator(
@@ -82,4 +88,16 @@ public class Offer {
     @Nullable
     private TimeTransaction timeTransaction;
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, shortDescription, price, title, location, longDescription, offerType, state, seller, buyer, categories, images, timeTransaction);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Offer offer = (Offer) o;
+        return Double.compare(offer.price, price) == 0 && id.equals(offer.id) && shortDescription.equals(offer.shortDescription) && title.equals(offer.title) && Objects.equals(location, offer.location) && Objects.equals(longDescription, offer.longDescription) && offerType == offer.offerType && state == offer.state && Objects.equals(seller, offer.seller) && Objects.equals(buyer, offer.buyer) && Objects.equals(categories, offer.categories) && Objects.equals(images, offer.images) && Objects.equals(timeTransaction, offer.timeTransaction);
+    }
 }

@@ -3,16 +3,17 @@ package com.bankoftime.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Accessors(fluent = true)
 @Table(name = "ConfirmationToken")
 public class ConfirmationToken {
     @SequenceGenerator(
@@ -29,12 +30,16 @@ public class ConfirmationToken {
     )
     private Long id;
     @Column(name = "Token", nullable = false)
+    @NotBlank
     private String token;
     @Column(name = "CreatedAt", nullable = false)
+    @NotNull
     private LocalDateTime createdAt;
     @Column(name = "ExpiresAt", nullable = false)
+    @NotNull
     private LocalDateTime expiresAt;
-    @Basic
+
+    @Nullable
     @Column(name = "ConfirmedAt")
     private LocalDateTime confirmedAt;
 

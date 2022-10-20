@@ -1,27 +1,27 @@
 package com.bankoftime.models;
 
 import com.bankoftime.enums.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(fluent = true)
 @Table(name = "AppUser")
 public class AppUser implements UserDetails {
     @SequenceGenerator(
@@ -43,41 +43,54 @@ public class AppUser implements UserDetails {
     @Column(name = "LastName", nullable = false)
     @NotBlank(message = "LastName is mandatory")
     private String lastName;
-    @Basic
+
     @Column(name = "City")
+    @Nullable
     private String city;
-    @Basic
+
     @Column(name = "Country")
+    @Nullable
     private String country;
     @Column(name = "Username", nullable = false)
+    @Email
     @NotBlank(message = "Username is mandatory")
     private String username;
     @Column(name = "Password", nullable = false)
     @NotBlank(message = "Password is mandatory")
     private String password;
-    @Basic
+
     @Column(name = "PhoneNumber")
+    @Nullable
     private String phoneNumber;
-    @Basic
     @Column(name = "Locked")
     private boolean locked;
-    @Basic
     @Column(name = "Enabled")
     private boolean enabled;
-    @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "UserType")
-    private UserType userType;
+    @NotNull
+    private UserType userType = UserType.NORMAL;
+
     @OneToMany(mappedBy = "seller")
+    @ToString.Exclude
     private transient Collection<Offer> sellOffers = new ArrayList<>();
+
     @OneToMany(mappedBy = "buyer")
+    @ToString.Exclude
     private transient Collection<Offer> purchaseOffers = new ArrayList<>();
+
     @OneToMany(mappedBy = "buyer")
+    @ToString.Exclude
     private transient Collection<TimeTransaction> purchaseTransactions = new ArrayList<>();
+
     @OneToMany(mappedBy = "seller")
+    @ToString.Exclude
     private transient Collection<TimeTransaction> sellTransactions = new ArrayList<>();
+
     @OneToMany(mappedBy = "appUser")
+    @ToString.Exclude
     private transient Collection<ConfirmationToken> confirmationTokens = new ArrayList<>();
+
     @OneToOne(mappedBy = "appUser")
     private transient Image image;
 
@@ -92,16 +105,6 @@ public class AppUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(userType.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
     }
 
     @Override
@@ -124,4 +127,16 @@ public class AppUser implements UserDetails {
         return enabled;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName, city, country, username, password, phoneNumber, locked, enabled, userType, sellOffers, purchaseOffers, purchaseTransactions, sellTransactions, confirmationTokens, image);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final AppUser appUser = (AppUser) o;
+        return locked == appUser.locked && enabled == appUser.enabled && id.equals(appUser.id) && name.equals(appUser.name) && lastName.equals(appUser.lastName) && Objects.equals(city, appUser.city) && Objects.equals(country, appUser.country) && username.equals(appUser.username) && password.equals(appUser.password) && Objects.equals(phoneNumber, appUser.phoneNumber) && userType == appUser.userType && Objects.equals(sellOffers, appUser.sellOffers) && Objects.equals(purchaseOffers, appUser.purchaseOffers) && Objects.equals(purchaseTransactions, appUser.purchaseTransactions) && Objects.equals(sellTransactions, appUser.sellTransactions) && Objects.equals(confirmationTokens, appUser.confirmationTokens) && Objects.equals(image, appUser.image);
+    }
 }

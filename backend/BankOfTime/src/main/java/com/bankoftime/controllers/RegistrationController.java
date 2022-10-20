@@ -3,9 +3,7 @@ package com.bankoftime.controllers;
 import com.bankoftime.exceptions.EmailException;
 import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.exceptions.UserException;
-import com.bankoftime.models.AppUser;
 import com.bankoftime.requests.RegistrationRequest;
-import com.bankoftime.services.AppUserService;
 import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
