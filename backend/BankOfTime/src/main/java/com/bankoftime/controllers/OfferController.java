@@ -36,9 +36,17 @@ public class OfferController {
 
     @GetMapping(value = "/offers/{offerType}")
     public ResponseEntity<List<Offer>> getOffers(@PathVariable("offerType") OfferType offerType) {
-        List<Offer> offers = offerService.getOffers(offerType);
+        List<Offer> offers = offerService.getAllOffersOfType(offerType);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
+    }
+
+    @GetMapping(value = "/clients/offers/{clientId}")
+    public ResponseEntity<List<Offer>> getClientOffers(@PathVariable("clientId") Long userId) {
+        List<Offer> selOffers = offerService.getClientSellOffers(userId);
+        if (selOffers.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(selOffers);
     }
 }

@@ -15,6 +15,14 @@ public interface OfferService {
 
     Offer mapCreateOffer(CreateOfferDTO createOfferDTO);
 
-    List<Offer> getOffers(OfferType offerType);
+    List<Offer> getAllOffersOfType(OfferType offerType);
+
+    List<Offer> getClientSellOffers(Long userId);
+
+    List<Offer> getClientPurchaseOffers(Long userId);
+
+    Optional<Offer> getOneSellOfferOfClient(Long userId, Long offerId);
+
+    Optional<Offer> getOnePurchaseOfferOfClient(Long userId, Long offerId);
 
 }
