@@ -2,12 +2,8 @@ package com.bankoftime.models;
 
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import lombok.ToString;
-import lombok.experimental.Accessors;
-import org.hibernate.Hibernate;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -15,14 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@Accessors(fluent = true)
-@ToString
-@RequiredArgsConstructor
+@Data
 @Table(name = "Offer")
 public class Offer {
     @SequenceGenerator(
@@ -48,7 +39,6 @@ public class Offer {
     @NotNull
     private String title;
 
-    @Basic
     @Column(name = "Location")
     @Nullable
     private String location;
@@ -63,7 +53,6 @@ public class Offer {
     @NotNull
     private OfferType offerType;
 
-    @Basic
     @Column(name = "State", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -93,16 +82,4 @@ public class Offer {
     @Nullable
     private TimeTransaction timeTransaction;
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        final Offer offer = (Offer) o;
-        return id != null && Objects.equals(id, offer.id);
-    }
 }
