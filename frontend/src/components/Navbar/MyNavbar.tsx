@@ -6,7 +6,10 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../../config/config";
+import { Role } from "../../enums/Role";
+import AuthenticationService from "../../services/AuthenticationService";
 import { LogoutAndNavigateLogin } from "../../utils/LogoutAndNavigateLogin";
+import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import "./MyNavbar.scss";
 
 function MyNavbar() {
@@ -60,8 +63,10 @@ function MyNavbar() {
               </Form>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="#action2">Add offer</Nav.Link>
                 <Nav.Link href="#action1">Purchase offers</Nav.Link>
                 <Nav.Link href="#action2">Sell offers</Nav.Link>
+
                 <NavDropdown
                   title="My stuff"
                   id={`offcanvasNavbarDropdown-expand-${false}`}
@@ -78,6 +83,25 @@ function MyNavbar() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action5">Wallet</NavDropdown.Item>
                 </NavDropdown>
+                <ProtectedComponent allowedRole={Role.ADMIN}>
+                  <NavDropdown
+                    title="Admin"
+                    id={`offcanvasNavbarDropdown-expand-${false}`}
+                  >
+                    <NavDropdown.Header>Manage users</NavDropdown.Header>
+                    <NavDropdown.Item href="#action3">
+                      All users
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Header>Manage offers</NavDropdown.Header>
+                    <NavDropdown.Item href="#action4">
+                      Purchase offers
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">
+                      Sell offers
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </ProtectedComponent>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
