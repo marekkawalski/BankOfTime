@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import InputGroup from "react-bootstrap/InputGroup";
-import { useNavigate } from "react-router-dom";
 import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../../config/config";
 import { MyToast } from "../../../models/MyToast";
 import { UserToRegister } from "../../../models/User";
@@ -10,6 +9,7 @@ import RegistrationService from "../../../services/RegistrationService";
 import MyToastComponent from "../../Toast/MyToastComponent";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import MyNavbar from "../../Navbar/MyNavbar";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 function Register() {
   const [validated, setValidated] = useState(false);
@@ -19,18 +19,25 @@ function Register() {
     password: "password",
     username: "username",
   });
-  const [isValidRepeatedPassword, setIsValidRepeatedPassword] = useState(false);
-  const [isValidName, setIsValidName] = useState(false);
-  const [isValidLastName, setIsValidLastName] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
-  const [isValidUsername, setIsValidUsername] = useState(false);
+  const [isValidRepeatedPassword, setIsValidRepeatedPassword] = useState<
+    boolean | undefined
+  >(false);
+  const [isValidName, setIsValidName] = useState<boolean | undefined>(false);
+  const [isValidLastName, setIsValidLastName] = useState<boolean | undefined>(
+    false
+  );
+  const [isValidPassword, setIsValidPassword] = useState<boolean | undefined>(
+    false
+  );
+  const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
+    false
+  );
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
     title: "toast",
     background: "danger",
     message: "message",
   });
-  const navigate = useNavigate();
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
@@ -38,7 +45,7 @@ function Register() {
   const handleSubmit = async (event: any) => {
     const form = event.currentTarget;
     event.preventDefault();
-    if (form.checkValidity() === false) {
+    if (!form.checkValidity()) {
       event.stopPropagation();
       setMyToast({
         background: "danger",
@@ -74,34 +81,41 @@ function Register() {
 
   return (
     <>
+      <MyNavbar />
       <MyToastComponent
         myToast={myToast}
         setMyToast={setMyToast}
       ></MyToastComponent>
-      <MyNavbar />
       <Container className="container-fluid bg-light text-dark p-5">
         <Container className="container bg-light p-5">
-          <Row>
-            <h2>Register</h2>
-            <div>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Col lg={true} className="mb-2">
-                  <Form.Group
-                    as={Col}
-                    md="4"
-                    className="mb-3"
-                    controlId="validateName"
+          <h2>Register</h2>
+          <div>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Col lg={true}>
+                <Form.Group
+                  as={Col}
+                  md="4"
+                  className="mb-3"
+                  controlId="validateName"
+                >
+                  <FloatingLabel
+                    controlId="floatingInput"
+                    label="first name"
+                    className="m-0"
                   >
-                    <Form.Label>First name</Form.Label>
                     <Form.Control
                       required
                       type="text"
-                      placeholder="First name"
+                      placeholder="first name"
                       onChange={(event) => {
                         user.name = event.target.value;
                         setIsValidName(USER_REGEX.test(user.name));
                       }}
-                      isInvalid={!isValidName}
+                      isInvalid={
+                        typeof (isValidName === undefined)
+                          ? false
+                          : !isValidName
+                      }
                       isValid={isValidName}
                     />
                     <Form.Control.Feedback type="valid">
@@ -110,23 +124,32 @@ function Register() {
                     <Form.Control.Feedback type="invalid">
                       Please provide your name.
                     </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group
-                    as={Col}
-                    md="4"
-                    className="mb-3"
+                  </FloatingLabel>
+                </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="4"
+                  className="mb-3"
+                  controlId="validateLastName"
+                >
+                  <FloatingLabel
                     controlId="validateLastName"
+                    label="last name"
+                    className="m-0"
                   >
-                    <Form.Label>Last name</Form.Label>
                     <Form.Control
                       required
                       type="text"
-                      placeholder="Last name"
+                      placeholder="last name"
                       onChange={(event) => {
                         user.lastName = event.target.value;
                         setIsValidLastName(USER_REGEX.test(user.lastName));
                       }}
-                      isInvalid={!isValidLastName}
+                      isInvalid={
+                        typeof (isValidLastName === undefined)
+                          ? false
+                          : !isValidLastName
+                      }
                       isValid={isValidLastName}
                     />
                     <Form.Control.Feedback type="valid">
@@ -135,21 +158,19 @@ function Register() {
                     <Form.Control.Feedback type="invalid">
                       Please provide your last name.
                     </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group
-                    as={Col}
-                    md="4"
-                    className="mb-3"
-                    controlId="validationCustomUsername"
-                  >
-                    <Form.Label>Username</Form.Label>
-                    <InputGroup hasValidation>
-                      <InputGroup.Text id="inputGroupPrepend">
-                        @
-                      </InputGroup.Text>
+                  </FloatingLabel>
+                </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="4"
+                  className="mb-3"
+                  controlId="validateUsername"
+                >
+                  <InputGroup hasValidation>
+                    <FloatingLabel controlId="validateUsername" label="email">
                       <Form.Control
-                        type="text"
-                        placeholder="Username"
+                        type="email"
+                        placeholder="email"
                         aria-describedby="inputGroupPrepend"
                         required
                         onChange={(event) => {
@@ -158,53 +179,71 @@ function Register() {
                             USERNAME_REGEX.test(user.username)
                           );
                         }}
-                        isInvalid={!isValidUsername}
+                        isInvalid={
+                          typeof (isValidUsername === undefined)
+                            ? false
+                            : !isValidUsername
+                        }
                         isValid={isValidUsername}
                       />
                       <Form.Control.Feedback type="invalid">
-                        Please choose a username.
+                        Please provide your email.
                       </Form.Control.Feedback>
                       <Form.Control.Feedback type="valid">
                         Looks good!
                       </Form.Control.Feedback>
-                    </InputGroup>
-                  </Form.Group>
-                  <Form.Group
-                    as={Col}
-                    md="6"
-                    className="mb-3"
-                    controlId="validatePassword"
+                    </FloatingLabel>
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="6"
+                  className="mb-3"
+                  controlId="validatePassword"
+                >
+                  <InputGroup hasValidation>
+                    <FloatingLabel
+                      controlId="validatePassword"
+                      label="password"
+                    >
+                      <Form.Control
+                        type="password"
+                        placeholder="password"
+                        required
+                        onChange={(event) => {
+                          user.password = event.target.value;
+                          setIsValidPassword(PWD_REGEX.test(user.password));
+                        }}
+                        isInvalid={
+                          typeof (isValidPassword === undefined)
+                            ? false
+                            : !isValidPassword
+                        }
+                        isValid={isValidPassword}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        8 to 24 characters.
+                        <br />
+                        Must include uppercase and lowercase letters, a number
+                        and a special character.
+                        <br />
+                      </Form.Control.Feedback>
+                      <Form.Control.Feedback type="valid">
+                        Nice password!
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="6"
+                  className="mb-3"
+                  controlId="validateRepeatPassword"
+                >
+                  <FloatingLabel
+                    controlId="validateRepeatPassword"
+                    label="repeat password"
                   >
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="password"
-                      required
-                      onChange={(event) => {
-                        user.password = event.target.value;
-                        setIsValidPassword(PWD_REGEX.test(user.password));
-                      }}
-                      isInvalid={!isValidPassword}
-                      isValid={isValidPassword}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      8 to 24 characters.
-                      <br />
-                      Must include uppercase and lowercase letters, a number and
-                      a special character.
-                      <br />
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback type="valid">
-                      Nice password!
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group
-                    as={Col}
-                    md="6"
-                    className="mb-3"
-                    controlId="validationCustom03"
-                  >
-                    <Form.Label>Repeat Password</Form.Label>
                     <Form.Control
                       type="password"
                       placeholder="password"
@@ -214,7 +253,11 @@ function Register() {
                           event.target.value === user.password
                         );
                       }}
-                      isInvalid={!isValidRepeatedPassword}
+                      isInvalid={
+                        typeof (isValidRepeatedPassword === undefined)
+                          ? false
+                          : !isValidRepeatedPassword
+                      }
                       isValid={isValidRepeatedPassword}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -223,12 +266,12 @@ function Register() {
                     <Form.Control.Feedback type="valid">
                       Passwords match
                     </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-                <Button type="submit">Register</Button>
-              </Form>
-            </div>
-          </Row>
+                  </FloatingLabel>
+                </Form.Group>
+              </Col>
+              <Button type="submit">Register</Button>
+            </Form>
+          </div>
         </Container>
       </Container>
     </>
