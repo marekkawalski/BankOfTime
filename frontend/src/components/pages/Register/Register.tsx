@@ -164,10 +164,10 @@ function Register() {
                   as={Col}
                   md="4"
                   className="mb-3"
-                  controlId="validateUsername"
+                  controlId="validateEmail"
                 >
                   <InputGroup hasValidation>
-                    <FloatingLabel controlId="validateUsername" label="email">
+                    <FloatingLabel controlId="validateEmail" label="email">
                       <Form.Control
                         type="email"
                         placeholder="email"
