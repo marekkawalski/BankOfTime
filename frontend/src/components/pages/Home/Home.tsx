@@ -4,7 +4,7 @@ import MyNavbar from "../../Navbar/MyNavbar";
 function Home() {
   return (
     <>
-      <MyNavbar></MyNavbar>
+      <MyNavbar />
       <section>
         <h2>home</h2>
         <p>

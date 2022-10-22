@@ -11,6 +11,7 @@ import LoginComponent from "./components/pages/Login/Login";
 import NotFound from "./components/pages/NotFound/NotFound";
 import Register from "./components/pages/Register/Register";
 import { Role } from "./enums/Role";
+import CreateOffer from "./components/pages/CreateOffer/CreateOffer";
 
 function App() {
   return (
@@ -22,7 +23,9 @@ function App() {
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
+          <Route path="/createOffer" element={<CreateOffer />} />
         </Route>
+        {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>
           <Route path="/admin" element={<AdminPage />} />
         </Route>
