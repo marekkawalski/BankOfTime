@@ -5,7 +5,9 @@ function CreateOffer() {
   return (
     <div>
       <MyNavbar />
-      <section>CreateOffer</section>
+      <section>
+        <h2>Create offer</h2>
+      </section>
     </div>
   );
 }

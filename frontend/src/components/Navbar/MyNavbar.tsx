@@ -5,15 +5,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { Link, useNavigate } from "react-router-dom";
-import { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../../config/config";
+import { Link } from "react-router-dom";
 import { Role } from "../../enums/Role";
-import AuthenticationService from "../../services/AuthenticationService";
 import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import "./MyNavbar.scss";
+import LoginLogout from "../LoginLogout/LoginLogout";
 
 function MyNavbar() {
-  const navigate = useNavigate();
   return (
     <>
       <Navbar
@@ -25,18 +23,7 @@ function MyNavbar() {
       >
         <Container fluid className="navbar-container ">
           <Navbar.Text className=" navbar-container-child hide">
-            <div className="px-2">
-              Hello, {sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)}
-            </div>
-            <Button
-              className="px-2"
-              onClick={() => {
-                AuthenticationService.logout();
-                navigate("/");
-              }}
-            >
-              Logout
-            </Button>
+            <LoginLogout />
           </Navbar.Text>
           <div>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${false}`} />
@@ -59,71 +46,79 @@ function MyNavbar() {
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Form className="d-flex pb-3">
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link as={Link} to="/">
-                  Home
-                </Nav.Link>
-                <Nav.Link as={Link} to="/createOffer">
-                  Create offer
-                </Nav.Link>
-                <Nav.Link as={Link} to="/">
-                  Purchase offers
-                </Nav.Link>
-                <Nav.Link as={Link} to="/">
-                  Sell offers
-                </Nav.Link>
+              <ProtectedComponent>
+                <Form className="d-flex pb-3">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              </ProtectedComponent>
 
-                <NavDropdown
-                  title="My stuff"
-                  id={`offcanvasNavbarDropdown-expand-${false}`}
-                >
-                  <NavDropdown.Header>My offers</NavDropdown.Header>
-                  <NavDropdown.Item as={Link} to="/">
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                <ProtectedComponent>
+                  <Nav.Link as={Link} to="/">
+                    Home
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/createOffer">
+                    Create offer
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/">
                     Purchase offers
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/">
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/">
                     Sell offers
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/">
-                    Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/">
-                    Wallet
-                  </NavDropdown.Item>
-                </NavDropdown>
-                <ProtectedComponent allowedRole={Role.ADMIN}>
+                  </Nav.Link>
+
                   <NavDropdown
-                    title="Admin"
+                    title="My stuff"
                     id={`offcanvasNavbarDropdown-expand-${false}`}
                   >
-                    <NavDropdown.Header>Manage users</NavDropdown.Header>
-                    <NavDropdown.Item as={Link} to="/">
-                      All users
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/">
-                      Create user
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Header>Manage offers</NavDropdown.Header>
+                    <NavDropdown.Header>My offers</NavDropdown.Header>
                     <NavDropdown.Item as={Link} to="/">
                       Purchase offers
                     </NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/">
                       Sell offers
                     </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to="/">
+                      Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to="/">
+                      Wallet
+                    </NavDropdown.Item>
                   </NavDropdown>
+                  <ProtectedComponent allowedRole={Role.ADMIN}>
+                    <NavDropdown
+                      title="Admin"
+                      id={`offcanvasNavbarDropdown-expand-${false}`}
+                    >
+                      <NavDropdown.Header>Manage users</NavDropdown.Header>
+                      <NavDropdown.Item as={Link} to="/">
+                        All users
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/">
+                        Create user
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Header>Manage offers</NavDropdown.Header>
+                      <NavDropdown.Item as={Link} to="/">
+                        Purchase offers
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/">
+                        Sell offers
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </ProtectedComponent>
                 </ProtectedComponent>
+                <Nav.Link as={Link} to="/about">
+                  About
+                </Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
