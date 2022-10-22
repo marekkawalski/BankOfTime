@@ -2,11 +2,14 @@ import React from "react";
 import { ToastContainer, Toast } from "react-bootstrap";
 import { IMyToast } from "../../models/MyToast";
 import { getCurrentTime } from "../../utils/utils";
+import "./MyToastComponent.scss";
 
 function MyToastComponent({ myToast, setMyToast }: IMyToast) {
   return (
-    <ToastContainer className="p-3" position="bottom-end">
+    <ToastContainer className="p-3 my-toast-container">
       <Toast
+        delay={5000}
+        autohide
         show={myToast.show}
         onClose={() => setMyToast({ show: !myToast.show })}
         bg={myToast.background}

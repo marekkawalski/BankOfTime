@@ -82,10 +82,6 @@ function Register() {
   return (
     <>
       <MyNavbar />
-      <MyToastComponent
-        myToast={myToast}
-        setMyToast={setMyToast}
-      ></MyToastComponent>
       <Container className="container-fluid bg-light text-dark p-5">
         <Container className="container bg-light p-5">
           <h2>Register</h2>
@@ -274,6 +270,10 @@ function Register() {
           </div>
         </Container>
       </Container>
+      <MyToastComponent
+        myToast={myToast}
+        setMyToast={setMyToast}
+      ></MyToastComponent>
     </>
   );
 }
