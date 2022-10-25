@@ -26,6 +26,10 @@ function CreateOffer() {
     title: "title",
     shortDescription: "shortDescription",
     price: 0,
+    offerType:
+      Object.keys(OfferType)[
+        Object.values(OfferType).indexOf(OfferType.PURCHASE_OFFER)
+      ].toString(),
   });
 
   const handleSubmit = async (event: any) => {
@@ -42,18 +46,26 @@ function CreateOffer() {
     } else {
       try {
         const resp = await OfferService.createOffer(offer);
+        console.log(resp);
         if (resp.status === 201) {
           setMyToast({
             background: "success",
-            message: resp.data,
+            message: "Offer has been created",
             title: "Success",
+            show: true,
+          });
+        } else {
+          setMyToast({
+            background: "danger",
+            message: "an error occurred",
+            title: "Error",
             show: true,
           });
         }
       } catch (e: any) {
         setMyToast({
           background: "danger",
-          message: e.message.response.data ?? e.message.message,
+          message: e.toString(),
           title: "Error",
           show: true,
         });
@@ -103,8 +115,89 @@ function CreateOffer() {
                     </Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="4"
+                  className="mb-3"
+                  controlId="validateShortDescription"
+                >
+                  <FloatingLabel
+                    controlId="floatingInput"
+                    label="short description"
+                    className="m-0"
+                  >
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="short description"
+                      maxLength={100}
+                      minLength={3}
+                      onChange={(event) => {
+                        offer.shortDescription = event.target.value;
+                      }}
+                    />
+                    <Form.Control.Feedback type="valid">
+                      Looks good!
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please provide short description.
+                    </Form.Control.Feedback>
+                  </FloatingLabel>
+                </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="4"
+                  className="mb-3"
+                  controlId="validatePrice"
+                >
+                  <FloatingLabel
+                    controlId="floatingInput"
+                    label="price"
+                    className="m-0"
+                  >
+                    <Form.Control
+                      required
+                      type="number"
+                      placeholder="price"
+                      onChange={(event) => {
+                        offer.price = parseFloat(event.target.value);
+                      }}
+                    />
+                    <Form.Control.Feedback type="valid">
+                      Looks good!
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please provide your name.
+                    </Form.Control.Feedback>
+                  </FloatingLabel>
+                </Form.Group>
+                <Form.Select
+                  aria-label="Offer type select"
+                  onChange={(event) => {
+                    offer.offerType = event.target.value;
+
+                    console.log(offer);
+                  }}
+                >
+                  <option
+                    value={Object.keys(OfferType)[
+                      Object.values(OfferType).indexOf(OfferType.PURCHASE_OFFER)
+                    ].toString()}
+                  >
+                    {OfferType.PURCHASE_OFFER}
+                  </option>
+                  <option
+                    value={Object.keys(OfferType)[
+                      Object.values(OfferType).indexOf(OfferType.SELL_OFFER)
+                    ].toString()}
+                  >
+                    {OfferType.SELL_OFFER}
+                  </option>
+                </Form.Select>
               </Col>
-              <Button type="submit">Create</Button>
+              <Button type="submit" className="mt-3">
+                Create
+              </Button>
             </Form>
           </div>
         </Container>

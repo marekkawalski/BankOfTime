@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   API_URL,
+  AUTHENTICATION_TOKEN,
   USER_NAME_SESSION_ATTRIBUTE_NAME,
   USER_ROLE,
 } from "../config/config";
@@ -22,7 +23,9 @@ class AuthenticationService {
   }
 
   createBasicAuthToken(username: string, password: string): string {
-    return "Basic " + window.btoa(username + ":" + password);
+    const token = "Basic " + window.btoa(username + ":" + password);
+    sessionStorage.setItem(AUTHENTICATION_TOKEN, token);
+    return token;
   }
   registerSuccessfulLogin(username: string, password: string) {
     sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username);
@@ -34,9 +37,9 @@ class AuthenticationService {
     return true;
   }
 
-  setupAxiosInterceptors(token: string) {
+  setupAxiosInterceptors(token: string | null) {
     axios.interceptors.request.use((config) => {
-      if (this.isUserLoggedIn()) {
+      if (this.isUserLoggedIn() && token != null) {
         if (config.headers !== undefined) {
           config.headers.authorization = token;
         }

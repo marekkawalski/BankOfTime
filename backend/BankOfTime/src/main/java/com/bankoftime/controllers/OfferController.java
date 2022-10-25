@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class OfferController {
     private final OfferService offerService;
 
@@ -23,7 +22,7 @@ public class OfferController {
     }
 
 
-    @PostMapping("/offers")
+    @PostMapping(path = "/offers")
     public ResponseEntity<Offer> createOffer(@Valid @RequestBody CreateOfferDTO offerDTO) {
 
         Optional<Offer> oOffer = offerService.createOffer(offerService.mapCreateOffer(offerDTO));
