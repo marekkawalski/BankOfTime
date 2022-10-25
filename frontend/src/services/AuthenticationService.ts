@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   API_URL,
-  AUTHENTICATION_TOKEN,
+  AUTHENTICATION_TOKEN as USER_AUTHENTICATION_TOKEN,
   USER_NAME_SESSION_ATTRIBUTE_NAME,
   USER_ROLE,
 } from "../config/config";
@@ -24,7 +24,7 @@ class AuthenticationService {
 
   createBasicAuthToken(username: string, password: string): string {
     const token = "Basic " + window.btoa(username + ":" + password);
-    sessionStorage.setItem(AUTHENTICATION_TOKEN, token);
+    sessionStorage.setItem(USER_AUTHENTICATION_TOKEN, token);
     return token;
   }
   registerSuccessfulLogin(username: string, password: string) {
@@ -49,6 +49,7 @@ class AuthenticationService {
   }
   logout() {
     sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    sessionStorage.removeItem(USER_AUTHENTICATION_TOKEN);
   }
   logoutAndNavigateToLogin() {
     sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
