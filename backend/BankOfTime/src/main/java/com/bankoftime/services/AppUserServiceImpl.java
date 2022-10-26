@@ -24,15 +24,15 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private final ConfirmationTokenServiceImpl confirmationTokenService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_WAS_NOT_FOUND, username)));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_WAS_NOT_FOUND, email)));
     }
 
     @Override
     public String signUpUser(AppUser appUser) throws UserException {
         if (appUserRepository
-                .findByUsername(appUser.getUsername())
+                .findByEmail(appUser.getEmail())
                 .isPresent()) {
             throw new UserException("User exists!");
         }
@@ -58,9 +58,9 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public String getUserRoleByUsername(String username) {
+    public String getUserRoleByUsername(String email) {
 
-        Optional<AppUser> appUser = appUserRepository.findByUsername(username);
+        Optional<AppUser> appUser = appUserRepository.findByEmail(email);
         return appUser.map(user -> user.getUserType().toString()).orElse(null);
     }
 

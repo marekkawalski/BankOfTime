@@ -1,6 +1,6 @@
-export interface UserToRegister {
+export interface IUser {
   name: string;
   lastName: string;
-  username: string;
+  email: string;
   password: string;
 }

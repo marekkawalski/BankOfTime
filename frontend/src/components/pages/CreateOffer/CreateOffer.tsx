@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { OfferType } from "../../../enums/OfferType";
 import { MyToast } from "../../../models/MyToast";
-import { Offer } from "../../../models/Offer";
+import { IOffer } from "../../../models/Offer";
 import OfferService from "../../../services/OfferService";
 import MyNavbar from "../../Navbar/MyNavbar";
 import MyToastComponent from "../../Toast/MyToastComponent";
@@ -22,7 +22,7 @@ function CreateOffer() {
     background: "danger",
     message: "message",
   });
-  const [offer] = useState<Offer>({
+  const [offer] = useState<IOffer>({
     title: "title",
     shortDescription: "shortDescription",
     price: 0,

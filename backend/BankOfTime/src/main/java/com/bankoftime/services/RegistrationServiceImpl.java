@@ -25,7 +25,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public String register(RegistrationRequest request) throws EmailException, UserException {
-        if (!emailValidator.test(request.username())) {
+        if (!emailValidator.test(request.email())) {
             throw new EmailException("Email is invalid!");
         }
         try {
@@ -33,12 +33,12 @@ public class RegistrationServiceImpl implements RegistrationService {
                     new AppUser(
                             request.name(),
                             request.lastName(),
-                            request.username(),
+                            request.email(),
                             request.password(),
                             UserType.NORMAL
                     )
             );
-            emailSender.send(request.username(), buildEmail(request.name(), "http://localhost:8080/registration/confirm?token=" + token));
+            emailSender.send(request.email(), buildEmail(request.name(), "http://localhost:8080/registration/confirm?token=" + token));
             return token;
         } catch (UserException userException) {
             throw new UserException(userException.getMessage());
@@ -63,7 +63,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         confirmationTokenService.setConfirmedAt(token);
         appUserService.enableAppUser(
-                confirmationToken.getAppUser().getUsername());
+                confirmationToken.getAppUser().getEmail());
         return "confirmed";
     }
 

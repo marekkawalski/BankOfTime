@@ -1,4 +1,4 @@
-export interface Offer {
+export interface IOffer {
   title: string;
   shortDescription: string;
   price: number;

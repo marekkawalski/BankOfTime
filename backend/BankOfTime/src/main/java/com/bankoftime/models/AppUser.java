@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -51,10 +50,10 @@ public class AppUser implements UserDetails {
     @Column(name = "Country")
     @Nullable
     private String country;
-    @Column(name = "Username", nullable = false)
+    @Column(name = "Email", nullable = false)
     @Email
-    @NotBlank(message = "Username is mandatory")
-    private String username;
+    @NotBlank(message = "Email is mandatory")
+    private String email;
     @Column(name = "Password", nullable = false)
     @NotBlank(message = "Password is mandatory")
     private String password;
@@ -94,17 +93,22 @@ public class AppUser implements UserDetails {
     @OneToOne(mappedBy = "appUser")
     private transient Image image;
 
-    public AppUser(String name, String lastName, String username, String password, UserType userType) {
+    public AppUser(String name, String lastName, String email, String password, UserType userType) {
         this.name = name;
         this.lastName = lastName;
         this.password = password;
-        this.username = username;
+        this.email = email;
         this.userType = userType;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(userType.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
@@ -127,16 +131,4 @@ public class AppUser implements UserDetails {
         return enabled;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, lastName, city, country, username, password, phoneNumber, locked, enabled, userType, sellOffers, purchaseOffers, purchaseTransactions, sellTransactions, confirmationTokens, image);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final AppUser appUser = (AppUser) o;
-        return locked == appUser.locked && enabled == appUser.enabled && id.equals(appUser.id) && name.equals(appUser.name) && lastName.equals(appUser.lastName) && Objects.equals(city, appUser.city) && Objects.equals(country, appUser.country) && username.equals(appUser.username) && password.equals(appUser.password) && Objects.equals(phoneNumber, appUser.phoneNumber) && userType == appUser.userType && Objects.equals(sellOffers, appUser.sellOffers) && Objects.equals(purchaseOffers, appUser.purchaseOffers) && Objects.equals(purchaseTransactions, appUser.purchaseTransactions) && Objects.equals(sellTransactions, appUser.sellTransactions) && Objects.equals(confirmationTokens, appUser.confirmationTokens) && Objects.equals(image, appUser.image);
-    }
 }

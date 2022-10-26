@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import InputGroup from "react-bootstrap/InputGroup";
-import { PWD_REGEX, USERNAME_REGEX, USER_REGEX } from "../../../config/config";
 import { MyToast } from "../../../models/MyToast";
-import { UserToRegister } from "../../../models/User";
+import { IUser } from "../../../models/User";
 import AuthenticationService from "../../../services/AuthenticationService";
 import RegistrationService from "../../../services/RegistrationService";
 import MyToastComponent from "../../Toast/MyToastComponent";
@@ -13,25 +12,15 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 function Register() {
   const [validated, setValidated] = useState(false);
-  const [user] = useState<UserToRegister>({
+  const [user] = useState<IUser>({
     name: "name",
     lastName: "lastName",
     password: "password",
-    username: "username",
+    email: "email",
   });
-  const [isValidRepeatedPassword, setIsValidRepeatedPassword] = useState<
-    boolean | undefined
-  >(false);
-  const [isValidName, setIsValidName] = useState<boolean | undefined>(false);
-  const [isValidLastName, setIsValidLastName] = useState<boolean | undefined>(
-    false
-  );
-  const [isValidPassword, setIsValidPassword] = useState<boolean | undefined>(
-    false
-  );
-  const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
-    false
-  );
+
+  const [password, setPassword] = useState("");
+  const [repeatedPassword, setRepeatedPassword] = useState("");
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
     title: "toast",
@@ -41,6 +30,7 @@ function Register() {
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
+  const repeatPasswordRef = useRef(null);
 
   const handleSubmit = async (event: any) => {
     const form = event.currentTarget;
@@ -76,7 +66,6 @@ function Register() {
     }
 
     setValidated(true);
-    return false;
   };
 
   return (
@@ -103,16 +92,10 @@ function Register() {
                       required
                       type="text"
                       placeholder="first name"
+                      pattern="[A-Za-z]{3,25}"
                       onChange={(event) => {
                         user.name = event.target.value;
-                        setIsValidName(USER_REGEX.test(user.name));
                       }}
-                      isInvalid={
-                        typeof (isValidName === undefined)
-                          ? false
-                          : !isValidName
-                      }
-                      isValid={isValidName}
                     />
                     <Form.Control.Feedback type="valid">
                       Looks good!
@@ -137,16 +120,10 @@ function Register() {
                       required
                       type="text"
                       placeholder="last name"
+                      pattern="[A-Za-z]{3,25}"
                       onChange={(event) => {
                         user.lastName = event.target.value;
-                        setIsValidLastName(USER_REGEX.test(user.lastName));
                       }}
-                      isInvalid={
-                        typeof (isValidLastName === undefined)
-                          ? false
-                          : !isValidLastName
-                      }
-                      isValid={isValidLastName}
                     />
                     <Form.Control.Feedback type="valid">
                       Looks good!
@@ -170,17 +147,8 @@ function Register() {
                         aria-describedby="inputGroupPrepend"
                         required
                         onChange={(event) => {
-                          user.username = event.target.value;
-                          setIsValidUsername(
-                            USERNAME_REGEX.test(user.username)
-                          );
+                          user.email = event.target.value;
                         }}
-                        isInvalid={
-                          typeof (isValidUsername === undefined)
-                            ? false
-                            : !isValidUsername
-                        }
-                        isValid={isValidUsername}
                       />
                       <Form.Control.Feedback type="invalid">
                         Please provide your email.
@@ -206,16 +174,11 @@ function Register() {
                         type="password"
                         placeholder="password"
                         required
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}"
+                        autoComplete="new-password"
                         onChange={(event) => {
-                          user.password = event.target.value;
-                          setIsValidPassword(PWD_REGEX.test(user.password));
+                          setPassword(event.target.value);
                         }}
-                        isInvalid={
-                          typeof (isValidPassword === undefined)
-                            ? false
-                            : !isValidPassword
-                        }
-                        isValid={isValidPassword}
                       />
                       <Form.Control.Feedback type="invalid">
                         8 to 24 characters.
@@ -244,17 +207,27 @@ function Register() {
                       type="password"
                       placeholder="password"
                       required
-                      onChange={(event) => {
-                        setIsValidRepeatedPassword(
-                          event.target.value === user.password
-                        );
+                      ref={repeatPasswordRef}
+                      onFocus={(event) => {
+                        if (password === repeatedPassword) {
+                          event.target.setCustomValidity("");
+                        } else {
+                          event.target.setCustomValidity(
+                            "Passwords don't match"
+                          );
+                        }
                       }}
-                      isInvalid={
-                        typeof (isValidRepeatedPassword === undefined)
-                          ? false
-                          : !isValidRepeatedPassword
-                      }
-                      isValid={isValidRepeatedPassword}
+                      onChange={(event) => {
+                        setRepeatedPassword(event.target.value);
+                        if (password === event.target.value) {
+                          event.target.setCustomValidity("");
+                          user.password = event.target.value;
+                        } else {
+                          event.target.setCustomValidity(
+                            "Passwords don't match"
+                          );
+                        }
+                      }}
                     />
                     <Form.Control.Feedback type="invalid">
                       Passwords don't match.
