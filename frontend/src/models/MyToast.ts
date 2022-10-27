@@ -5,6 +5,6 @@ export type MyToast = {
   message?: string;
 };
 export interface IMyToast {
-  myToast: MyToast;
+  myToast?: MyToast;
   setMyToast: React.Dispatch<React.SetStateAction<MyToast>>;
 }

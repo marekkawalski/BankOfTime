@@ -10,7 +10,7 @@ export const registrationValidationSchema = Yup.object().shape({
   lastName: Yup.string()
     .required("Last name is required")
     .matches(/^([^\d]*)$/, "Last name should not contain numbers")
-    .min(6, "Last name  must be at least 6 characters")
+    .min(3, "Last name  must be at least 6 characters")
     .max(20, "Last name  must not exceed 20 characters"),
   email: Yup.string().email("Email is invalid").required("Email is required"),
   password: Yup.string()

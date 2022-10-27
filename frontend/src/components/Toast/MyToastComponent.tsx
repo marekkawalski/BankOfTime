@@ -10,16 +10,16 @@ function MyToastComponent({ myToast, setMyToast }: IMyToast) {
       <Toast
         delay={5000}
         autohide
-        show={myToast.show}
-        onClose={() => setMyToast({ show: !myToast.show })}
-        bg={myToast.background}
+        show={myToast?.show}
+        onClose={() => setMyToast({ show: !myToast?.show })}
+        bg={myToast?.background}
       >
         <Toast.Header>
           <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-          <strong className="me-auto">{myToast.title}</strong>
+          <strong className="me-auto">{myToast?.title}</strong>
           <small>{getCurrentTime()}</small>
         </Toast.Header>
-        <Toast.Body>{myToast.message}</Toast.Body>
+        <Toast.Body>{myToast?.message}</Toast.Body>
       </Toast>
     </ToastContainer>
   );

@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import { MyToast } from "../../../models/MyToast";
 import AuthenticationService from "../../../services/AuthenticationService";
-import RegistrationService from "../../../services/RegistrationService";
 import MyToastComponent from "../../Toast/MyToastComponent";
 import { Container, Col, Form, Button } from "react-bootstrap";
 import MyNavbar from "../../Navbar/MyNavbar";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { Formik } from "formik";
 import { registrationValidationSchema } from "../../validation/registrationValidation";
+import useRegister from "../../../hooks/useRegister";
 
 function Register() {
   const [myToast, setMyToast] = useState<MyToast>({
@@ -18,33 +18,6 @@ function Register() {
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
-
-  const handleSubmit = async (values: any) => {
-    try {
-      const resp = await RegistrationService.register({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        password: values.password,
-        email: values.email,
-      });
-      if (resp.status === 201) {
-        setMyToast({
-          background: "success",
-          message: resp.data,
-          title: "Success",
-          show: true,
-        });
-      }
-    } catch (e: any) {
-      setMyToast({
-        background: "danger",
-        message: e.message.response.data ?? e.message.message,
-        title: "Error",
-        show: true,
-      });
-      console.log(e);
-    }
-  };
 
   return (
     <>
@@ -55,7 +28,7 @@ function Register() {
           <h2>Register</h2>
           <Formik
             validationSchema={registrationValidationSchema}
-            onSubmit={handleSubmit}
+            onSubmit={useRegister(setMyToast)}
             initialValues={{
               firstName: "",
               lastName: "",
