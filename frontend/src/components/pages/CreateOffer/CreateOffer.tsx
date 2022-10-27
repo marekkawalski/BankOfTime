@@ -72,9 +72,6 @@ function CreateOffer() {
         console.log(e);
       }
     }
-
-    setValidated(true);
-    return false;
   };
 
   return (

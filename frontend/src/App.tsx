@@ -13,6 +13,7 @@ import Register from "./components/pages/Register/Register";
 import { Role } from "./enums/Role";
 import CreateOffer from "./components/pages/CreateOffer/CreateOffer";
 import About from "./components/pages/About/About";
+import FormExample from "./components/pages/TestComponent/Testcomponent";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="login" element={<LoginComponent />} />
         <Route path="register" element={<Register />} />
         <Route path="about" element={<About />} />
+        <Route path="test" element={<FormExample />} />
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
