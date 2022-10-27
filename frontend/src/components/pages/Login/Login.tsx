@@ -1,52 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Login.scss";
 import AuthenticationService from "../../../services/AuthenticationService";
 import MyToastComponent from "../../Toast/MyToastComponent";
 import { MyToast } from "../../../models/MyToast";
+import useLogin from "../../../hooks/useLogin";
 
 function LoginComponent() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
-    title: "toast",
-    background: "danger",
-    message: "message",
   });
 
   useEffect(() => {
     AuthenticationService.logout();
   }, []);
 
-  const loginClicked = async () => {
-    try {
-      const resp =
-        await AuthenticationService.executeBasicAuthenticationService(
-          username,
-          password
-        );
-      console.log(resp);
-      AuthenticationService.registerSuccessfulLogin(username, password);
-      navigate("/");
-    } catch (e: any) {
-      console.log(e);
-      setMyToast({
-        background: "danger",
-        message: e.message,
-        title: "Error",
-        show: true,
-      });
-    }
-  };
-
   return (
     <div className="login-component">
-      <MyToastComponent
-        myToast={myToast}
-        setMyToast={setMyToast}
-      ></MyToastComponent>
+      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <h1>Bank of time</h1>
       <div className="login-container">
         <div className="box">
@@ -82,7 +55,11 @@ function LoginComponent() {
               <Link to="/">Forget password</Link>
               <Link to="/register">SignUp</Link>
             </div>
-            <input type="submit" value="Login" onClick={loginClicked} />
+            <input
+              type="submit"
+              value="Login"
+              onClick={useLogin(username, password, setMyToast)}
+            />
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { Role } from "../../enums/Role";
 import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import "./MyNavbar.scss";
-import LoginLogout from "../LoginLogout/LoginLogout";
+import LoginLogout from "./LoginLogout";
 
 function MyNavbar() {
   return (

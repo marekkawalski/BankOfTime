@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import InputGroup from "react-bootstrap/InputGroup";
 import { MyToast } from "../../../models/MyToast";
 import AuthenticationService from "../../../services/AuthenticationService";
 import MyToastComponent from "../../Toast/MyToastComponent";
@@ -103,65 +102,55 @@ function Register() {
                     className="mb-3"
                     controlId="validateEmail"
                   >
-                    <InputGroup hasValidation>
-                      <InputGroup.Text className="input-group-text">
-                        @
-                      </InputGroup.Text>
-                      <FloatingLabel controlId="validateEmail" label="email">
-                        <Form.Control
-                          type="email"
-                          placeholder="email"
-                          name="email"
-                          value={values.email}
-                          onChange={handleChange}
-                          isValid={touched.email && !errors.email}
-                          isInvalid={touched.email && !!errors.email}
-                        />
-                        <Form.Control.Feedback type="valid">
-                          Looks good!
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.email}
-                        </Form.Control.Feedback>
-                      </FloatingLabel>
-                    </InputGroup>
+                    <FloatingLabel controlId="validateEmail" label="email">
+                      <Form.Control
+                        type="email"
+                        placeholder="email"
+                        name="email"
+                        value={values.email}
+                        onChange={handleChange}
+                        isValid={touched.email && !errors.email}
+                        isInvalid={touched.email && !!errors.email}
+                      />
+                      <Form.Control.Feedback type="valid">
+                        Looks good!
+                      </Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.email}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
                   </Form.Group>
 
                   <Form.Group
                     as={Col}
-                    md="6"
+                    md="4"
                     className="mb-3"
                     controlId="validatePassword"
                   >
-                    <InputGroup hasValidation>
-                      <InputGroup.Text className="input-group-text">
-                        @
-                      </InputGroup.Text>
-                      <FloatingLabel
-                        controlId="validatePassword"
-                        label="password"
-                      >
-                        <Form.Control
-                          type="password"
-                          placeholder="password"
-                          name="password"
-                          value={values.password}
-                          onChange={handleChange}
-                          isValid={touched.password && !errors.password}
-                          isInvalid={touched.password && !!errors.password}
-                        />
-                        <Form.Control.Feedback type="valid">
-                          Nice password!
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.password}
-                        </Form.Control.Feedback>
-                      </FloatingLabel>
-                    </InputGroup>
+                    <FloatingLabel
+                      controlId="validatePassword"
+                      label="password"
+                    >
+                      <Form.Control
+                        type="password"
+                        placeholder="password"
+                        name="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        isValid={touched.password && !errors.password}
+                        isInvalid={touched.password && !!errors.password}
+                      />
+                      <Form.Control.Feedback type="valid">
+                        Nice password!
+                      </Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.password}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
                   </Form.Group>
                   <Form.Group
                     as={Col}
-                    md="6"
+                    md="4"
                     className="mb-3"
                     controlId="validateRepeatPassword"
                   >
