@@ -31,14 +31,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         try {
             String token = appUserService.signUpUser(
                     new AppUser(
-                            request.name(),
+                            request.firstName(),
                             request.lastName(),
                             request.email(),
                             request.password(),
                             UserType.NORMAL
                     )
             );
-            emailSender.send(request.email(), buildEmail(request.name(), "http://localhost:8080/registration/confirm?token=" + token));
+            emailSender.send(request.email(), buildEmail(request.firstName(), "http://localhost:8080/registration/confirm?token=" + token));
             return token;
         } catch (UserException userException) {
             throw new UserException(userException.getMessage());

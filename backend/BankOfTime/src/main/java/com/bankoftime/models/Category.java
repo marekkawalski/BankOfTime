@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Setter
@@ -28,7 +27,7 @@ public class Category {
     )
     private Long id;
 
-    @Column(name = "Name", nullable = false)
+    @Column(nullable = false)
     @NotBlank
     private String name;
     @ManyToMany
@@ -39,16 +38,4 @@ public class Category {
     )
     private Collection<Offer> offers = new ArrayList<>();
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, offers);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final Category category = (Category) o;
-        return id.equals(category.id) && name.equals(category.name) && Objects.equals(offers, category.offers);
-    }
 }

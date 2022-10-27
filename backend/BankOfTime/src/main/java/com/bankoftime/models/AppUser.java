@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,44 +30,38 @@ public class AppUser implements UserDetails {
             allocationSize = 1
     )
     @Id
-    @Column(name = "Id",
-            table = "AppUser")
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
     private Long id;
-    @Column(name = "Name", nullable = false)
-    @NotBlank(message = "Name is mandatory")
-    private String name;
-    @Column(name = "LastName", nullable = false)
+    @Column(nullable = false)
+    @Size(min = 3, max = 25, message = "Author first name must be between 3 to 25 letters")
+    @NotBlank(message = "First name is mandatory")
+    private String firstName;
+    @Column(nullable = false)
+    @Size(min = 3, max = 25, message = "Author last name must be between 3 to 25 letters")
     @NotBlank(message = "LastName is mandatory")
     private String lastName;
 
-    @Column(name = "City")
     @Nullable
     private String city;
 
-    @Column(name = "Country")
     @Nullable
     private String country;
-    @Column(name = "Email", nullable = false)
+    @Column(nullable = false)
     @Email
     @NotBlank(message = "Email is mandatory")
     private String email;
-    @Column(name = "Password", nullable = false)
+    @Column(nullable = false)
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @Column(name = "PhoneNumber")
     @Nullable
     private String phoneNumber;
-    @Column(name = "Locked")
     private boolean locked;
-    @Column(name = "Enabled")
     private boolean enabled;
     @Enumerated(EnumType.STRING)
-    @Column(name = "UserType")
     @NotNull
     private UserType userType = UserType.NORMAL;
 
@@ -93,8 +88,8 @@ public class AppUser implements UserDetails {
     @OneToOne(mappedBy = "appUser")
     private transient Image image;
 
-    public AppUser(String name, String lastName, String email, String password, UserType userType) {
-        this.name = name;
+    public AppUser(String firstName, String lastName, String email, String password, UserType userType) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;

@@ -22,25 +22,22 @@ public class ConfirmationToken {
             allocationSize = 1
     )
     @Id
-    @Column(name = "Id",
-            table = "ConfirmationToken")
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "token_sequence"
     )
     private Long id;
-    @Column(name = "Token", nullable = false)
+    @Column(nullable = false)
     @NotBlank
     private String token;
-    @Column(name = "CreatedAt", nullable = false)
+    @Column(nullable = false)
     @NotNull
     private LocalDateTime createdAt;
-    @Column(name = "ExpiresAt", nullable = false)
+    @Column(nullable = false)
     @NotNull
     private LocalDateTime expiresAt;
 
     @Nullable
-    @Column(name = "ConfirmedAt")
     private LocalDateTime confirmedAt;
 
     @ManyToOne

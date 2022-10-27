@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -24,23 +23,11 @@ public class OfferImage {
     )
     private Long id;
 
-    @Column(name = "Url", nullable = false)
+    @Column(nullable = false)
     @NotBlank
     private String url;
     @ManyToOne
     @JoinColumn(name = "OfferId", nullable = false)
     private Offer offer;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, url, offer);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final OfferImage that = (OfferImage) o;
-        return id.equals(that.id) && url.equals(that.url) && Objects.equals(offer, that.offer);
-    }
 }

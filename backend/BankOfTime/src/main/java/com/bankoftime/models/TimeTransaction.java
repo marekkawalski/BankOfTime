@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -43,16 +42,4 @@ public class TimeTransaction {
     @NotNull
     private AppUser seller;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, transactionStatus, offer, buyer, seller);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final TimeTransaction that = (TimeTransaction) o;
-        return id.equals(that.id) && transactionStatus == that.transactionStatus && offer.equals(that.offer) && buyer.equals(that.buyer) && seller.equals(that.seller);
-    }
 }
