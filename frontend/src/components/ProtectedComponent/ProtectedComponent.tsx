@@ -1,16 +1,14 @@
 import React from "react";
+import AppUserService from "../../services/AppUserService";
 import AuthenticationService from "../../services/AuthenticationService";
+import { ProtectedComponentProps } from "./types";
 
-interface ProtectedComponentProps {
-  allowedRole?: string;
-  children: React.ReactNode;
-}
 const ProtectedComponent: React.FC<ProtectedComponentProps> = ({
   allowedRole,
   children,
 }): JSX.Element => {
-  return AuthenticationService.isUserLoggedIn() &&
-    (allowedRole === AuthenticationService.getUserRole() ||
+  return AuthenticationService.isAppUserLoggedIn() &&
+    (allowedRole === AppUserService.getAppUser().userType ||
       allowedRole === undefined) ? (
     <>{children}</>
   ) : (

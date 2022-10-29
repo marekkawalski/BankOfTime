@@ -7,22 +7,19 @@ import {
   Form,
   InputGroup,
 } from "react-bootstrap";
-import { OfferType } from "../../../enums/OfferType";
-import { MyToast } from "../../../models/MyToast";
-import { IOffer } from "../../../models/Offer";
-import OfferService from "../../../services/OfferService";
-import MyNavbar from "../../Navbar/MyNavbar";
-import MyToastComponent from "../../Toast/MyToastComponent";
+import { OfferType } from "../../enums/OfferType";
+import { MyToast } from "../../models/MyToast";
+import { ICreateOffer } from "../../models/Offer";
+import OfferService from "../../services/OfferService";
+import MyNavbar from "../../components/Navbar/MyNavbar";
+import MyToastComponent from "../../components/Toast/MyToastComponent";
 
 function CreateOffer() {
   const [validated, setValidated] = useState(false);
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
-    title: "toast",
-    background: "danger",
-    message: "message",
   });
-  const [offer] = useState<IOffer>({
+  const [offer] = useState<ICreateOffer>({
     title: "title",
     shortDescription: "shortDescription",
     price: 0,
@@ -77,6 +74,7 @@ function CreateOffer() {
   return (
     <div>
       <MyNavbar />
+      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <Container className="container-fluid bg-light text-dark p-5">
         <Container className="container bg-light p-5">
           <h2>Create offer</h2>
@@ -199,10 +197,6 @@ function CreateOffer() {
           </div>
         </Container>
       </Container>
-      <MyToastComponent
-        myToast={myToast}
-        setMyToast={setMyToast}
-      ></MyToastComponent>
     </div>
   );
 }

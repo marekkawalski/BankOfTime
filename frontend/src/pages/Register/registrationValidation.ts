@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { PWD_REGEX } from "../../config/config";
+import { PWD_REGEX } from "../../constants/constants";
 
 export const registrationValidationSchema = Yup.object().shape({
   firstName: Yup.string()

@@ -2,16 +2,15 @@ import React from "react";
 import AuthenticationService from "../../services/AuthenticationService";
 import { Outlet, Navigate } from "react-router";
 import { useLocation } from "react-router-dom";
+import AppUserService from "../../services/AppUserService";
+import { ProtectedRouteProps } from "./types";
 
-interface ProtectedRouteProps {
-  allowedRole?: string;
-}
 function ProtectedRoute({ allowedRole }: ProtectedRouteProps) {
   const location = useLocation();
 
-  if (AuthenticationService.isUserLoggedIn()) {
+  if (AuthenticationService.isAppUserLoggedIn()) {
     return allowedRole === undefined ||
-      allowedRole === AuthenticationService.getUserRole() ? (
+      allowedRole === AppUserService.getAppUser().userType ? (
       <Outlet />
     ) : (
       <Navigate to="/" state={{ from: location }} replace />

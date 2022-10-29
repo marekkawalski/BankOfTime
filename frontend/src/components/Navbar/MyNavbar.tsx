@@ -81,7 +81,7 @@ function MyNavbar() {
                     <NavDropdown.Item as={Link} to="/">
                       Purchase offers
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/">
+                    <NavDropdown.Item as={Link} to="/appUserSellOffers">
                       Sell offers
                     </NavDropdown.Item>
                     <NavDropdown.Divider />

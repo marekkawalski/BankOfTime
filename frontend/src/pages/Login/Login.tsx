@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.scss";
-import AuthenticationService from "../../../services/AuthenticationService";
-import MyToastComponent from "../../Toast/MyToastComponent";
-import { MyToast } from "../../../models/MyToast";
-import useLogin from "../../../hooks/useLogin";
+import AuthenticationService from "../../services/AuthenticationService";
+import MyToastComponent from "../../components/Toast/MyToastComponent";
+import { MyToast } from "../../models/MyToast";
+import useLogin from "./useLogin";
 
 function LoginComponent() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
@@ -29,10 +29,10 @@ function LoginComponent() {
               <input
                 type="text"
                 name="username"
-                value={username}
+                value={email}
                 required
                 onChange={(event) => {
-                  setUsername(event.target.value);
+                  setEmail(event.target.value);
                 }}
               />
               <span>username</span>
@@ -58,7 +58,7 @@ function LoginComponent() {
             <input
               type="submit"
               value="Login"
-              onClick={useLogin(username, password, setMyToast)}
+              onClick={useLogin({ email, password, setMyToast })}
             />
           </div>
         </div>

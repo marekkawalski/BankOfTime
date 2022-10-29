@@ -4,16 +4,16 @@ import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
-import Home from "./components/pages/Home/Home";
-import Layout from "./components/Layout/Layout";
-import AdminPage from "./components/pages/AdminPage/AdminPage";
-import LoginComponent from "./components/pages/Login/Login";
-import NotFound from "./components/pages/NotFound/NotFound";
-import Register from "./components/pages/Register/Register";
+import Home from "./pages/Home/Home";
+import Layout from "./pages/Layout/Layout";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import LoginComponent from "./pages/Login/Login";
+import NotFound from "./pages/NotFound/NotFound";
+import Register from "./pages/Register/Register";
 import { Role } from "./enums/Role";
-import CreateOffer from "./components/pages/CreateOffer/CreateOffer";
-import About from "./components/pages/About/About";
-import FormExample from "./components/pages/TestComponent/Testcomponent";
+import CreateOffer from "./pages/CreateOffer/CreateOffer";
+import About from "./pages/About/About";
+import AppUserSellOffers from "./pages/AppUserSellOffers/AppUserSellOffers";
 
 function App() {
   return (
@@ -23,11 +23,11 @@ function App() {
         <Route path="login" element={<LoginComponent />} />
         <Route path="register" element={<Register />} />
         <Route path="about" element={<About />} />
-        <Route path="test" element={<FormExample />} />
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
+          <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
         </Route>
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>

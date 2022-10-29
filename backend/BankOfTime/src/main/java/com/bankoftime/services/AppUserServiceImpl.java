@@ -1,5 +1,6 @@
 package com.bankoftime.services;
 
+import com.bankoftime.dto.AppUserDTO;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
@@ -67,6 +68,17 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public Optional<AppUser> find(Long id) {
         return appUserRepository.findById(id);
+    }
+
+    @Override
+    public Optional<AppUser> findByEmail(String email) {
+        return appUserRepository.findByEmail(email);
+    }
+
+    @Override
+    public AppUserDTO mapAppUserToAppUserDto(AppUser appUser) {
+        return new AppUserDTO(appUser.getId(), appUser.getFirstName(), appUser.getLastName(), appUser.getCity(),
+                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType());
     }
 
 }

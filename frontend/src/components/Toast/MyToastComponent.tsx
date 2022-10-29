@@ -1,10 +1,10 @@
 import React from "react";
 import { ToastContainer, Toast } from "react-bootstrap";
-import { IMyToast } from "../../models/MyToast";
 import { getCurrentTime } from "../../utils/utils";
 import "./MyToastComponent.scss";
+import { MyToastComponentProps } from "./types";
 
-function MyToastComponent({ myToast, setMyToast }: IMyToast) {
+function MyToastComponent({ myToast, setMyToast }: MyToastComponentProps) {
   return (
     <ToastContainer className="p-3 my-toast-container">
       <Toast

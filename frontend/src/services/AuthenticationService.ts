@@ -1,20 +1,20 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
+import { API_URL } from "../config/config";
 import {
-  API_URL,
-  AUTHENTICATION_TOKEN as USER_AUTHENTICATION_TOKEN,
-  USER_NAME_SESSION_ATTRIBUTE_NAME,
-  USER_ROLE,
-} from "../config/config";
+  AUTHENTICATION_TOKEN,
+  APP_USER,
+  APP_USER_NAME_SESSION_ATTRIBUTE_NAME,
+} from "../constants/constants";
 
 class AuthenticationService {
-  async executeBasicAuthenticationService(username: string, password: string) {
+  async executeBasicAuthenticationService(email: string, password: string) {
     try {
-      const resp = await axios.get(`${API_URL}/login/${username}`, {
+      const resp = await axios.get(`${API_URL}/login/${email}`, {
         headers: {
-          authorization: this.createBasicAuthToken(username, password),
+          authorization: this.createBasicAuthToken(email, password),
         },
       });
-      sessionStorage.setItem(USER_ROLE, resp.data);
+      sessionStorage.setItem(APP_USER, JSON.stringify(resp.data));
       return resp;
     } catch (e: any) {
       console.log(e);
@@ -22,24 +22,24 @@ class AuthenticationService {
     }
   }
 
-  createBasicAuthToken(username: string, password: string): string {
-    const token = "Basic " + window.btoa(username + ":" + password);
-    sessionStorage.setItem(USER_AUTHENTICATION_TOKEN, token);
+  createBasicAuthToken(email: string, password: string): string {
+    const token = "Basic " + window.btoa(email + ":" + password);
+    sessionStorage.setItem(AUTHENTICATION_TOKEN, token);
     return token;
   }
-  registerSuccessfulLogin(username: string, password: string) {
-    sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username);
-    this.setupAxiosInterceptors(this.createBasicAuthToken(username, password));
+  registerSuccessfulLogin(email: string, password: string) {
+    sessionStorage.setItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME, email);
+    this.setupAxiosInterceptors(this.createBasicAuthToken(email, password));
   }
-  isUserLoggedIn() {
-    let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+  isAppUserLoggedIn() {
+    let user = sessionStorage.getItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME);
     if (user === null) return false;
     return true;
   }
 
   setupAxiosInterceptors(token: string | null) {
     axios.interceptors.request.use((config) => {
-      if (this.isUserLoggedIn() && token != null) {
+      if (this.isAppUserLoggedIn() && token != null) {
         if (config.headers !== undefined) {
           config.headers.authorization = token;
         }
@@ -48,14 +48,11 @@ class AuthenticationService {
     });
   }
   logout() {
-    sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
-    sessionStorage.removeItem(USER_AUTHENTICATION_TOKEN);
+    sessionStorage.removeItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME);
+    sessionStorage.removeItem(AUTHENTICATION_TOKEN);
   }
   logoutAndNavigateToLogin() {
-    sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
-  }
-  getUserRole() {
-    return sessionStorage.getItem(USER_ROLE);
+    sessionStorage.removeItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME);
   }
 }
 export default new AuthenticationService();

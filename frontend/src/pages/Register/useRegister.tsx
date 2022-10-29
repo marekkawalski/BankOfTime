@@ -1,6 +1,6 @@
 import React from "react";
-import { MyToast } from "../models/MyToast";
-import RegistrationService from "../services/RegistrationService";
+import { MyToast } from "../../models/MyToast";
+import RegistrationService from "../../services/RegistrationService";
 
 function useRegister(
   setMyToast: React.Dispatch<React.SetStateAction<MyToast>>

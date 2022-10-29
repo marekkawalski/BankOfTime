@@ -2,7 +2,9 @@ package com.bankoftime.controllers;
 
 import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.enums.OfferType;
+import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
+import com.bankoftime.services.AppUserService;
 import com.bankoftime.services.OfferService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +19,21 @@ import java.util.Optional;
 public class OfferController {
     private final OfferService offerService;
 
-    public OfferController(OfferService offerService) {
+    private final AppUserService appUserService;
+
+    public OfferController(OfferService offerService, AppUserService appUserService) {
         this.offerService = offerService;
+        this.appUserService = appUserService;
     }
 
 
-    @PostMapping(path = "/offers")
-    public ResponseEntity<Offer> createOffer(@Valid @RequestBody CreateOfferDTO offerDTO) {
-
-        Optional<Offer> oOffer = offerService.createOffer(offerService.mapCreateOffer(offerDTO));
-        return oOffer.map(value -> ResponseEntity
+    @PostMapping(path = "/offers/{clientId}")
+    public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {
+        Optional<AppUser> oAppUser = appUserService.find(clientId);
+        if (oAppUser.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        return offerService.createOffer(offerService.mapCreateOffer(offerDTO), oAppUser.get())
+                .map(value -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(value))
                 .orElseGet(() -> ResponseEntity

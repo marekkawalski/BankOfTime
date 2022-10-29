@@ -2,6 +2,7 @@ package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.enums.OfferType;
+import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.OfferRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,12 @@ public class OfferServiceImpl implements OfferService {
 
     @Transactional
     @Override
-    public Optional<Offer> createOffer(Offer offer) {
+    public Optional<Offer> createOffer(Offer offer, AppUser appUser) {
+        if (offer.getOfferType() == OfferType.SELL_OFFER) {
+            offer.setSeller(appUser);
+        } else {
+            offer.setBuyer(appUser);
+        }
         return Optional.of(offerRepository.save(offer));
     }
 

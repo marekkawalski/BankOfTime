@@ -1,15 +1,15 @@
 import Button from "react-bootstrap/Button";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../../config/config";
 import AuthenticationService from "../../services/AuthenticationService";
+import { APP_USER_NAME_SESSION_ATTRIBUTE_NAME } from "../../constants/constants";
 
 function LoginLogout() {
   const navigate = useNavigate();
-  return AuthenticationService.isUserLoggedIn() ? (
+  return AuthenticationService.isAppUserLoggedIn() ? (
     <>
       <div className="px-2">
-        Hello, {sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)}
+        Hello, {sessionStorage.getItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME)}
       </div>
       <Button
         className="px-2"
