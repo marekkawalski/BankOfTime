@@ -1,6 +1,5 @@
 export const APP_USER = "appUser";
 export const APP_USER_NAME_SESSION_ATTRIBUTE_NAME = "authenticatedAppUser";
-export const APP_USER_ROLE = "userRole";
 export const AUTHENTICATION_TOKEN = "token";
 export const USER_REGEX = /^[A-z]{3,23}$/;
 export const EMAIL_REGEX =
