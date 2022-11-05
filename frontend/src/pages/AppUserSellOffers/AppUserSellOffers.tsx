@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import MyNavbar from "../../components/Navbar/MyNavbar";
-import MyToastComponent from "../../components/Toast/MyToastComponent";
-import { MyToast } from "../../models/MyToast";
-import { IOffer } from "../../models/Offer";
-import AppUserService from "../../services/AppUserService";
-import OfferService from "../../services/OfferService";
+import React, { useEffect, useState } from 'react';
+
+import MyNavbar from '../../components/Navbar/MyNavbar';
+import OfferContainer from '../../components/OfferContainer/OfferContainer';
+import MyToastComponent from '../../components/Toast/MyToastComponent';
+import { MyToast } from '../../models/MyToast';
+import { IOffer } from '../../models/Offer';
+import AppUserService from '../../services/AppUserService';
+import OfferService from '../../services/OfferService';
 
 function AppUserSellOffers() {
   const [sellOffers, setSellOffers] = useState<IOffer[]>([]);
@@ -26,16 +28,11 @@ function AppUserSellOffers() {
     handleGetClientSellOffers();
   }, []);
   return (
-    <section>
+    <div>
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
-      <h2>SellOffers</h2>
-      <div>
-        {sellOffers.map((offer) => {
-          return <p>{offer.title}</p>;
-        })}
-      </div>
-    </section>
+      <OfferContainer title="SellOffers" offers={sellOffers} />
+    </div>
   );
 }
 

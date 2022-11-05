@@ -1,22 +1,24 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { Link } from "react-router-dom";
-import { Role } from "../../enums/Role";
-import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
-import "./MyNavbar.scss";
-import LoginLogout from "./LoginLogout";
+import './MyNavbar.scss';
+
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { Link } from 'react-router-dom';
+
+import { Role } from '../../enums/Role';
+import ProtectedComponent from '../ProtectedComponent/ProtectedComponent';
+import LoginLogout from './LoginLogout';
 
 function MyNavbar() {
   return (
     <>
       <Navbar
         bg="dark"
-        expand={false}
+        expand="false"
         className="mb-3 "
         fixed="top"
         variant="dark"

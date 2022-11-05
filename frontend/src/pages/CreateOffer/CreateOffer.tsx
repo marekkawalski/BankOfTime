@@ -1,18 +1,12 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  FloatingLabel,
-  Form,
-  InputGroup,
-} from "react-bootstrap";
-import { OfferType } from "../../enums/OfferType";
-import { MyToast } from "../../models/MyToast";
-import { ICreateOffer } from "../../models/Offer";
-import OfferService from "../../services/OfferService";
-import MyNavbar from "../../components/Navbar/MyNavbar";
-import MyToastComponent from "../../components/Toast/MyToastComponent";
+import React, { useState } from 'react';
+import { Button, Col, Container, FloatingLabel, Form } from 'react-bootstrap';
+
+import MyNavbar from '../../components/Navbar/MyNavbar';
+import MyToastComponent from '../../components/Toast/MyToastComponent';
+import { OfferType } from '../../enums/OfferType';
+import { MyToast } from '../../models/MyToast';
+import { ICreateOffer } from '../../models/Offer';
+import OfferService from '../../services/OfferService';
 
 function CreateOffer() {
   const [validated, setValidated] = useState(false);
@@ -170,7 +164,6 @@ function CreateOffer() {
                   aria-label="Offer type select"
                   onChange={(event) => {
                     offer.offerType = event.target.value;
-
                     console.log(offer);
                   }}
                 >

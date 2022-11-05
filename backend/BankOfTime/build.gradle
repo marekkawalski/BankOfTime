@@ -17,6 +17,7 @@ configurations {
     }
 }
 
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure:2.7.5'
     implementation 'org.springframework.security:spring-security-core:5.7.3'
@@ -39,4 +40,5 @@ dependencies {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+sourceCompatibility = JavaVersion.VERSION_18
 targetCompatibility = JavaVersion.VERSION_18
