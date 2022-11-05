@@ -3,6 +3,7 @@ import './OfferContainer.scss';
 import React, { useState } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 
 import { OfferContainerFor } from '../../enums/OfferContainerFor';
 import { OfferContainerProps } from './types';
@@ -16,7 +17,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const navigate = useNavigate();
   return (
     <section>
       <div className="main-container">
@@ -79,11 +80,23 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
                           )}
                           <Card.Text> {offer.state}</Card.Text>
                           {offerContainerFor === OfferContainerFor.OWNER ? (
-                            <Button size="sm" variant="primary">
+                            <Button
+                              onClick={() => {
+                                navigate(`${offer.id}`);
+                              }}
+                              size="sm"
+                              variant="primary"
+                            >
                               Edit offer
                             </Button>
                           ) : (
-                            <Button size="sm" variant="primary">
+                            <Button
+                              onClick={() => {
+                                navigate(`${offer.id}`);
+                              }}
+                              size="sm"
+                              variant="primary"
+                            >
                               View offer details
                             </Button>
                           )}

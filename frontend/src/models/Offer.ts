@@ -5,6 +5,7 @@ export interface ICreateOffer {
   offerType: string;
 }
 export interface IOffer extends ICreateOffer {
+  readonly id: number;
   longDescription?: string;
   state?: string;
   location?: string;

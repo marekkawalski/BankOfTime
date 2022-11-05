@@ -1,8 +1,9 @@
-import axios, { AxiosError } from "axios";
-import { API_URL } from "../config/config";
-import { AUTHENTICATION_TOKEN } from "../constants/constants";
-import { ICreateOffer } from "../models/Offer";
-import AppUserService from "./AppUserService";
+import axios, { AxiosError } from 'axios';
+
+import { API_URL } from '../config/config';
+import { AUTHENTICATION_TOKEN } from '../constants/constants';
+import { ICreateOffer } from '../models/Offer';
+import AppUserService from './AppUserService';
 
 class OfferService {
   async createOffer(offer: ICreateOffer) {
@@ -35,6 +36,21 @@ class OfferService {
           authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
         },
       });
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
+  async getAppUserSellOfferById(appUserId: number, sellOfferId: number) {
+    try {
+      return await axios.get(
+        `${API_URL}/clients/${appUserId}/purchaseOffers/${sellOfferId}`,
+        {
+          headers: {
+            authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
+          },
+        }
+      );
     } catch (error: any) {
       throw new AxiosError(error);
     }
