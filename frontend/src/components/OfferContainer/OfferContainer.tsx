@@ -1,12 +1,17 @@
 import './OfferContainer.scss';
 
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
+import { OfferContainerFor } from '../../enums/OfferContainerFor';
 import { OfferContainerProps } from './types';
 
-const OfferContainer: React.FC<OfferContainerProps> = ({ title, offers }) => {
+const OfferContainer: React.FC<OfferContainerProps> = ({
+  title,
+  offers,
+  offerContainerFor,
+}) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -54,7 +59,40 @@ const OfferContainer: React.FC<OfferContainerProps> = ({ title, offers }) => {
         <div className="content-container">
           <div>
             {offers.map((offer) => {
-              return <p>{offer.title}</p>;
+              return (
+                <Row xs={1} md={2} className="g-4 mb-3">
+                  {Array.from({ length: 4 }).map((_) => (
+                    <Col>
+                      <Card>
+                        <Card.Img
+                          variant="top"
+                          src="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+                        />
+                        <Card.Body>
+                          <Card.Title>{offer.title}</Card.Title>
+                          <Card.Text className="d-flex justify-content-between">
+                            <div>{offer.shortDescription}</div>
+                            <div className="price">{offer.price}h</div>
+                          </Card.Text>
+                          {offer?.location && (
+                            <Card.Text>location: {offer?.location}</Card.Text>
+                          )}
+                          <Card.Text> {offer.state}</Card.Text>
+                          {offerContainerFor === OfferContainerFor.OWNER ? (
+                            <Button size="sm" variant="primary">
+                              Edit offer
+                            </Button>
+                          ) : (
+                            <Button size="sm" variant="primary">
+                              View offer details
+                            </Button>
+                          )}
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              );
             })}
           </div>
         </div>

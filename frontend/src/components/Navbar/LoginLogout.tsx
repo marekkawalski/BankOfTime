@@ -1,15 +1,17 @@
-import Button from "react-bootstrap/Button";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import AuthenticationService from "../../services/AuthenticationService";
-import { APP_USER_NAME_SESSION_ATTRIBUTE_NAME } from "../../constants/constants";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
+
+import AppUserService from '../../services/AppUserService';
+import AuthenticationService from '../../services/AuthenticationService';
 
 function LoginLogout() {
   const navigate = useNavigate();
   return AuthenticationService.isAppUserLoggedIn() ? (
     <>
       <div className="px-2">
-        Hello, {sessionStorage.getItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME)}
+        Hello, {AppUserService.getAppUser().firstName}{" "}
+        {AppUserService.getAppUser().lastName}
       </div>
       <Button
         className="px-2"
