@@ -44,7 +44,25 @@ class OfferService {
   async getAppUserSellOfferById(appUserId: number, sellOfferId: number) {
     try {
       return await axios.get(
-        `${API_URL}/clients/${appUserId}/purchaseOffers/${sellOfferId}`,
+        `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`,
+        {
+          headers: {
+            authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
+          },
+        }
+      );
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
+  async getAppUserPurchaseOfferById(
+    appUserId: number,
+    purchaseOfferId: number
+  ) {
+    try {
+      return await axios.get(
+        `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`,
         {
           headers: {
             authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",

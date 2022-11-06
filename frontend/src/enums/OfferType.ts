@@ -1,4 +1,4 @@
 export enum OfferType {
-  PURCHASE_OFFER = "Purchase offer",
-  SELL_OFFER = "Sell offer",
+  PURCHASE_OFFER = "PURCHASE_OFFER",
+  SELL_OFFER = "SELL_OFFER",
 }

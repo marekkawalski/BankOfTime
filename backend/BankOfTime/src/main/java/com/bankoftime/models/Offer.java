@@ -64,13 +64,11 @@ public class Offer {
     @ManyToOne
     @JoinColumn(name = "SellerId")
     @Nullable
-    @JsonIgnore
     private AppUser seller;
 
     @ManyToOne
     @JoinColumn(name = "BuyerId")
     @Nullable
-    @JsonIgnore
     private AppUser buyer;
 
     @ManyToMany(mappedBy = "offers")

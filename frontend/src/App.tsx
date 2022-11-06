@@ -4,12 +4,12 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { OfferType } from './enums/OfferType';
 import { Role } from './enums/Role';
 import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
 import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
-import EditOffer from './pages/EditOffer/EditOffer';
 import Home from './pages/Home/Home';
 import Layout from './pages/Layout/Layout';
 import LoginComponent from './pages/Login/Login';
@@ -29,9 +29,16 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
-          <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
-          <Route path="/appUserSellOffers/:id" element={<EditOffer />} />
-          <Route path="/offer/:id" element={<ViewOfferDetails />} />
+          <Route path="/appUserSellOffers" element={<AppUserSellOffers />}>
+            <Route
+              path=":id"
+              element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}
+            />
+          </Route>
+          <Route
+            path="/sellOffer/:id"
+            element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}
+          />
         </Route>
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>

@@ -17,10 +17,7 @@ function CreateOffer() {
     title: "title",
     shortDescription: "shortDescription",
     price: 0,
-    offerType:
-      Object.keys(OfferType)[
-        Object.values(OfferType).indexOf(OfferType.PURCHASE_OFFER)
-      ].toString(),
+    offerType: OfferType.PURCHASE_OFFER,
   });
 
   const handleSubmit = async (event: any) => {
@@ -163,24 +160,16 @@ function CreateOffer() {
                 <Form.Select
                   aria-label="Offer type select"
                   onChange={(event) => {
-                    offer.offerType = event.target.value;
+                    const value: string = event.target.value;
+                    offer.offerType = value as OfferType;
+                    console.log(value as OfferType);
                     console.log(offer);
                   }}
                 >
-                  <option
-                    value={Object.keys(OfferType)[
-                      Object.values(OfferType).indexOf(OfferType.PURCHASE_OFFER)
-                    ].toString()}
-                  >
-                    {OfferType.PURCHASE_OFFER}
+                  <option value={OfferType.PURCHASE_OFFER}>
+                    Purchase offer
                   </option>
-                  <option
-                    value={Object.keys(OfferType)[
-                      Object.values(OfferType).indexOf(OfferType.SELL_OFFER)
-                    ].toString()}
-                  >
-                    {OfferType.SELL_OFFER}
-                  </option>
+                  <option value={OfferType.SELL_OFFER}>Sell offer</option>
                 </Form.Select>
               </Col>
               <Button type="submit" className="mt-3">
