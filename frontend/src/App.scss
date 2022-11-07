@@ -1,0 +1,40 @@
+@import "~bootstrap/scss/bootstrap";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "lato", "Arial", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2 {
+  text-transform: uppercase;
+  letter-spacing: 1.7px;
+}
+
+h1 {
+  font-weight: 200;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  word-spacing: 7px;
+  font-size: 280%;
+  text-align: center;
+  color: white;
+}
+main {
+  height: 100%;
+  width: 100%;
+}
+
+section {
+  padding-top: 100px;
+  padding-right: 20px;
+  padding-left: 20px;
+}

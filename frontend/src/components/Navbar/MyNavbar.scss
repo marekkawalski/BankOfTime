@@ -1,0 +1,16 @@
+@media screen and (max-width: 650px) {
+  .hide {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 650px) {
+  .navbar-container {
+    flex-direction: row-reverse;
+    display: flex;
+    align-items: center;
+  }
+  .navbar-container-child {
+    display: flex;
+    align-items: center;
+  }
+}

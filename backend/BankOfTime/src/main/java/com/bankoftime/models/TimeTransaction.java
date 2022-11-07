@@ -1,16 +1,15 @@
 package com.bankoftime.models;
 
-import com.bankoftime.enums.OfferStatus;
+import com.bankoftime.enums.TransactionStatus;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
 @Setter
-@Accessors(fluent = true)
 public class TimeTransaction {
     @SequenceGenerator(
             name = "transaction_sequence",
@@ -23,18 +22,24 @@ public class TimeTransaction {
             generator = "transaction_sequence"
     )
     private Long id;
-    @Basic
-    @Column(name = "Status")
+
+    @Column(name = "Status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private OfferStatus status;
+    @NotNull
+    private TransactionStatus transactionStatus;
     @OneToOne
     @JoinColumn(name = "OfferId", nullable = false)
+    @NotNull
     private Offer offer;
+
     @ManyToOne
     @JoinColumn(name = "BuyerId", nullable = false)
+    @NotNull
     private AppUser buyer;
+
     @ManyToOne
     @JoinColumn(name = "SellerId", nullable = false)
+    @NotNull
     private AppUser seller;
 
 }

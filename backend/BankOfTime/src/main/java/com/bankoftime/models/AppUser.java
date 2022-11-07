@@ -1,17 +1,18 @@
 package com.bankoftime.models;
 
 import com.bankoftime.enums.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,9 +20,9 @@ import java.util.Collections;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(fluent = true)
 @Table(name = "AppUser")
 public class AppUser implements UserDetails {
     @SequenceGenerator(
@@ -30,62 +31,74 @@ public class AppUser implements UserDetails {
             allocationSize = 1
     )
     @Id
-    @Column(name = "Id",
-            table = "AppUser")
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
     private Long id;
-    @Column(name = "Name", nullable = false)
-    @NotBlank(message = "Name is mandatory")
-    private String name;
-    @Column(name = "LastName", nullable = false)
+    @Column(nullable = false)
+    @Size(min = 3, max = 25, message = "Author first name must be between 3 to 25 letters")
+    @NotBlank(message = "First name is mandatory")
+    private String firstName;
+    @Column(nullable = false)
+    @Size(min = 3, max = 25, message = "Author last name must be between 3 to 25 letters")
     @NotBlank(message = "LastName is mandatory")
     private String lastName;
-    @Basic
-    @Column(name = "City")
+
+    @Nullable
     private String city;
-    @Basic
-    @Column(name = "Country")
+
+    @Nullable
     private String country;
-    @Column(name = "Username", nullable = false)
-    @NotBlank(message = "Username is mandatory")
-    private String username;
-    @Column(name = "Password", nullable = false)
+    @Column(nullable = false)
+    @Email
+    @NotBlank(message = "Email is mandatory")
+    private String email;
+    @Column(nullable = false)
     @NotBlank(message = "Password is mandatory")
     private String password;
-    @Basic
-    @Column(name = "PhoneNumber")
+
+    @Nullable
     private String phoneNumber;
-    @Basic
-    @Column(name = "Locked")
     private boolean locked;
-    @Basic
-    @Column(name = "Enabled")
     private boolean enabled;
-    @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "UserType")
-    private UserType userType;
+    @NotNull
+    private UserType userType = UserType.NORMAL;
+
     @OneToMany(mappedBy = "seller")
+    @ToString.Exclude
+    @JsonIgnore
     private transient Collection<Offer> sellOffers = new ArrayList<>();
+
     @OneToMany(mappedBy = "buyer")
+    @ToString.Exclude
+    @JsonIgnore
     private transient Collection<Offer> purchaseOffers = new ArrayList<>();
+
     @OneToMany(mappedBy = "buyer")
+    @ToString.Exclude
+    @JsonIgnore
     private transient Collection<TimeTransaction> purchaseTransactions = new ArrayList<>();
+
     @OneToMany(mappedBy = "seller")
+    @ToString.Exclude
+    @JsonIgnore
     private transient Collection<TimeTransaction> sellTransactions = new ArrayList<>();
+
     @OneToMany(mappedBy = "appUser")
+    @ToString.Exclude
+    @JsonIgnore
     private transient Collection<ConfirmationToken> confirmationTokens = new ArrayList<>();
+
     @OneToOne(mappedBy = "appUser")
     private transient Image image;
 
-    public AppUser(String name, String lastName, String username, String password, UserType userType) {
-        this.name = name;
+    public AppUser(String firstName, String lastName, String email, String password, UserType userType) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.username = username;
+        this.email = email;
         this.userType = userType;
     }
 
@@ -95,13 +108,8 @@ public class AppUser implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
     public String getUsername() {
-        return this.username;
+        return email;
     }
 
     @Override

@@ -2,14 +2,13 @@ package com.bankoftime.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
 @Setter
-@Accessors(fluent = true)
 @Table(name = "OfferImage")
 public class OfferImage {
     @SequenceGenerator(
@@ -23,7 +22,9 @@ public class OfferImage {
             generator = "offer_image_sequence"
     )
     private Long id;
-    @Column(name = "Url", nullable = false)
+
+    @Column(nullable = false)
+    @NotBlank
     private String url;
     @ManyToOne
     @JoinColumn(name = "OfferId", nullable = false)

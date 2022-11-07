@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+}
+
+group = 'com.bankoftime'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.7.5'
+    implementation 'org.springframework.security:spring-security-core:5.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.5'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:11.2.1.jre18'
+    implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.5'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools:2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat:2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.8.0'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2:2.1.214'
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+sourceCompatibility = JavaVersion.VERSION_18
+targetCompatibility = JavaVersion.VERSION_18

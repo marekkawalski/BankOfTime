@@ -1,0 +1,24 @@
+.main-container {
+  display: flex;
+}
+.filter-bar-container {
+  width: 300px;
+  position: relative;
+  margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+}
+.filter-bar-container-child {
+  padding-bottom: 15px;
+}
+
+.content-container {
+  flex-direction: column;
+}
+section {
+  padding-top: 120px;
+}
+.price {
+  color: rgb(161, 13, 13);
+  font-size: 200%;
+}

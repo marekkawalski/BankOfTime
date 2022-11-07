@@ -1,6 +1,6 @@
 package com.bankoftime.security.config;
 
-import com.bankoftime.services.AppUserService;
+import com.bankoftime.services.AppUserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final AppUserService appUserService;
+    private final AppUserServiceImpl appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
@@ -29,7 +29,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                             try {
                                 authorize
-                                        .antMatchers( "/registration/**")
+                                        .antMatchers("/registration/**")
                                         .permitAll()
                                         .antMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()

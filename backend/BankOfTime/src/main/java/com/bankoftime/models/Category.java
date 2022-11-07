@@ -3,16 +3,15 @@ package com.bankoftime.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
 @Setter
 @Getter
-@Accessors(fluent = true)
 @NoArgsConstructor
 @Table(name = "Category")
 public class Category {
@@ -27,7 +26,9 @@ public class Category {
             generator = "category_sequence"
     )
     private Long id;
-    @Column(name = "Name", nullable = false)
+
+    @Column(nullable = false)
+    @NotBlank
     private String name;
     @ManyToMany
     @JoinTable(

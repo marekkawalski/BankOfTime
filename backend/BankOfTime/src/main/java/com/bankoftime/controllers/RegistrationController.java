@@ -2,25 +2,32 @@ package com.bankoftime.controllers;
 
 import com.bankoftime.exceptions.EmailException;
 import com.bankoftime.exceptions.TokenException;
+import com.bankoftime.exceptions.UserException;
 import com.bankoftime.requests.RegistrationRequest;
 import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping(path = "/registration")
 @AllArgsConstructor
 public class RegistrationController {
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     @PostMapping
-    public String register(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<String> register(@Valid @RequestBody RegistrationRequest request) {
         try {
-            return registrationService.register(request);
-        } catch (EmailException emailException) {
-            return emailException.getMessage();
+            registrationService.register(request);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("User has been registered");
+        } catch (EmailException | UserException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
