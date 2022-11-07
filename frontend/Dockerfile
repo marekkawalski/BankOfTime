@@ -1,6 +1,7 @@
 FROM node:alpine as build
 WORKDIR /app
 COPY package*.json ./
+RUN apk add g++ make py3-pip
 RUN npm i
 COPY . ./
 RUN npm run build

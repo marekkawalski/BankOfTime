@@ -29,12 +29,11 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
-          <Route path="/appUserSellOffers" element={<AppUserSellOffers />}>
-            <Route
-              path=":id"
-              element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}
-            />
-          </Route>
+          <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
+          <Route
+            path="/appUserSellOffers/:id"
+            element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}
+          />
           <Route
             path="/sellOffer/:id"
             element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}

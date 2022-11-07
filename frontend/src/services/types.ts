@@ -1,12 +1,17 @@
+import { AxiosResponse } from 'axios';
+
 import { IAppUser, IAppUserToRegister } from '../models/AppUser';
 import { ICreateOffer } from '../models/Offer';
 
 export interface IAppUserService {
-  getAppUserByEmail(email: string): any;
+  getAppUserByEmail(email: string): Promise<AxiosResponse>;
   getAppUser(): IAppUser;
 }
 export interface IAuthenticationService {
-  executeBasicAuthenticationService(email: string, password: string): any;
+  executeBasicAuthenticationService(
+    email: string,
+    password: string
+  ): Promise<AxiosResponse>;
   createBasicAuthToken(email: string, password: string): string;
   registerSuccessfulLogin(email: string, password: string): void;
   isAppUserLoggedIn(): boolean;
@@ -15,12 +20,18 @@ export interface IAuthenticationService {
   logoutAndNavigateToLogin(): void;
 }
 export interface IRegistrationService {
-  register(user: IAppUserToRegister): any;
+  register(user: IAppUserToRegister): Promise<AxiosResponse>;
 }
 export interface IOfferService {
-  createOffer(offer: ICreateOffer): any;
-  getAppUserSellOffers(appUserId: number): any;
-  getAppUserPurchaseOffers(appUserId: number): any;
-  getAppUserSellOfferById(appUserId: number, sellOfferId: number): any;
-  getAppUserPurchaseOfferById(appUserId: number, purchaseOfferId: number): any;
+  createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
+  getAppUserSellOffers(appUserId: number): Promise<AxiosResponse>;
+  getAppUserPurchaseOffers(appUserId: number): Promise<AxiosResponse>;
+  getAppUserSellOfferById(
+    appUserId: number,
+    sellOfferId: number
+  ): Promise<AxiosResponse>;
+  getAppUserPurchaseOfferById(
+    appUserId: number,
+    purchaseOfferId: number
+  ): Promise<AxiosResponse>;
 }
