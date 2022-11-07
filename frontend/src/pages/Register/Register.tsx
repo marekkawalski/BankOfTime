@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form } from 'react-bootstrap';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-import { MyToast } from "../../models/MyToast";
-import AuthenticationService from "../../services/AuthenticationService";
-import MyToastComponent from "../../components/Toast/MyToastComponent";
-import { Container, Col, Form, Button } from "react-bootstrap";
-import MyNavbar from "../../components/Navbar/MyNavbar";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import { Formik } from "formik";
-import { registrationValidationSchema } from "./registrationValidation";
-import useRegister from "./useRegister";
+import MyNavbar from '../../components/Navbar/MyNavbar';
+import MyToastComponent from '../../components/Toast/MyToastComponent';
+import { useServices } from '../../context/ServicesContext';
+import { MyToast } from '../../models/MyToast';
+import { registrationValidationSchema } from './registrationValidation';
+import useRegister from './useRegister';
 
 function Register() {
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
   });
+  const services = useServices();
   useEffect(() => {
-    AuthenticationService.logout();
-  }, []);
+    if (!services) return;
+    services.authenticationService.logout();
+  }, [services]);
 
   return (
     <>

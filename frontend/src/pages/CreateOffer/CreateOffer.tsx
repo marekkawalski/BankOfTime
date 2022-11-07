@@ -3,12 +3,13 @@ import { Button, Col, Container, FloatingLabel, Form } from 'react-bootstrap';
 
 import MyNavbar from '../../components/Navbar/MyNavbar';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
+import { useServices } from '../../context/ServicesContext';
 import { OfferType } from '../../enums/OfferType';
 import { MyToast } from '../../models/MyToast';
 import { ICreateOffer } from '../../models/Offer';
-import OfferService from '../../services/OfferService';
 
 function CreateOffer() {
+  const services = useServices();
   const [validated, setValidated] = useState(false);
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
@@ -33,7 +34,8 @@ function CreateOffer() {
       });
     } else {
       try {
-        const resp = await OfferService.createOffer(offer);
+        if (services === undefined) return;
+        const resp = await services.offerService.createOffer(offer);
         console.log(resp);
         if (resp.status === 201) {
           setMyToast({

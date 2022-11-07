@@ -1,7 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
+
+import ServicesContextProvider from '../../context/ServicesContext';
 
 const Layout = () => {
-  return <Outlet />;
+  return (
+    <ServicesContextProvider>
+      <Outlet />;
+    </ServicesContextProvider>
+  );
 };
 
 export default Layout;

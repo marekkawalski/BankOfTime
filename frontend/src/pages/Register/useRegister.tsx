@@ -1,13 +1,16 @@
-import React from "react";
-import { MyToast } from "../../models/MyToast";
-import RegistrationService from "../../services/RegistrationService";
+import React from 'react';
+
+import { useServices } from '../../context/ServicesContext';
+import { MyToast } from '../../models/MyToast';
 
 function useRegister(
   setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
 ) {
+  const services = useServices();
   const handleSubmit = async (values: any) => {
     try {
-      const resp = await RegistrationService.register({
+      if (!services) return;
+      const resp = await services.registrationService.register({
         firstName: values.firstName,
         lastName: values.lastName,
         password: values.password,

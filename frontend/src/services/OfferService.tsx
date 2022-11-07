@@ -4,8 +4,9 @@ import { API_URL } from '../config/config';
 import { AUTHENTICATION_TOKEN } from '../constants/constants';
 import { ICreateOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
+import { IOfferService } from './types';
 
-class OfferService {
+class OfferService implements IOfferService {
   async createOffer(offer: ICreateOffer) {
     try {
       const appUserId = AppUserService.getAppUser().id;

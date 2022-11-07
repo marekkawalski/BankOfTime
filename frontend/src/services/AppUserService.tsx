@@ -1,9 +1,11 @@
-import axios, { AxiosError } from "axios";
-import { API_URL } from "../config/config";
-import { AUTHENTICATION_TOKEN, APP_USER } from "../constants/constants";
-import { IAppUser } from "../models/AppUser";
+import axios, { AxiosError } from 'axios';
 
-class AppUserService {
+import { API_URL } from '../config/config';
+import { APP_USER, AUTHENTICATION_TOKEN } from '../constants/constants';
+import { IAppUser } from '../models/AppUser';
+import { IAppUserService } from './types';
+
+class AppUserService implements IAppUserService {
   async getAppUserByEmail(email: string) {
     try {
       return await axios.get(`${API_URL}/clients/${email}`, {

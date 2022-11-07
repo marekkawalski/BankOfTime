@@ -1,15 +1,18 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import AuthenticationService from "../../services/AuthenticationService";
-import { UseLoginProps } from "./types";
+import { useNavigate } from 'react-router-dom';
+
+import { useServices } from '../../context/ServicesContext';
+import AuthenticationService from '../../services/AuthenticationService';
+import { UseLoginProps } from './types';
 
 function useLogin({ email, password, setMyToast }: UseLoginProps) {
   const navigate = useNavigate();
+  const services = useServices();
 
   const loginClicked = async () => {
     try {
+      if (!services) return;
       const resp =
-        await AuthenticationService.executeBasicAuthenticationService(
+        await services.authenticationService.executeBasicAuthenticationService(
           email,
           password
         );

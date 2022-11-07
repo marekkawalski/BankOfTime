@@ -1,12 +1,10 @@
-import axios from "axios";
-import { API_URL } from "../config/config";
-import {
-  AUTHENTICATION_TOKEN,
-  APP_USER,
-  APP_USER_NAME_SESSION_ATTRIBUTE_NAME,
-} from "../constants/constants";
+import axios from 'axios';
 
-class AuthenticationService {
+import { API_URL } from '../config/config';
+import { APP_USER, APP_USER_NAME_SESSION_ATTRIBUTE_NAME, AUTHENTICATION_TOKEN } from '../constants/constants';
+import { IAuthenticationService } from './types';
+
+class AuthenticationService implements IAuthenticationService {
   async executeBasicAuthenticationService(email: string, password: string) {
     try {
       const resp = await axios.get(`${API_URL}/login/${email}`, {
