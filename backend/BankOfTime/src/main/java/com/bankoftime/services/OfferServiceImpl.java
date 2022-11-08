@@ -93,6 +93,11 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public Optional<Offer> getOfferById(final Long offerId) {
+        return offerRepository.findById(offerId);
+    }
+
+    @Override
     public boolean deleteOffer(Long offerId) {
         Optional<Offer> oOffer = offerRepository.findById(offerId);
         if (oOffer.isEmpty())

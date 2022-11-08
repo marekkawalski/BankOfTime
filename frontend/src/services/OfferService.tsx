@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { API_URL } from '../config/config';
 import { AUTHENTICATION_TOKEN } from '../constants/constants';
@@ -7,6 +7,17 @@ import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
+  async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/offers/${offerId}`, {
+        headers: {
+          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
+        },
+      });
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   async createOffer(offer: ICreateOffer) {
     try {
       const appUserId = AppUserService.getAppUser().id;

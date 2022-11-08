@@ -28,6 +28,8 @@ public interface OfferService {
 
     Optional<Offer> modifyOffer(Offer offerToSave);
 
+    Optional<Offer> getOfferById(Long offerId);
+
     boolean deleteOffer(Long offerId);
 
 }

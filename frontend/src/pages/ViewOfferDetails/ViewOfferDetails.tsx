@@ -8,9 +8,8 @@ import { OfferType } from '../../enums/OfferType';
 import { IAppUser } from '../../models/AppUser';
 import { MyToast } from '../../models/MyToast';
 import { IOffer } from '../../models/Offer';
-import AppUserService from '../../services/AppUserService';
 import EditOffer from './EditOffer';
-import NoEditOffer from './NoEditOffer';
+import NoEditOffer from './NoEditOffer/NoEditOffer';
 import { ViewOfferDetailsProps } from './types';
 
 function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
@@ -31,28 +30,12 @@ function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
         return;
       }
       if (!services) return;
-      if (offerType === OfferType.SELL_OFFER) {
-        try {
-          result = await services.offerService.getAppUserSellOfferById(
-            AppUserService.getAppUser().id,
-            parseInt(params.id)
-          );
-          setOffer(result?.data ?? {});
-        } catch (error) {
-          console.log(error);
-        }
-      } else if (offerType === OfferType.PURCHASE_OFFER) {
-        try {
-          result = await services.offerService.getAppUserPurchaseOfferById(
-            AppUserService.getAppUser().id,
-            parseInt(params.id)
-          );
-          setOffer(result?.data ?? {});
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        console.log("error");
+      try {
+        result = await services.offerService.getOfferById(parseInt(params.id));
+        setOffer(result?.data ?? {});
+        console.log(result);
+      } catch (error) {
+        console.log(error);
       }
     };
     handleGetOffer();
@@ -76,7 +59,7 @@ function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
     <section>
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
-      {canEdit() ? <EditOffer /> : <NoEditOffer />}
+      {canEdit() ? <EditOffer /> : <NoEditOffer offer={offer} />}
     </section>
   );
 }

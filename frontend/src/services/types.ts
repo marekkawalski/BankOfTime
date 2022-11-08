@@ -23,6 +23,7 @@ export interface IRegistrationService {
   register(user: IAppUserToRegister): Promise<AxiosResponse>;
 }
 export interface IOfferService {
+  getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
   getAppUserSellOffers(appUserId: number): Promise<AxiosResponse>;
   getAppUserPurchaseOffers(appUserId: number): Promise<AxiosResponse>;

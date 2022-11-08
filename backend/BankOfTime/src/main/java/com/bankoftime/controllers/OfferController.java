@@ -1,7 +1,6 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.dto.CreateOfferDTO;
-import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.services.AppUserService;
@@ -26,6 +25,12 @@ public class OfferController {
         this.appUserService = appUserService;
     }
 
+    @GetMapping(path = "/offers/{offerId:\\d*}")
+    public ResponseEntity<Offer> getOfferById(@PathVariable Long offerId) {
+        return offerService.getOfferById(offerId)
+                .map(offer -> ResponseEntity.status(HttpStatus.OK).body(offer))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
 
     @PostMapping(path = "/offers/{clientId}")
     public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {
@@ -41,13 +46,13 @@ public class OfferController {
                         .body(null));
     }
 
-    @GetMapping(value = "/offers/{offerType}")
-    public ResponseEntity<List<Offer>> getAllOffers(@PathVariable("offerType") OfferType offerType) {
-        List<Offer> offers = offerService.getAllOffersOfType(offerType);
-        if (offers.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(offers);
-    }
+//    @GetMapping(value = "/offers/{offerType}")
+//    public ResponseEntity<List<Offer>> getAllOffers(@PathVariable("offerType") OfferType offerType) {
+//        List<Offer> offers = offerService.getAllOffersOfType(offerType);
+//        if (offers.isEmpty())
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        return ResponseEntity.status(HttpStatus.OK).body(offers);
+//    }
 
     @GetMapping(value = "/clients/{clientId}/sellOffers")
     public ResponseEntity<List<Offer>> getClientSellOffers(@PathVariable("clientId") Long clientId) {
