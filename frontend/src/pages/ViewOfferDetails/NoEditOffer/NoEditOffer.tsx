@@ -50,12 +50,26 @@ function NoEditOffer({ offer }: NoEditOfferProps) {
                 <p>{offer?.longDescription}</p>
               </div>
               <div className="offer-details">
-                <div className="price">
-                  <div>
+                <div className="price-container">
+                  <h4 id="time-icon">
                     <FontAwesomeIcon icon={faClock} />
-                  </div>
+                  </h4>
                   <div>
-                    <h4 className="">{offer?.price}h</h4>
+                    {offer?.previousPrice ? (
+                      <div className="price-inner-container">
+                        <div>Save {offer.previousPrice - offer.price}h</div>
+                        <div className="price">
+                          <h4 className="previous-price">
+                            <span>{offer.previousPrice}h</span>
+                          </h4>
+                          <h4>
+                            <span> {offer?.price}h</span>
+                          </h4>
+                        </div>
+                      </div>
+                    ) : (
+                      <h4 className="">{offer?.price}h</h4>
+                    )}
                   </div>
                 </div>
                 <div className="d-flex justify-content-end">

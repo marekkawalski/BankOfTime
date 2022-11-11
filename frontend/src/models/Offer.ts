@@ -14,4 +14,5 @@ export interface IOffer extends ICreateOffer {
   location?: string;
   seller?: IAppUser;
   buyer?: IAppUser;
+  previousPrice?: number;
 }

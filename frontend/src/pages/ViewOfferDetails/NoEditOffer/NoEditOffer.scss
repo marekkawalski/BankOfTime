@@ -34,11 +34,40 @@ section {
     hr {
       width: 100%;
     }
-    .price {
+
+    h4 {
+      font-size: 110%;
+    }
+
+    #time-icon {
+      font-size: 160%;
+    }
+
+    .price-container {
       display: flex;
       align-items: center;
-      justify-content: center;
       flex-direction: column;
+
+      .price-inner-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .price {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .previous-price {
+        text-decoration: line-through;
+        font-size: 80%;
+        padding-right: 10px;
+        color: $price-color-darker;
+      }
     }
 
     button {
