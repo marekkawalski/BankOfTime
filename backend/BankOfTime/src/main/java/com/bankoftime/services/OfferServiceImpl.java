@@ -24,9 +24,7 @@ public class OfferServiceImpl implements OfferService {
     public Optional<Offer> createOffer(Offer offer, AppUser appUser) {
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
             offer.setSeller(appUser);
-        } else {
-            offer.setBuyer(appUser);
-        }
+        } else offer.setBuyer(appUser);
         return Optional.of(offerRepository.save(offer));
     }
 
@@ -37,12 +35,16 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public Offer mapCreateOffer(CreateOfferDTO createOfferDTO) {
+    public Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO) {
         Offer offer = new Offer();
         offer.setOfferType(createOfferDTO.offerType());
         offer.setPrice(createOfferDTO.price());
         offer.setShortDescription(createOfferDTO.shortDescription());
         offer.setTitle(createOfferDTO.title());
+        if (createOfferDTO.location() != null)
+            offer.setLocation(createOfferDTO.location());
+        if (createOfferDTO.longDescription() != null)
+            offer.setLongDescription(createOfferDTO.longDescription());
         return offer;
     }
 

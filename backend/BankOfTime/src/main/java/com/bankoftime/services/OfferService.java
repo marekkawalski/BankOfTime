@@ -14,7 +14,7 @@ public interface OfferService {
 
     Optional<Offer> findOffer(Long offerId);
 
-    Offer mapCreateOffer(CreateOfferDTO createOfferDTO);
+    Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO);
 
     List<Offer> getAllOffersOfType(OfferType offerType);
 

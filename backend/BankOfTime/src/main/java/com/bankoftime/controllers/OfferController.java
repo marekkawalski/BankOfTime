@@ -37,7 +37,7 @@ public class OfferController {
         Optional<AppUser> oAppUser = appUserService.find(clientId);
         if (oAppUser.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        return offerService.createOffer(offerService.mapCreateOffer(offerDTO), oAppUser.get())
+        return offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), oAppUser.get())
                 .map(value -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(value))
