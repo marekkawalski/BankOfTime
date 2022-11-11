@@ -6,12 +6,12 @@ export interface ICreateOffer {
   shortDescription: string;
   price: number;
   offerType: OfferType;
+  longDescription?: string;
+  location?: string;
 }
 export interface IOffer extends ICreateOffer {
   readonly id: number;
-  longDescription?: string;
   state?: string;
-  location?: string;
   seller?: IAppUser;
   buyer?: IAppUser;
   previousPrice?: number;

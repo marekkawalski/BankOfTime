@@ -52,7 +52,7 @@ public class Offer {
     private String longDescription;
 
     @Nullable
-    private double previousPrice;
+    private Double previousPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
