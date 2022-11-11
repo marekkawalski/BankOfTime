@@ -28,14 +28,14 @@ const images = [
   },
 ];
 function NoEditOffer({ offer }: NoEditOfferProps) {
-  const [client, setClient] = useState<IAppUser | undefined>();
+  const [appUser, setAppUser] = useState<IAppUser | undefined>();
 
   useEffect(() => {
-    setClient(offer?.buyer ?? offer?.seller);
-  }, [setClient, offer]);
+    setAppUser(offer?.buyer ?? offer?.seller);
+  }, [setAppUser, offer]);
 
   return (
-    <section>
+    <section id="offer-details-section">
       <div className="offer-container">
         <div className="offer-container-child">
           <ImageGallery items={images} />
@@ -55,7 +55,8 @@ function NoEditOffer({ offer }: NoEditOfferProps) {
                     <FontAwesomeIcon icon={faClock} />
                   </h4>
                   <div>
-                    {offer?.previousPrice ? (
+                    {offer?.previousPrice &&
+                    offer.previousPrice > offer.price ? (
                       <div className="price-inner-container">
                         <div>Save {offer.previousPrice - offer.price}h</div>
                         <div className="price">
@@ -74,9 +75,13 @@ function NoEditOffer({ offer }: NoEditOfferProps) {
                 </div>
                 <div className="d-flex justify-content-end">
                   {offer?.offerType === OfferType.SELL_OFFER ? (
-                    <Button>Buy</Button>
+                    <Button disabled={offer?.seller?.id === appUser?.id}>
+                      Buy
+                    </Button>
                   ) : (
-                    <Button>Sell</Button>
+                    <Button disabled={offer?.buyer?.id === appUser?.id}>
+                      Sell
+                    </Button>
                   )}
                 </div>
                 <div>
@@ -103,21 +108,21 @@ function NoEditOffer({ offer }: NoEditOfferProps) {
                   <hr />
                   <div>
                     <div className="appUser-name">
-                      <span className="pe-1">{client?.firstName}</span>
-                      <span>{client?.lastName}</span>
+                      <span className="pe-1">{appUser?.firstName}</span>
+                      <span>{appUser?.lastName}</span>
                     </div>
                     <div>
                       <span className="pe-1">
                         <FontAwesomeIcon icon={faEnvelope} />
                       </span>
-                      <span>{client?.email}</span>
+                      <span>{appUser?.email}</span>
                     </div>
-                    {client?.phoneNumber && (
-                      <CallTo phone={client.phoneNumber}>
+                    {appUser?.phoneNumber && (
+                      <CallTo phone={appUser.phoneNumber}>
                         <span className="pe-1">
                           <FontAwesomeIcon icon={faPhone} />
                         </span>
-                        {client.phoneNumber}
+                        {appUser.phoneNumber}
                       </CallTo>
                     )}
                     <div></div>

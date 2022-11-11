@@ -59,7 +59,7 @@ function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
     <section>
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
-      {canEdit() ? <EditOffer /> : <NoEditOffer offer={offer} />}
+      {canEdit() ? <EditOffer offer={offer} /> : <NoEditOffer offer={offer} />}
     </section>
   );
 }
