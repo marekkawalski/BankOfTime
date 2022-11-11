@@ -8,7 +8,7 @@ import { OfferType } from '../../enums/OfferType';
 import { IAppUser } from '../../models/AppUser';
 import { MyToast } from '../../models/MyToast';
 import { IOffer } from '../../models/Offer';
-import EditOffer from './EditOffer';
+import EditOffer from './EditOffer/EditOffer';
 import NoEditOffer from './NoEditOffer/NoEditOffer';
 import { ViewOfferDetailsProps } from './types';
 

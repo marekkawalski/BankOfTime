@@ -1,18 +1,61 @@
 @import "~react-image-gallery/styles/scss/image-gallery.scss";
-.image-gallery {
-  width: 40%;
-  height: auto;
+@import "../../../Colors.scss";
+
+section {
+  padding-top: 70px;
 }
 
-.image-gallery-slide img {
-  width: 100%;
-  height: auto;
-  max-height: 80vh;
-  object-fit: cover;
-  overflow: hidden;
-  object-position: center center;
+.offer-container {
+  display: flex;
+  gap: 8%;
 }
 
-.fullscreen .image-gallery-slide img {
-  max-height: 100vh;
+.offer-container-child {
+  flex: 50%;
+}
+
+.offer-description {
+  display: flex;
+  gap: 20px;
+
+  div {
+    flex: 50%;
+  }
+
+  hr {
+    width: 70%;
+  }
+
+  .offer-details {
+    padding: 20px;
+    border: 0.1px solid rgba(0, 0, 0, 0.612);
+    border-radius: 10px 10px;
+
+    hr {
+      width: 100%;
+    }
+    .price {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    button {
+      background-color: $main-green;
+      border: $main-green;
+      width: 100px;
+      border-radius: 40px 40px;
+    }
+
+    button:hover {
+      background-color: $darker-green;
+    }
+    .state-available {
+      color: $main-green;
+    }
+    .appUser-name {
+      margin-bottom: 20px;
+    }
+  }
 }
