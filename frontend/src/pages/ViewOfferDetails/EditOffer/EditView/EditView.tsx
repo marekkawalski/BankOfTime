@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import MyNavbar from '../../../components/Navbar/MyNavbar';
-import OfferForm from '../../../components/OfferForm/OfferForm';
-import MyToastComponent from '../../../components/Toast/MyToastComponent';
-import { MyToast } from '../../../models/MyToast';
-import useCreateOffer from '../../CreateOffer/useCreateOffer';
+import MyNavbar from '../../../../components/Navbar/MyNavbar';
+import OfferForm from '../../../../components/OfferForm/OfferForm';
+import MyToastComponent from '../../../../components/Toast/MyToastComponent';
+import { MyToast } from '../../../../models/MyToast';
+import useCreateOffer from '../../../CreateOffer/useCreateOffer';
 import { EditViewProps } from './types';
 
 function EditView({ offer }: EditViewProps) {

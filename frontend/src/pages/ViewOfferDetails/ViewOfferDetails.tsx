@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 import MyNavbar from '../../components/Navbar/MyNavbar';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
 import { useServices } from '../../context/ServicesContext';
-import { OfferType } from '../../enums/OfferType';
 import { IAppUser } from '../../models/AppUser';
 import { MyToast } from '../../models/MyToast';
 import { IOffer } from '../../models/Offer';
 import EditOffer from './EditOffer/EditOffer';
 import NoEditOffer from './NoEditOffer/NoEditOffer';
 import { ViewOfferDetailsProps } from './types';
+import { canEdit } from './utils/canEdit';
 
 function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
   const params = useParams();
@@ -43,23 +43,15 @@ function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
     setAppUser(services.appUserService.getAppUser());
   }, [offerType, params.id, services]);
 
-  const canEdit = (): boolean => {
-    if (
-      (offer?.offerType === OfferType.SELL_OFFER &&
-        appUser?.id === offer?.seller?.id) ||
-      (offer?.offerType === OfferType.PURCHASE_OFFER &&
-        appUser?.id === offer?.buyer?.id)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   return (
     <section>
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
-      {canEdit() ? <EditOffer offer={offer} /> : <NoEditOffer offer={offer} />}
+      {canEdit(offer, appUser) ? (
+        <EditOffer offer={offer} />
+      ) : (
+        <NoEditOffer offer={offer} />
+      )}
     </section>
   );
 }

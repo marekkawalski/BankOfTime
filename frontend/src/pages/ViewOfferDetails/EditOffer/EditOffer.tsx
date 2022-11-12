@@ -5,7 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import NoEditOffer from '../NoEditOffer/NoEditOffer';
-import EditView from './EditView';
+import EditView from './EditView/EditView';
 import { EditOfferProps } from './types';
 
 function EditOffer({ offer }: EditOfferProps) {
