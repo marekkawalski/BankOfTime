@@ -12,6 +12,7 @@
     "@types/jest": "^27.5.2",
     "@types/react-image-gallery": "^1.2.0",
     "axios": "^0.27.2",
+    "axios-hooks": "^4.0.0",
     "bootstrap": "^5.2.2",
     "formik": "^2.2.9",
     "node-sass": "^7.0.3",

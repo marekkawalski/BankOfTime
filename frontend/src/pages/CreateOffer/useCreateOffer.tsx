@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useServices } from '../../context/ServicesContext';
 import { MyToast } from '../../models/MyToast';
@@ -7,13 +7,14 @@ import { ICreateOffer } from '../../models/Offer';
 function useCreateOffer(
   setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
 ) {
+  const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const handleSubmit = async (offer: ICreateOffer) => {
     try {
+      setLoading(true);
       if (services === undefined) return;
-      console.log(offer);
       const resp = await services.offerService.createOffer(offer);
-      console.log(resp);
+      setLoading(false);
       if (resp.status === 201) {
         setMyToast({
           background: "success",
@@ -39,7 +40,7 @@ function useCreateOffer(
       console.log(e);
     }
   };
-  return handleSubmit;
+  return { loading: loading, handleSubmit: handleSubmit };
 }
 
 export default useCreateOffer;

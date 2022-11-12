@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { Button, Col, Container, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Col, Container, FloatingLabel, Form, Spinner } from 'react-bootstrap';
 
 import { OfferType } from '../../enums/OfferType';
 import { ICreateOffer } from '../../models/Offer';
@@ -8,13 +8,14 @@ import { offerValidation } from './offerValidation';
 import { OfferFormProps } from './types';
 
 function OfferForm({ offer, submit }: OfferFormProps) {
+  console.log(submit.loading);
   return (
     <Container className="container-fluid bg-light text-dark p-5">
       <Container className="container bg-light p-5">
         {offer ? <h2>Edit offer</h2> : <h2>Create offer</h2>}
         <Formik
           validationSchema={offerValidation}
-          onSubmit={(offer: ICreateOffer) => submit(offer)}
+          onSubmit={(offer: ICreateOffer) => submit.handleSubmit(offer)}
           initialValues={{
             title: offer?.title ?? "",
             shortDescription: offer?.shortDescription ?? "",
@@ -189,8 +190,23 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Button type="submit">
-                {offer ? <span>Update offer</span> : <span>Create offer</span>}
+              <Button type="submit" variant="primary" disabled={submit.loading}>
+                {submit.loading ? (
+                  <span>
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span>Loading...</span>
+                  </span>
+                ) : offer ? (
+                  <span>Update offer</span>
+                ) : (
+                  <span>Create offer</span>
+                )}
               </Button>
             </Form>
           )}

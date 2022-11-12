@@ -96,6 +96,17 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(oOffer.get());
     }
 
+    @PutMapping(value = "clients/offers/{offerId}")
+    public ResponseEntity<Offer> updateOffer(
+            @PathVariable("offerId") Long offerId) {
+        return offerService.findOffer(offerId).map(
+                offer ->
+                        offerService.modifyOffer(offer).map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
+                                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null))
+        ).orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+
+    }
+
     @DeleteMapping(value = "/offers/{id}")
     public ResponseEntity<Void> deleteOffer(@PathVariable Long id) {
         return offerService.deleteOffer(id) ?

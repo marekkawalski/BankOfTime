@@ -1,6 +1,9 @@
-import { IOffer } from '../../models/Offer';
+import { ICreateOffer, IOffer } from '../../models/Offer';
 
 export interface OfferFormProps {
   offer?: IOffer;
-  submit: any;
+  submit: {
+    loading: boolean;
+    handleSubmit: (offer: ICreateOffer | IOffer) => Promise<any>;
+  };
 }

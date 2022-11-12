@@ -7,7 +7,6 @@ import { MyToast } from '../../models/MyToast';
 import useCreateOffer from './useCreateOffer';
 
 function CreateOffer() {
-  // const services = useServices();
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
   });

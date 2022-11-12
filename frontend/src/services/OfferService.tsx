@@ -85,6 +85,18 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
+
+  async updateOffer(offerId: string) {
+    try {
+      return await axios.get(`${API_URL}/offers/${offerId}`, {
+        headers: {
+          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
+        },
+      });
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
 }
 
 export default new OfferService();
