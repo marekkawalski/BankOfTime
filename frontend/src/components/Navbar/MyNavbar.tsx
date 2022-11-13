@@ -71,7 +71,7 @@ function MyNavbar() {
                   <Nav.Link as={Link} to="/">
                     Purchase offers
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/">
+                  <Nav.Link as={Link} to="/sellOffers">
                     Sell offers
                   </Nav.Link>
 

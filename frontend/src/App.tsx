@@ -15,6 +15,7 @@ import Layout from './pages/Layout/Layout';
 import LoginComponent from './pages/Login/Login';
 import NotFound from './pages/NotFound/NotFound';
 import Register from './pages/Register/Register';
+import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 
 function App() {
@@ -33,9 +34,14 @@ function App() {
             path="/appUserPurchaseOffers"
             element={<AppUserPurchaseOffers />}
           />
+          <Route
+            path="/appUserPurchaseOffers/:id"
+            element={<ViewOfferDetails />}
+          />
           <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
           <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
-          <Route path="/sellOffer/:id" element={<ViewOfferDetails />} />
+          <Route path="/sellOffers" element={<SellOffers />} />
+          <Route path="/sellOffers/:id" element={<ViewOfferDetails />} />
         </Route>
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>

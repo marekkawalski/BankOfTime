@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { useServices } from '../context/ServicesContext';
-import { OfferType } from '../enums/OfferType';
 import { IOffer } from '../models/Offer';
 import { UseGetAppUserOffersProps } from './types';
 
-const useGetAppUserOffers = ({
-  setMyToast,
-  offerType,
-}: UseGetAppUserOffersProps) => {
+const useGetOffers = ({ setMyToast, offerType }: UseGetAppUserOffersProps) => {
   const services = useServices();
   const [offers, setOffers] = useState<IOffer[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -18,14 +14,8 @@ const useGetAppUserOffers = ({
       try {
         setLoading(true);
         if (services === undefined) return;
-        const result =
-          offerType === OfferType.PURCHASE_OFFER
-            ? await services.offerService.getAppUserPurchaseOffers(
-                services.appUserService.getAppUser().id
-              )
-            : await services.offerService.getAppUserSellOffers(
-                services.appUserService.getAppUser().id
-              );
+        const result = await services.offerService.getAllOffers(offerType);
+
         setLoading(false);
         if (result.status === 200) {
           setOffers(result?.data ?? []);
@@ -37,6 +27,7 @@ const useGetAppUserOffers = ({
             show: true,
           });
         }
+        console.log(result);
       } catch (error) {
         setMyToast({
           background: "danger",
@@ -51,4 +42,4 @@ const useGetAppUserOffers = ({
   return { loading: loading, offers: offers };
 };
 
-export default useGetAppUserOffers;
+export default useGetOffers;

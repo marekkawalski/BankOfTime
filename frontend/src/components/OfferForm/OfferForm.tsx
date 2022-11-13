@@ -32,7 +32,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
             <Form noValidate onSubmit={handleSubmit}>
               <Col lg={true}>
                 <Form.Group
-                  as={Col} 
+                  as={Col}
                   md="4"
                   className="mb-3"
                   controlId="validateTitle"
@@ -185,7 +185,11 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                   className="mb-3"
                   controlId="validateOfferType"
                 >
-                  <Form.Select aria-label="Offer type select" name="offerType">
+                  <Form.Select
+                    aria-label="Offer type select"
+                    name="offerType"
+                    defaultValue={offer?.offerType ?? OfferType.SELL_OFFER}
+                  >
                     <option value={OfferType.SELL_OFFER}>Sell offer</option>
                     <option value={OfferType.PURCHASE_OFFER}>
                       Purchase offer

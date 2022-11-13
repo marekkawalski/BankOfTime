@@ -2,11 +2,24 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { API_URL } from '../config/config';
 import { AUTHENTICATION_TOKEN } from '../constants/constants';
+import { OfferType } from '../enums/OfferType';
 import { ICreateOffer, IOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
+  async getAllOffers(offerType: OfferType): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/offers/type/${offerType}`, {
+        headers: {
+          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
+        },
+      });
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
   async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/offers/${offerId}`, {
@@ -18,7 +31,7 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async createOffer(offer: ICreateOffer) {
+  async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
     try {
       const appUserId = AppUserService.getAppUser().id;
       return await axios.post(`${API_URL}/offers/${appUserId}`, offer, {
@@ -30,7 +43,9 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async getAppUserSellOffers(appUserId: number) {
+  async getAppUserSellOffers(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/clients/${appUserId}/sellOffers`, {
         headers: {
@@ -41,7 +56,9 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async getAppUserPurchaseOffers(appUserId: number) {
+  async getAppUserPurchaseOffers(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/clients/${appUserId}/purchaseOffers`, {
         headers: {
@@ -53,7 +70,10 @@ class OfferService implements IOfferService {
     }
   }
 
-  async getAppUserSellOfferById(appUserId: number, sellOfferId: number) {
+  async getAppUserSellOfferById(
+    appUserId: number,
+    sellOfferId: number
+  ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
         `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`,
@@ -71,7 +91,7 @@ class OfferService implements IOfferService {
   async getAppUserPurchaseOfferById(
     appUserId: number,
     purchaseOfferId: number
-  ) {
+  ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
         `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`,
@@ -86,7 +106,7 @@ class OfferService implements IOfferService {
     }
   }
 
-  async updateOffer(offer: IOffer) {
+  async updateOffer(offer: IOffer): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.put(`${API_URL}/offers`, offer, {
         headers: {

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 
+import { OfferType } from '../enums/OfferType';
 import { IAppUser, IAppUserToRegister } from '../models/AppUser';
 import { ICreateOffer, IOffer } from '../models/Offer';
 
@@ -36,4 +37,5 @@ export interface IOfferService {
     purchaseOfferId: number
   ): Promise<AxiosResponse>;
   updateOffer(offer: IOffer): Promise<AxiosResponse>;
+  getAllOffers(offerType: OfferType): Promise<AxiosResponse>;
 }

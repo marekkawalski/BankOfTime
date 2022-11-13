@@ -2,6 +2,7 @@ package com.bankoftime.controllers;
 
 import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.services.AppUserService;
@@ -24,6 +25,14 @@ public class OfferController {
     public OfferController(OfferService offerService, AppUserService appUserService) {
         this.offerService = offerService;
         this.appUserService = appUserService;
+    }
+
+    @GetMapping(path = "/offers/type/{offerType}")
+    public ResponseEntity<List<Offer>> getSellOffers(@PathVariable OfferType offerType) {
+        final List<Offer> selOffers = offerService.getAllOffersOfType(offerType);
+        if (selOffers.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(selOffers);
     }
 
     @GetMapping(path = "/offers/{offerId:\\d*}")
@@ -49,7 +58,7 @@ public class OfferController {
 
     @GetMapping(value = "/clients/{clientId}/sellOffers")
     public ResponseEntity<List<Offer>> getClientSellOffers(@PathVariable("clientId") Long clientId) {
-        List<Offer> selOffers = offerService.getClientSellOffers(clientId);
+        final List<Offer> selOffers = offerService.getClientSellOffers(clientId);
         if (selOffers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(selOffers);
