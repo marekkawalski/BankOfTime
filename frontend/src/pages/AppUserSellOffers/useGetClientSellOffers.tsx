@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useServices } from '../../context/ServicesContext';
+import { MyToast } from '../../models/MyToast';
 import { IOffer } from '../../models/Offer';
 
-function useGetClientSellOffers() {
+function useGetClientSellOffers(
+  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
+) {
   const services = useServices();
   const [sellOffers, setSellOffers] = useState<IOffer[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,14 +20,28 @@ function useGetClientSellOffers() {
           services.appUserService.getAppUser().id
         );
         setLoading(false);
+        if (result.status === 200) {
+          setSellOffers(result?.data ?? []);
+        } else if (result.status === 204) {
+          setMyToast({
+            background: "warning",
+            message: "No offers",
+            title: "Info",
+            show: true,
+          });
+        }
         console.log(result);
-        setSellOffers(result?.data ?? []);
       } catch (error) {
-        console.log(error);
+        setMyToast({
+          background: "danger",
+          message: error as string,
+          title: "Error",
+          show: true,
+        });
       }
     };
     handleGetClientSellOffers();
-  }, [services]);
+  }, [services, setMyToast]);
   return { loading: loading, sellOffers: sellOffers };
 }
 

@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import useGetMyToast from '../../components/Toast/useGetMyToast';
 import { useServices } from '../../context/ServicesContext';
+import { MyToast } from '../../models/MyToast';
 import { IOffer } from '../../models/Offer';
 
-function useGetOffer() {
+function useGetOffer(
+  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
+) {
   const [offer, setOffer] = useState<IOffer>();
-  const { myToast, setMyToast } = useGetMyToast();
   const params = useParams();
   const services = useServices();
 

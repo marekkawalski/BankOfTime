@@ -11,7 +11,6 @@ function EditOffer({ offer }: EditOfferProps) {
   const [myToast, setMyToast] = useState<MyToast>({
     show: false,
   });
-  console.log(offer);
   return (
     <div>
       <MyNavbar />

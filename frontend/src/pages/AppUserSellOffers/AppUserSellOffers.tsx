@@ -4,16 +4,13 @@ import MySpinner from '../../components/MySpinner/MySpinner';
 import MyNavbar from '../../components/Navbar/MyNavbar';
 import OfferContainer from '../../components/OfferContainer/OfferContainer';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
+import useGetMyToast from '../../components/Toast/useGetMyToast';
 import { OfferContainerFor } from '../../enums/OfferContainerFor';
-import { MyToast } from '../../models/MyToast';
 import useGetClientSellOffers from './useGetClientSellOffers';
 
 function AppUserSellOffers() {
-  const [myToast, setMyToast] = useState<MyToast>({
-    show: false,
-  });
-  const { loading, sellOffers } = useGetClientSellOffers();
-  console.log(loading);
+  const { setMyToast, myToast } = useGetMyToast();
+  const { loading, sellOffers } = useGetClientSellOffers(setMyToast);
   return (
     <section className="offers">
       <MyNavbar />

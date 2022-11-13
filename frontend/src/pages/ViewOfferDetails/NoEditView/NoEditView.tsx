@@ -6,6 +6,9 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 
+import MyToastComponent from '../../../components/Toast/MyToastComponent';
+import useGetMyToast from '../../../components/Toast/useGetMyToast';
+import { useServices } from '../../../context/ServicesContext';
 import { OfferStatus } from '../../../enums/OfferState';
 import { OfferType } from '../../../enums/OfferType';
 import { IAppUser } from '../../../models/AppUser';
@@ -27,15 +30,19 @@ const images = [
   },
 ];
 function NoEditView() {
-  const { offer } = useGetOffer();
+  const { myToast, setMyToast } = useGetMyToast();
+  const { offer } = useGetOffer(setMyToast);
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
+  const services = useServices();
 
   useEffect(() => {
-    setAppUser(offer?.buyer ?? offer?.seller);
-  }, [setAppUser, offer]);
+    if (!services) return;
+    setAppUser(services.appUserService.getAppUser());
+  }, [setAppUser, offer, services]);
 
   return (
     <section id="offer-details-section">
+      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <div className="offer-container">
         <div className="offer-container-child">
           <ImageGallery items={images} />

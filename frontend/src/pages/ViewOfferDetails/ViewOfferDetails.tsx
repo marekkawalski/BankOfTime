@@ -12,8 +12,8 @@ import useGetOffer from './useGetOffer';
 import { canEdit } from './utils/canEdit';
 
 function ViewOfferDetails() {
-  const { offer } = useGetOffer();
   const { myToast, setMyToast } = useGetMyToast();
+  const { offer } = useGetOffer(setMyToast);
   const [appUser, setAppUser] = useState<IAppUser>();
   const services = useServices();
   useEffect(() => {

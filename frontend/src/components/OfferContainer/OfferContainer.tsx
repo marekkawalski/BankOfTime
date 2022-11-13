@@ -59,6 +59,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
         </div>
         <div className="content-container">
           <div>
+            {offers.length === 0 && <div>No offers</div>}
             <Row xs={1} md={2} className="g-4 mb-3">
               {offers.map((offer) => {
                 return (

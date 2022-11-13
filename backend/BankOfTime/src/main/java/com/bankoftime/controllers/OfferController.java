@@ -47,19 +47,11 @@ public class OfferController {
                         .body(null));
     }
 
-//    @GetMapping(value = "/offers/{offerType}")
-//    public ResponseEntity<List<Offer>> getAllOffers(@PathVariable("offerType") OfferType offerType) {
-//        List<Offer> offers = offerService.getAllOffersOfType(offerType);
-//        if (offers.isEmpty())
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        return ResponseEntity.status(HttpStatus.OK).body(offers);
-//    }
-
     @GetMapping(value = "/clients/{clientId}/sellOffers")
     public ResponseEntity<List<Offer>> getClientSellOffers(@PathVariable("clientId") Long clientId) {
         List<Offer> selOffers = offerService.getClientSellOffers(clientId);
         if (selOffers.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(selOffers);
     }
 
@@ -67,7 +59,7 @@ public class OfferController {
     public ResponseEntity<List<Offer>> getClientPurchaseOffers(@PathVariable("clientId") Long clientId) {
         List<Offer> purchaseOffers = offerService.getClientPurchaseOffers(clientId);
         if (purchaseOffers.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
     }
 
