@@ -12,12 +12,7 @@ function EditView({ offer }: EditViewProps) {
   return (
     <section id="edit-offer-section">
       <Tabs defaultActiveKey="edit" id="fill-tab-example" className="mb-3" fill>
-        <Tab
-          eventKey="edit"
-          title="Edit"
-          mountOnEnter={true}
-          unmountOnExit={true}
-        >
+        <Tab eventKey="edit" title="Edit">
           <EditOffer offer={offer} />
         </Tab>
         <Tab
@@ -26,7 +21,7 @@ function EditView({ offer }: EditViewProps) {
           mountOnEnter={true}
           unmountOnExit={true}
         >
-          <NoEditView offer={offer} />
+          <NoEditView />
         </Tab>
       </Tabs>
     </section>

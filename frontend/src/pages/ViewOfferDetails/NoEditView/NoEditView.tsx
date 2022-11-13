@@ -10,7 +10,7 @@ import { OfferStatus } from '../../../enums/OfferState';
 import { OfferType } from '../../../enums/OfferType';
 import { IAppUser } from '../../../models/AppUser';
 import { CallTo } from '../../../utils/CallTo';
-import { NoEditOfferProps } from './types';
+import useGetOffer from '../useGetOffer';
 
 const images = [
   {
@@ -26,7 +26,9 @@ const images = [
     thumbnail: "https://picsum.photos/id/1019/250/150/",
   },
 ];
-function NoEditView({ offer }: NoEditOfferProps) {
+function NoEditView() {
+  const { offer } = useGetOffer();
+
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   console.log("offer" + offer);
   useEffect(() => {

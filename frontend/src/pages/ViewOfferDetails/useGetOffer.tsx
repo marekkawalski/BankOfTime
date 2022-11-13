@@ -8,11 +8,6 @@ import useGetMyToast from './useGetMyToast';
 function useGetOffer() {
   const [offer, setOffer] = useState<IOffer>();
   const { myToast, setMyToast } = useGetMyToast();
-  //   const [appUser, setAppUser] = useState<IAppUser>();
-  //   const [myToast, setMyToast] = useState<MyToast>({
-  //     show: false,
-  //   });
-
   const params = useParams();
   const services = useServices();
 
@@ -43,7 +38,7 @@ function useGetOffer() {
     };
     handleGetOffer();
     if (!services) return;
-  }, [offer]);
+  }, []);
   return { offer };
 }
 

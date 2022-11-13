@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import MySpinner from '../../components/MySpinner/MySpinner';
 import MyNavbar from '../../components/Navbar/MyNavbar';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
+import { useServices } from '../../context/ServicesContext';
+import { IAppUser } from '../../models/AppUser';
 import EditView from './EditView/EditView';
 import NoEditView from './NoEditView/NoEditView';
-import useGetAppUser from './useGetAppUser';
 import useGetMyToast from './useGetMyToast';
 import useGetOffer from './useGetOffer';
 import { canEdit } from './utils/canEdit';
@@ -12,20 +14,25 @@ import { canEdit } from './utils/canEdit';
 function ViewOfferDetails() {
   const { offer } = useGetOffer();
   const { myToast, setMyToast } = useGetMyToast();
-  const { appUser, setAppUser } = useGetAppUser();
-
+  const [appUser, setAppUser] = useState<IAppUser>();
+  const services = useServices();
   useEffect(() => {
-    setAppUser(offer?.buyer ?? offer?.seller);
-  }, [setAppUser, offer]);
+    if (!services) return;
+    setAppUser(services.appUserService.getAppUser());
+  }, [setAppUser, offer, services]);
   return (
     <section>
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
-      {canEdit(offer, appUser) ? (
-        <EditView offer={offer} />
-      ) : (
-        <NoEditView offer={offer} />
-      )}
+      <MySpinner show={!offer || !appUser}>
+        {offer &&
+          appUser &&
+          (canEdit(offer, appUser) ? (
+            <EditView offer={offer} />
+          ) : (
+            <NoEditView />
+          ))}
+      </MySpinner>
     </section>
   );
 }
