@@ -1,9 +1,8 @@
-import './NoEditOffer.scss';
+import './NoEditView.scss';
 
 import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 
@@ -27,9 +26,9 @@ const images = [
     thumbnail: "https://picsum.photos/id/1019/250/150/",
   },
 ];
-function NoEditOffer({ offer }: NoEditOfferProps) {
+function NoEditView({ offer }: NoEditOfferProps) {
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
-
+  console.log("offer" + offer);
   useEffect(() => {
     setAppUser(offer?.buyer ?? offer?.seller);
   }, [setAppUser, offer]);
@@ -137,4 +136,4 @@ function NoEditOffer({ offer }: NoEditOfferProps) {
   );
 }
 
-export default NoEditOffer;
+export default NoEditView;

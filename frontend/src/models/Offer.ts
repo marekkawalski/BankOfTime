@@ -9,6 +9,9 @@ export interface ICreateOffer {
   longDescription?: string;
   location?: string;
 }
+export interface IUpdateOffer extends ICreateOffer {
+  readonly id: number;
+}
 export interface IOffer extends ICreateOffer {
   readonly id: number;
   state?: string;

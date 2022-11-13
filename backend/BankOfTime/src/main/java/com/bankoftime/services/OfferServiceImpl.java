@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
+import com.bankoftime.dto.OfferDTO;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
@@ -45,6 +46,21 @@ public class OfferServiceImpl implements OfferService {
             offer.setLocation(createOfferDTO.location());
         if (createOfferDTO.longDescription() != null)
             offer.setLongDescription(createOfferDTO.longDescription());
+        return offer;
+    }
+
+    @Override
+    public Offer mapOfferDTOToOffer(final OfferDTO offerDTO) {
+        Offer offer = new Offer();
+        offer.setId(offerDTO.id());
+        offer.setOfferType(offerDTO.offerType());
+        offer.setPrice(offerDTO.price());
+        offer.setShortDescription(offerDTO.shortDescription());
+        offer.setTitle(offerDTO.title());
+        if (offerDTO.location() != null)
+            offer.setLocation(offerDTO.location());
+        if (offerDTO.longDescription() != null)
+            offer.setLongDescription(offerDTO.longDescription());
         return offer;
     }
 

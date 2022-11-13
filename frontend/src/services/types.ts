@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import { IAppUser, IAppUserToRegister } from '../models/AppUser';
-import { ICreateOffer } from '../models/Offer';
+import { ICreateOffer, IOffer } from '../models/Offer';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;
@@ -35,4 +35,5 @@ export interface IOfferService {
     appUserId: number,
     purchaseOfferId: number
   ): Promise<AxiosResponse>;
+  updateOffer(offer: IOffer): Promise<AxiosResponse>;
 }

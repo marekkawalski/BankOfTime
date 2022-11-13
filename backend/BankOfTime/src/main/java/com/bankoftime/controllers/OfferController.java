@@ -1,6 +1,7 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.dto.CreateOfferDTO;
+import com.bankoftime.dto.OfferDTO;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.services.AppUserService;
@@ -96,15 +97,11 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(oOffer.get());
     }
 
-    @PutMapping(value = "clients/offers/{offerId}")
-    public ResponseEntity<Offer> updateOffer(
-            @PathVariable("offerId") Long offerId) {
-        return offerService.findOffer(offerId).map(
-                offer ->
-                        offerService.modifyOffer(offer).map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
-                                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null))
-        ).orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
-
+    @PutMapping(value = "/offers")
+    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody OfferDTO offerDTO) {
+        return offerService.modifyOffer(offerService.mapOfferDTOToOffer(offerDTO))
+                .map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
+                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
     }
 
     @DeleteMapping(value = "/offers/{id}")

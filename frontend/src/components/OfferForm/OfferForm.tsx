@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Spinner } from 'react-bootstrap';
 
 import { OfferType } from '../../enums/OfferType';
-import { ICreateOffer } from '../../models/Offer';
+import { ICreateOffer, IUpdateOffer } from '../../models/Offer';
 import { offerValidation } from './offerValidation';
 import { OfferFormProps } from './types';
 
@@ -15,8 +15,11 @@ function OfferForm({ offer, submit }: OfferFormProps) {
         {offer ? <h2>Edit offer</h2> : <h2>Create offer</h2>}
         <Formik
           validationSchema={offerValidation}
-          onSubmit={(offer: ICreateOffer) => submit.handleSubmit(offer)}
+          onSubmit={(fOffer: ICreateOffer | IUpdateOffer) =>
+            submit.handleSubmit(fOffer)
+          }
           initialValues={{
+            id: offer?.id ?? undefined,
             title: offer?.title ?? "",
             shortDescription: offer?.shortDescription ?? "",
             price: offer?.price ?? 0,
@@ -29,7 +32,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
             <Form noValidate onSubmit={handleSubmit}>
               <Col lg={true}>
                 <Form.Group
-                  as={Col}
+                  as={Col} 
                   md="4"
                   className="mb-3"
                   controlId="validateTitle"

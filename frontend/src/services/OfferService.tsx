@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { API_URL } from '../config/config';
 import { AUTHENTICATION_TOKEN } from '../constants/constants';
-import { ICreateOffer } from '../models/Offer';
+import { ICreateOffer, IOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
@@ -86,9 +86,9 @@ class OfferService implements IOfferService {
     }
   }
 
-  async updateOffer(offerId: string) {
+  async updateOffer(offer: IOffer) {
     try {
-      return await axios.get(`${API_URL}/offers/${offerId}`, {
+      return await axios.put(`${API_URL}/offers`, offer, {
         headers: {
           authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
         },

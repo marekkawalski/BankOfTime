@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import { useServices } from '../../context/ServicesContext';
-import { MyToast } from '../../models/MyToast';
-import { ICreateOffer } from '../../models/Offer';
+import { useServices } from '../../../../context/ServicesContext';
+import { MyToast } from '../../../../models/MyToast';
+import { IUpdateOffer } from '../../../../models/Offer';
 
-function useCreateOffer(
+function useEditOffer(
   setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
 ) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -13,14 +13,14 @@ function useCreateOffer(
     try {
       setLoading(true);
       if (services === undefined) return;
-      const resp = await services.offerService.createOffer(
-        offer as ICreateOffer
+      const resp = await services.offerService.updateOffer(
+        offer as IUpdateOffer
       );
       setLoading(false);
-      if (resp.status === 201) {
+      if (resp.status === 200) {
         setMyToast({
           background: "success",
-          message: "Offer has been created",
+          message: "Offer has been updated",
           title: "Success",
           show: true,
         });
@@ -45,4 +45,4 @@ function useCreateOffer(
   return { loading: loading, handleSubmit: handleSubmit };
 }
 
-export default useCreateOffer;
+export default useEditOffer;
