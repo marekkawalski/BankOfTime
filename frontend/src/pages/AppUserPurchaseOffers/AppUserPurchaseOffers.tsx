@@ -7,11 +7,11 @@ import { OfferContainerFor } from '../../enums/OfferContainerFor';
 import { OfferType } from '../../enums/OfferType';
 import useGetAppUserOffers from '../../hooks/useGetAppUserOffers';
 
-function AppUserSellOffers() {
+function AppUserPurchaseOffers() {
   const { setMyToast, myToast } = useGetMyToast();
   const { loading, offers } = useGetAppUserOffers({
     setMyToast: setMyToast,
-    offerType: OfferType.SELL_OFFER,
+    offerType: OfferType.PURCHASE_OFFER,
   });
   return (
     <section className="offers">
@@ -19,7 +19,7 @@ function AppUserSellOffers() {
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <MySpinner show={loading}>
         <OfferContainer
-          title="SellOffers"
+          title="Purchase offers"
           offers={offers}
           offerContainerFor={OfferContainerFor.OWNER}
         />
@@ -28,4 +28,4 @@ function AppUserSellOffers() {
   );
 }
 
-export default AppUserSellOffers;
+export default AppUserPurchaseOffers;

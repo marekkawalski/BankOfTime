@@ -80,7 +80,7 @@ function MyNavbar() {
                     id={`offcanvasNavbarDropdown-expand-${false}`}
                   >
                     <NavDropdown.Header>My offers</NavDropdown.Header>
-                    <NavDropdown.Item as={Link} to="/">
+                    <NavDropdown.Item as={Link} to="/appUserPurchaseOffers">
                       Purchase offers
                     </NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/appUserSellOffers">

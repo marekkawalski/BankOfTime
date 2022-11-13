@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { Role } from './enums/Role';
 import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
+import AppUserPurchaseOffers from './pages/AppUserPurchaseOffers/AppUserPurchaseOffers';
 import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
 import Home from './pages/Home/Home';
@@ -28,6 +29,10 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
+          <Route
+            path="/appUserPurchaseOffers"
+            element={<AppUserPurchaseOffers />}
+          />
           <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
           <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/sellOffer/:id" element={<ViewOfferDetails />} />
