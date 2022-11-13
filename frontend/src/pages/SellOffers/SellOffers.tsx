@@ -3,7 +3,6 @@ import MyNavbar from '../../components/Navbar/MyNavbar';
 import OfferContainer from '../../components/OfferContainer/OfferContainer';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
 import useGetMyToast from '../../components/Toast/useGetMyToast';
-import { OfferContainerFor } from '../../enums/OfferContainerFor';
 import { OfferType } from '../../enums/OfferType';
 import useGetOffers from '../../hooks/useGetOffers';
 
@@ -18,11 +17,7 @@ function SellOffers() {
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <MySpinner show={loading}>
-        <OfferContainer
-          title="SellOffers"
-          offers={offers}
-          offerContainerFor={OfferContainerFor.CLIENT}
-        />
+        <OfferContainer title="SellOffers" offers={offers} />
       </MySpinner>
     </section>
   );

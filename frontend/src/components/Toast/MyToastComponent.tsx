@@ -3,7 +3,7 @@ import './MyToastComponent.scss';
 import React from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
 
-import { getCurrentTime } from '../../utils/utils';
+import { getCurrentTime } from '../../utils/getCurrentTime';
 import { MyToastComponentProps } from './types';
 
 function MyToastComponent({ myToast, setMyToast }: MyToastComponentProps) {

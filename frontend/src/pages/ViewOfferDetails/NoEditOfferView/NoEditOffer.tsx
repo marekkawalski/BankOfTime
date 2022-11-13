@@ -1,19 +1,17 @@
-import './NoEditView.scss';
+import './NoEditOffer.scss';
 
 import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 
 import { CallTo } from '../../../components/CallTo/CallTo';
-import MyToastComponent from '../../../components/Toast/MyToastComponent';
-import useGetMyToast from '../../../components/Toast/useGetMyToast';
-import { useServices } from '../../../context/ServicesContext';
 import { OfferStatus } from '../../../enums/OfferState';
 import { OfferType } from '../../../enums/OfferType';
 import { IAppUser } from '../../../models/AppUser';
-import useGetOffer from '../useGetOffer';
+import { NoEditOfferProps } from './types';
 
 const images = [
   {
@@ -29,20 +27,15 @@ const images = [
     thumbnail: "https://picsum.photos/id/1019/250/150/",
   },
 ];
-function NoEditView() {
-  const { myToast, setMyToast } = useGetMyToast();
-  const { offer } = useGetOffer(setMyToast);
+function NoEditOffer({ offer }: NoEditOfferProps) {
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
-  const services = useServices();
 
   useEffect(() => {
-    if (!services) return;
-    setAppUser(services.appUserService.getAppUser());
-  }, [setAppUser, offer, services]);
+    setAppUser(offer?.buyer ?? offer?.seller);
+  }, [setAppUser, offer]);
 
   return (
     <section id="offer-details-section">
-      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <div className="offer-container">
         <div className="offer-container-child">
           <ImageGallery items={images} />
@@ -144,4 +137,4 @@ function NoEditView() {
   );
 }
 
-export default NoEditView;
+export default NoEditOffer;

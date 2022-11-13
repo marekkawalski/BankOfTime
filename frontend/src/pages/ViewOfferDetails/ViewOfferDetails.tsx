@@ -6,10 +6,10 @@ import MyToastComponent from '../../components/Toast/MyToastComponent';
 import useGetMyToast from '../../components/Toast/useGetMyToast';
 import { useServices } from '../../context/ServicesContext';
 import { IAppUser } from '../../models/AppUser';
+import { canEdit } from '../../utils/canEdit';
 import EditView from './EditView/EditView';
 import NoEditView from './NoEditView/NoEditView';
 import useGetOffer from './useGetOffer';
-import { canEdit } from './utils/canEdit';
 
 function ViewOfferDetails() {
   const { myToast, setMyToast } = useGetMyToast();
