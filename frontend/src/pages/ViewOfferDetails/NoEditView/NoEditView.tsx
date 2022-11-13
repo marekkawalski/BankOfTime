@@ -28,9 +28,8 @@ const images = [
 ];
 function NoEditView() {
   const { offer } = useGetOffer();
-
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
-  console.log("offer" + offer);
+
   useEffect(() => {
     setAppUser(offer?.buyer ?? offer?.seller);
   }, [setAppUser, offer]);

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import useGetMyToast from '../../components/Toast/useGetMyToast';
 import { useServices } from '../../context/ServicesContext';
 import { IOffer } from '../../models/Offer';
-import useGetMyToast from './useGetMyToast';
 
 function useGetOffer() {
   const [offer, setOffer] = useState<IOffer>();

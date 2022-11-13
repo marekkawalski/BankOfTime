@@ -100,11 +100,8 @@ public class OfferServiceImpl implements OfferService {
         offer.setOfferType(offerToSave.getOfferType());
         offer.setPrice(offerToSave.getPrice());
         offer.setShortDescription(offerToSave.getShortDescription());
-        offer.setBuyer(offer.getBuyer());
-        offer.setSeller(offer.getSeller());
-        offer.setLongDescription(offer.getLongDescription());
-        offer.setLocation(offer.getLocation());
-        offer.setState(offer.getState());
+        offer.setLongDescription(offerToSave.getLongDescription());
+        offer.setLocation(offerToSave.getLocation());
 
         offer = offerRepository.save(offer);
         return Optional.of(offer);

@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import MySpinner from '../../components/MySpinner/MySpinner';
 import MyNavbar from '../../components/Navbar/MyNavbar';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
+import useGetMyToast from '../../components/Toast/useGetMyToast';
 import { useServices } from '../../context/ServicesContext';
 import { IAppUser } from '../../models/AppUser';
 import EditView from './EditView/EditView';
 import NoEditView from './NoEditView/NoEditView';
-import useGetMyToast from './useGetMyToast';
 import useGetOffer from './useGetOffer';
 import { canEdit } from './utils/canEdit';
 
