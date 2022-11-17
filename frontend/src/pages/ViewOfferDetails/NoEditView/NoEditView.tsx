@@ -40,6 +40,32 @@ function NoEditView() {
     setAppUser(services.appUserService.getAppUser());
   }, [setAppUser, offer, services]);
 
+  const makeTransaction = async () => {
+    let result: any;
+    if (!(services && appUser && offer)) return;
+    try {
+      result = await services.timeTransactionService.makeTransaction(
+        offer.id,
+        offer?.seller?.id ?? appUser.id,
+        offer?.buyer?.id ?? appUser.id
+      );
+      console.log(result);
+      setMyToast({
+        background: "success",
+        message: "Transaction succeeded!",
+        title: "Success",
+        show: true,
+      });
+    } catch (error) {
+      console.log(error);
+      setMyToast({
+        background: "danger",
+        message: "error",
+        title: "Error",
+        show: true,
+      });
+    }
+  };
   return (
     <section id="offer-details-section">
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
@@ -82,11 +108,17 @@ function NoEditView() {
                 </div>
                 <div className="d-flex justify-content-end">
                   {offer?.offerType === OfferType.SELL_OFFER ? (
-                    <Button disabled={offer?.seller?.id === appUser?.id}>
+                    <Button
+                      disabled={offer?.seller?.id === appUser?.id}
+                      onClick={() => makeTransaction()}
+                    >
                       Buy
                     </Button>
                   ) : (
-                    <Button disabled={offer?.buyer?.id === appUser?.id}>
+                    <Button
+                      disabled={offer?.buyer?.id === appUser?.id}
+                      onClick={() => makeTransaction()}
+                    >
                       Sell
                     </Button>
                   )}
