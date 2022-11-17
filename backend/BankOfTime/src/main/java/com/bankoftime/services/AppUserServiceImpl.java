@@ -115,6 +115,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                     appUser.setPurchaseTransactions(appUserToSave.getPurchaseTransactions());
                     appUser.setImage(appUserToSave.getImage());
                     appUser.setLocked(appUser.isLocked());
+                    appUser = appUserRepository.save(appUser);
                     return Optional.of(appUser);
                 }).orElse(Optional.empty());
     }
