@@ -33,3 +33,4 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/secrets.properties
+/src/test/httpTests/http-client.private.env.json

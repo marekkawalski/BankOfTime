@@ -3,8 +3,7 @@ package com.bankoftime.enums;
 public enum OfferStatus {
     ACTIVE,
 
-    REALIZED,
+    UNAVAILABLE,
 
     DELETED,
-    LOCKED
 }

@@ -4,6 +4,7 @@ import com.bankoftime.dto.AppUserDTO;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
+import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.AppUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,4 +82,40 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                 appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType());
     }
 
+    @Override
+    public Optional<Double> calculateClientAccountBalance(Long clientId) {
+        return find(clientId)
+                .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum()
+                        - appUser.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
+    }
+
+    @Override
+    public double calculateClientAccountBalance(AppUser client) {
+        return (client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum()
+                - client.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
+    }
+
+    @Override
+    public Optional<AppUser> modifyAppUser(final AppUser appUserToSave) {
+        return appUserRepository.findById(appUserToSave.getId())
+                .map(appUser -> {
+                    appUser.setUserType(appUserToSave.getUserType());
+                    appUser.setCountry(appUserToSave.getCountry());
+                    appUser.setPhoneNumber(appUserToSave.getPhoneNumber());
+                    appUser.setLastName(appUserToSave.getLastName());
+                    appUser.setPassword(appUserToSave.getPassword());
+                    appUser.setFirstName(appUserToSave.getFirstName());
+                    appUser.setCity(appUserToSave.getCity());
+                    appUser.setEmail(appUserToSave.getEmail());
+                    appUser.setEnabled(appUserToSave.isEnabled());
+                    appUser.setConfirmationTokens(appUserToSave.getConfirmationTokens());
+                    appUser.setSellTransactions(appUserToSave.getSellTransactions());
+                    appUser.setPurchaseOffers(appUserToSave.getPurchaseOffers());
+                    appUser.setSellOffers(appUserToSave.getSellOffers());
+                    appUser.setPurchaseTransactions(appUserToSave.getPurchaseTransactions());
+                    appUser.setImage(appUserToSave.getImage());
+                    appUser.setLocked(appUser.isLocked());
+                    return Optional.of(appUser);
+                }).orElse(Optional.empty());
+    }
 }
