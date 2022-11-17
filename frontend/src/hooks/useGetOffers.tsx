@@ -15,7 +15,7 @@ const useGetOffers = ({ setMyToast, offerType }: UseGetAppUserOffersProps) => {
         setLoading(true);
         if (services === undefined) return;
         const result = await services.offerService.getAllOffers(offerType);
-
+        console.log(result);
         setLoading(false);
         if (result.status === 200) {
           setOffers(result?.data ?? []);

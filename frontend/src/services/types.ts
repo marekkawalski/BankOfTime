@@ -14,11 +14,10 @@ export interface IAuthenticationService {
     password: string
   ): Promise<AxiosResponse>;
   createBasicAuthToken(email: string, password: string): string;
-  registerSuccessfulLogin(email: string, password: string): void;
+  registerSuccessfulLogin(): void;
   isAppUserLoggedIn(): boolean;
   setupAxiosInterceptors(token: string | null): void;
   logout(): void;
-  logoutAndNavigateToLogin(): void;
 }
 export interface IRegistrationService {
   register(user: IAppUserToRegister): Promise<AxiosResponse>;
@@ -38,4 +37,12 @@ export interface IOfferService {
   ): Promise<AxiosResponse>;
   updateOffer(offer: IOffer): Promise<AxiosResponse>;
   getAllOffers(offerType: OfferType): Promise<AxiosResponse>;
+}
+
+export interface ITimeTransactionService {
+  makeTransaction(
+    offerId: number,
+    sellerId: number,
+    buyerId: number
+  ): Promise<AxiosResponse>;
 }
