@@ -1,67 +1,61 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { API_URL } from '../config/config';
-import { AUTHENTICATION_TOKEN } from '../constants/constants';
-import { ICreateOffer } from '../models/Offer';
+import { OfferType } from '../enums/OfferType';
+import { ICreateOffer, IOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
-  async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
+  async getAllOffers(offerType: OfferType): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.get(`${API_URL}/offers/${offerId}`, {
-        headers: {
-          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-        },
-      });
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
-  async createOffer(offer: ICreateOffer) {
-    try {
-      const appUserId = AppUserService.getAppUser().id;
-      return await axios.post(`${API_URL}/offers/${appUserId}`, offer, {
-        headers: {
-          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-        },
-      });
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
-  async getAppUserSellOffers(appUserId: number) {
-    try {
-      return await axios.get(`${API_URL}/clients/${appUserId}/sellOffers`, {
-        headers: {
-          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-        },
-      });
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
-  async getAppUserPurchaseOffers(appUserId: number) {
-    try {
-      return await axios.get(`${API_URL}/clients/${appUserId}/purchaseOffers`, {
-        headers: {
-          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-        },
-      });
+      return await axios.get(`${API_URL}/offers/type/${offerType}`);
     } catch (error: any) {
       throw new AxiosError(error);
     }
   }
 
-  async getAppUserSellOfferById(appUserId: number, sellOfferId: number) {
+  async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/offers/${offerId}`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
+    try {
+      const appUserId = AppUserService.getAppUser().id;
+      return await axios.post(`${API_URL}/offers/${appUserId}`, offer);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async getAppUserSellOffers(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/clients/${appUserId}/sellOffers`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async getAppUserPurchaseOffers(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/clients/${appUserId}/purchaseOffers`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
+  async getAppUserSellOfferById(
+    appUserId: number,
+    sellOfferId: number
+  ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
-        `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`,
-        {
-          headers: {
-            authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-          },
-        }
+        `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`
       );
     } catch (error: any) {
       throw new AxiosError(error);
@@ -71,28 +65,19 @@ class OfferService implements IOfferService {
   async getAppUserPurchaseOfferById(
     appUserId: number,
     purchaseOfferId: number
-  ) {
+  ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
-        `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`,
-        {
-          headers: {
-            authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-          },
-        }
+        `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`
       );
     } catch (error: any) {
       throw new AxiosError(error);
     }
   }
 
-  async updateOffer(offerId: string) {
+  async updateOffer(offer: IOffer): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.get(`${API_URL}/offers/${offerId}`, {
-        headers: {
-          authorization: sessionStorage.getItem(AUTHENTICATION_TOKEN) ?? "",
-        },
-      });
+      return await axios.put(`${API_URL}/offers`, offer);
     } catch (error: any) {
       throw new AxiosError(error);
     }

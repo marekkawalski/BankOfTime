@@ -1,12 +1,12 @@
 package com.bankoftime.services;
 
+import com.bankoftime.dto.RegistrationDTO;
 import com.bankoftime.enums.UserType;
 import com.bankoftime.exceptions.EmailException;
 import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
-import com.bankoftime.requests.RegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final EmailService emailSender;
 
     @Override
-    public String register(RegistrationRequest request) throws EmailException, UserException {
+    public String register(RegistrationDTO request) throws EmailException, UserException {
         if (!emailValidator.test(request.email())) {
             throw new EmailException("Email is invalid!");
         }

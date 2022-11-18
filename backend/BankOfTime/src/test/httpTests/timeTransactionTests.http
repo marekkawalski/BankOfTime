@@ -1,0 +1,4 @@
+### Make time transaction
+POST http://localhost:8080/timeTransactions/offers/4/seller/4/buyer/1
+authorization: Basic {{email}} {{password}}
+Content-Type: application/json

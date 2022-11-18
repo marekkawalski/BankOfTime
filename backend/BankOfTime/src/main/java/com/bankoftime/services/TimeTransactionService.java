@@ -1,5 +1,6 @@
 package com.bankoftime.services;
 
+import com.bankoftime.exceptions.TimeTransactionException;
 import com.bankoftime.models.TimeTransaction;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface TimeTransactionService {
 
     Optional<TimeTransaction> modifyTimeTransaction(TimeTransaction timeTransactionToSave);
 
-    Optional<Double> calculateClientAccountBalance(Long clientId);
+
+    Optional<TimeTransaction> makeTransaction(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException;
 
 }

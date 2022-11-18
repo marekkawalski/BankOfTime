@@ -1,57 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
+import MySpinner from '../../components/MySpinner/MySpinner';
 import MyNavbar from '../../components/Navbar/MyNavbar';
 import MyToastComponent from '../../components/Toast/MyToastComponent';
+import useGetMyToast from '../../components/Toast/useGetMyToast';
 import { useServices } from '../../context/ServicesContext';
 import { IAppUser } from '../../models/AppUser';
-import { MyToast } from '../../models/MyToast';
-import { IOffer } from '../../models/Offer';
-import EditOffer from './EditOffer/EditOffer';
-import NoEditOffer from './NoEditOffer/NoEditOffer';
-import { ViewOfferDetailsProps } from './types';
-import { canEdit } from './utils/canEdit';
+import { canEdit } from '../../utils/canEdit';
+import EditView from './EditView/EditView';
+import NoEditView from './NoEditView/NoEditView';
+import useGetOffer from './useGetOffer';
 
-function ViewOfferDetails({ offerType }: ViewOfferDetailsProps) {
-  const params = useParams();
-  const services = useServices();
-
-  const [myToast, setMyToast] = useState<MyToast>({
-    show: false,
-  });
-  const [offer, setOffer] = useState<IOffer>();
+function ViewOfferDetails() {
+  const { myToast, setMyToast } = useGetMyToast();
+  const { offer } = useGetOffer(setMyToast);
   const [appUser, setAppUser] = useState<IAppUser>();
-
+  const services = useServices();
   useEffect(() => {
-    const handleGetOffer = async () => {
-      let result: any;
-      if (!params.id) {
-        console.log("no id param");
-        return;
-      }
-      if (!services) return;
-      try {
-        result = await services.offerService.getOfferById(parseInt(params.id));
-        setOffer(result?.data ?? {});
-        console.log(result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    handleGetOffer();
     if (!services) return;
     setAppUser(services.appUserService.getAppUser());
-  }, [offerType, params.id, services]);
-
+  }, [setAppUser, offer, services]);
   return (
     <section>
       <MyNavbar />
       <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
-      {canEdit(offer, appUser) ? (
-        <EditOffer offer={offer} />
-      ) : (
-        <NoEditOffer offer={offer} />
-      )}
+      <MySpinner show={!offer || !appUser}>
+        {offer &&
+          appUser &&
+          (canEdit(offer, appUser) ? (
+            <EditView offer={offer} />
+          ) : (
+            <NoEditView />
+          ))}
+      </MySpinner>
     </section>
   );
 }

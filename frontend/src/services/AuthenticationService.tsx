@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { API_URL } from '../config/config';
-import { APP_USER, APP_USER_NAME_SESSION_ATTRIBUTE_NAME, AUTHENTICATION_TOKEN } from '../constants/constants';
+import { APP_USER, AUTHENTICATION_TOKEN } from '../constants/constants';
 import { IAuthenticationService } from './types';
 
 class AuthenticationService implements IAuthenticationService {
@@ -25,32 +25,24 @@ class AuthenticationService implements IAuthenticationService {
     sessionStorage.setItem(AUTHENTICATION_TOKEN, token);
     return token;
   }
-  registerSuccessfulLogin(email: string, password: string) {
-    sessionStorage.setItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME, email);
-    this.setupAxiosInterceptors(this.createBasicAuthToken(email, password));
+  registerSuccessfulLogin() {
+    this.setupAxiosInterceptors(sessionStorage.getItem(AUTHENTICATION_TOKEN));
   }
   isAppUserLoggedIn() {
-    let user = sessionStorage.getItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME);
-    if (user === null) return false;
-    return true;
+    return sessionStorage.getItem(APP_USER) ? true : false;
   }
 
   setupAxiosInterceptors(token: string | null) {
-    axios.interceptors.request.use((config) => {
-      if (this.isAppUserLoggedIn() && token != null) {
-        if (config.headers !== undefined) {
-          config.headers.authorization = token;
-        }
+    axios.interceptors.request.use((request) => {
+      if (this.isAppUserLoggedIn() && token != null && request.headers) {
+        request.headers.authorization = token;
+        console.log("Inside interceptor");
       }
-      return config;
+      return request;
     });
   }
   logout() {
-    sessionStorage.removeItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME);
-    sessionStorage.removeItem(AUTHENTICATION_TOKEN);
-  }
-  logoutAndNavigateToLogin() {
-    sessionStorage.removeItem(APP_USER_NAME_SESSION_ATTRIBUTE_NAME);
+    sessionStorage.clear();
   }
 }
 export default new AuthenticationService();

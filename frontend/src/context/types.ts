@@ -1,4 +1,10 @@
-import { IAppUserService, IAuthenticationService, IOfferService, IRegistrationService } from '../services/types';
+import {
+  IAppUserService,
+  IAuthenticationService,
+  IOfferService,
+  IRegistrationService,
+  ITimeTransactionService,
+} from '../services/types';
 
 export interface ServicesContextProviderProps {
   children: React.ReactNode;
@@ -8,4 +14,5 @@ export interface ContextProps {
   offerService: IOfferService;
   registrationService: IRegistrationService;
   authenticationService: IAuthenticationService;
+  timeTransactionService: ITimeTransactionService;
 }

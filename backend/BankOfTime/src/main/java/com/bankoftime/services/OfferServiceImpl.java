@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
+import com.bankoftime.dto.OfferDTO;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
@@ -49,6 +50,21 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public Offer mapOfferDTOToOffer(final OfferDTO offerDTO) {
+        Offer offer = new Offer();
+        offer.setId(offerDTO.id());
+        offer.setOfferType(offerDTO.offerType());
+        offer.setPrice(offerDTO.price());
+        offer.setShortDescription(offerDTO.shortDescription());
+        offer.setTitle(offerDTO.title());
+        if (offerDTO.location() != null)
+            offer.setLocation(offerDTO.location());
+        if (offerDTO.longDescription() != null)
+            offer.setLongDescription(offerDTO.longDescription());
+        return offer;
+    }
+
+    @Override
     public List<Offer> getAllOffersOfType(OfferType offerType) {
         return offerRepository.findByOfferType(offerType);
     }
@@ -84,11 +100,8 @@ public class OfferServiceImpl implements OfferService {
         offer.setOfferType(offerToSave.getOfferType());
         offer.setPrice(offerToSave.getPrice());
         offer.setShortDescription(offerToSave.getShortDescription());
-        offer.setBuyer(offer.getBuyer());
-        offer.setSeller(offer.getSeller());
-        offer.setLongDescription(offer.getLongDescription());
-        offer.setLocation(offer.getLocation());
-        offer.setState(offer.getState());
+        offer.setLongDescription(offerToSave.getLongDescription());
+        offer.setLocation(offerToSave.getLocation());
 
         offer = offerRepository.save(offer);
         return Optional.of(offer);

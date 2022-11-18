@@ -18,4 +18,11 @@ public interface AppUserService {
     Optional<AppUser> findByEmail(String email);
 
     AppUserDTO mapAppUserToAppUserDto(AppUser appUser);
+
+    Optional<Double> calculateClientAccountBalance(Long clientId);
+
+    double calculateClientAccountBalance(AppUser client);
+
+    Optional<AppUser> modifyAppUser(AppUser appUserToSave);
+
 }

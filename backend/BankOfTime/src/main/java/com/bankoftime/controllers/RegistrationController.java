@@ -1,9 +1,9 @@
 package com.bankoftime.controllers;
 
+import com.bankoftime.dto.RegistrationDTO;
 import com.bankoftime.exceptions.EmailException;
 import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.exceptions.UserException;
-import com.bankoftime.requests.RegistrationRequest;
 import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public ResponseEntity<String> register(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<String> register(@Valid @RequestBody RegistrationDTO request) {
         try {
             registrationService.register(request);
             return ResponseEntity

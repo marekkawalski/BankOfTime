@@ -4,10 +4,10 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import { OfferType } from './enums/OfferType';
 import { Role } from './enums/Role';
 import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
+import AppUserPurchaseOffers from './pages/AppUserPurchaseOffers/AppUserPurchaseOffers';
 import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
 import Home from './pages/Home/Home';
@@ -15,6 +15,7 @@ import Layout from './pages/Layout/Layout';
 import LoginComponent from './pages/Login/Login';
 import NotFound from './pages/NotFound/NotFound';
 import Register from './pages/Register/Register';
+import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 
 function App() {
@@ -29,15 +30,18 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
+          <Route
+            path="/appUserPurchaseOffers"
+            element={<AppUserPurchaseOffers />}
+          />
+          <Route
+            path="/appUserPurchaseOffers/:id"
+            element={<ViewOfferDetails />}
+          />
           <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
-          <Route
-            path="/appUserSellOffers/:id"
-            element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}
-          />
-          <Route
-            path="/sellOffer/:id"
-            element={<ViewOfferDetails offerType={OfferType.SELL_OFFER} />}
-          />
+          <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
+          <Route path="/sellOffers" element={<SellOffers />} />
+          <Route path="/sellOffers/:id" element={<ViewOfferDetails />} />
         </Route>
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>

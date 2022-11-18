@@ -9,11 +9,13 @@ function useCreateOffer(
 ) {
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
-  const handleSubmit = async (offer: ICreateOffer) => {
+  const handleSubmit = async <T,>(offer: T) => {
     try {
       setLoading(true);
       if (services === undefined) return;
-      const resp = await services.offerService.createOffer(offer);
+      const resp = await services.offerService.createOffer(
+        offer as ICreateOffer
+      );
       setLoading(false);
       if (resp.status === 201) {
         setMyToast({

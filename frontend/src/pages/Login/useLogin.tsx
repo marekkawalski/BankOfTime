@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import { useServices } from '../../context/ServicesContext';
-import AuthenticationService from '../../services/AuthenticationService';
 import { UseLoginProps } from './types';
 
 function useLogin({ email, password, setMyToast }: UseLoginProps) {
@@ -17,7 +16,7 @@ function useLogin({ email, password, setMyToast }: UseLoginProps) {
           password
         );
       console.log(resp);
-      AuthenticationService.registerSuccessfulLogin(email, password);
+      services.authenticationService.registerSuccessfulLogin();
       navigate("/");
     } catch (e: any) {
       console.log(e);

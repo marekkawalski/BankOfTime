@@ -1,23 +1,29 @@
 import './OfferContainer.scss';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 
-import { OfferContainerFor } from '../../enums/OfferContainerFor';
+import { useServices } from '../../context/ServicesContext';
+import { IAppUser } from '../../models/AppUser';
+import { canEdit } from '../../utils/canEdit';
 import { OfferContainerProps } from './types';
 
-const OfferContainer: React.FC<OfferContainerProps> = ({
-  title,
-  offers,
-  offerContainerFor,
-}) => {
+const OfferContainer: React.FC<OfferContainerProps> = ({ title, offers }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const navigate = useNavigate();
+  const services = useServices();
+
+  useEffect(() => {
+    if (!services) return;
+    setAppUser(services.appUserService.getAppUser());
+  }, [setAppUser, services]);
+
   return (
     <section>
       <div className="main-container">
@@ -59,6 +65,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
         </div>
         <div className="content-container">
           <div>
+            {offers.length === 0 && <div>No offers</div>}
             <Row xs={1} md={2} className="g-4 mb-3">
               {offers.map((offer) => {
                 return (
@@ -78,7 +85,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
                           <Card.Text>location: {offer?.location}</Card.Text>
                         )}
                         <Card.Text> {offer.state}</Card.Text>
-                        {offerContainerFor === OfferContainerFor.OWNER ? (
+                        {canEdit(offer, appUser) ? (
                           <Button
                             onClick={() => {
                               navigate(`${offer.id}`);

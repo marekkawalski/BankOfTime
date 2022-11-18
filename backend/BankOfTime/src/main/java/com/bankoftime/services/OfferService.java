@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
+import com.bankoftime.dto.OfferDTO;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
@@ -15,6 +16,8 @@ public interface OfferService {
     Optional<Offer> findOffer(Long offerId);
 
     Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO);
+
+    Offer mapOfferDTOToOffer(OfferDTO OfferDTO);
 
     List<Offer> getAllOffersOfType(OfferType offerType);
 
