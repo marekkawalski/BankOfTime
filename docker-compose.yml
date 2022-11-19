@@ -12,7 +12,7 @@ services:
 
   bankoftime-backend:
     container_name: bankoftime-backend
-    image: docker.io/marekkawalski/bankoftime-backend:0.0.1
+    image: docker.io/marekkawalski/bankoftime-backend:0.1.1
     build:
       context: ./backend/BankOfTime
       dockerfile: Dockerfile
