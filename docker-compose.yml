@@ -3,7 +3,7 @@ version: "3.4"
 services:
   bankoftime-frontend:
     container_name: bankoftime-frontend
-    image: frontend
+    image: docker.io/marekkawalski/bankoftime-frontend:0.0.2
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -12,7 +12,7 @@ services:
 
   bankoftime-backend:
     container_name: bankoftime-backend
-    image: backend
+    image: docker.io/marekkawalski/bankoftime-backend:0.0.1
     build:
       context: ./backend/BankOfTime
       dockerfile: Dockerfile
