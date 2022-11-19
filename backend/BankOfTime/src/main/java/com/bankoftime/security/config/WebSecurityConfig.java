@@ -1,53 +1,49 @@
 package com.bankoftime.security.config;
 
 import com.bankoftime.services.AppUserServiceImpl;
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.List;
 
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig {
 
     private final AppUserServiceImpl appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeHttpRequests(authorize -> {
-                            try {
-                                authorize
-                                        .antMatchers("/registration/**")
-                                        .permitAll()
-                                        .antMatchers(HttpMethod.OPTIONS, "/**")
-                                        .permitAll()
-                                        .anyRequest()
-                                        .authenticated()
-                                        .and()
-                                        .httpBasic();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                )
-                .httpBasic(withDefaults());
-        return http.build();
+    public WebSecurityConfig(final AppUserServiceImpl appUserService, final BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.appUserService = appUserService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(daoAuthenticationProvider());
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        return http
+                .cors(Customizer.withDefaults())
+                .csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/registration/**")
+                        .permitAll()
+                        .antMatchers(HttpMethod.OPTIONS, "/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .build();
     }
 
     @Bean
@@ -58,4 +54,19 @@ public class WebSecurityConfig {
         provider.setUserDetailsService(appUserService);
         return provider;
     }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setMaxAge(60L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }
+
