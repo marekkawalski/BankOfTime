@@ -92,6 +92,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
 
         if (appUserService.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             timeTransaction.setTransactionStatus(TransactionStatus.DECLINED);
+            timeTransactionRepository.save(timeTransaction);
             throw new TimeTransactionException("Not enough credits");
         }
 

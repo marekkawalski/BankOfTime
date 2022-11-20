@@ -56,11 +56,11 @@ function NoEditView() {
         title: "Success",
         show: true,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       setMyToast({
         background: "danger",
-        message: "error",
+        message: (error?.message?.response?.data?.message as string) ?? "Error",
         title: "Error",
         show: true,
       });
