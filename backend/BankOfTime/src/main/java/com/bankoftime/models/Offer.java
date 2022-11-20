@@ -86,9 +86,10 @@ public class Offer {
     @JsonIgnore
     private Collection<OfferImage> images = new ArrayList<>();
 
-    @OneToOne(mappedBy = "offer")
+    @OneToMany(mappedBy = "offer")
+    @ToString.Exclude
     @Nullable
     @JsonIgnore
-    private TimeTransaction timeTransaction;
+    private Collection<TimeTransaction> timeTransactions = new ArrayList<>();
 
 }
