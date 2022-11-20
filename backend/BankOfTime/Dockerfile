@@ -1,5 +1,4 @@
-FROM tomcat:latest
-RUN rm -rf /usr/local/tomcat/webapps/*
-COPY target/bankoftime.war /usr/local/tomcat/webapps/
+FROM openjdk:18
+COPY ./build/libs/BankOfTime-0.0.1-SNAPSHOT.jar /app/
+ENTRYPOINT java -jar /app/BankOfTime-0.0.1-SNAPSHOT.jar
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
