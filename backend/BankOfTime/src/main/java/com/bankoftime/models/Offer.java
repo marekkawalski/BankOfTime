@@ -92,4 +92,12 @@ public class Offer {
     @JsonIgnore
     private Collection<TimeTransaction> timeTransactions = new ArrayList<>();
 
+    public Offer(final String title, final double price, final String shortDescription, final OfferType offerType, @Nullable final String longDescription, @Nullable final String location) {
+        this.shortDescription = shortDescription;
+        this.price = price;
+        this.title = title;
+        this.location = location;
+        this.longDescription = longDescription;
+        this.offerType = offerType;
+    }
 }

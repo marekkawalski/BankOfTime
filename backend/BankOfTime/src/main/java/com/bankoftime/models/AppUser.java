@@ -102,6 +102,17 @@ public class AppUser implements UserDetails {
         this.userType = userType;
     }
 
+    public AppUser(final String firstName, final String lastName, @Nullable final String city, @Nullable final String country, final String email, final String password, @Nullable final String phoneNumber, final UserType userType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.country = country;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.userType = userType;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(userType.name()));
