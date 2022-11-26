@@ -25,22 +25,11 @@ class AuthenticationService implements IAuthenticationService {
     sessionStorage.setItem(AUTHENTICATION_TOKEN, token);
     return token;
   }
-  registerSuccessfulLogin() {
-    this.setupAxiosInterceptors(sessionStorage.getItem(AUTHENTICATION_TOKEN));
-  }
+
   isAppUserLoggedIn() {
     return sessionStorage.getItem(APP_USER) ? true : false;
   }
 
-  setupAxiosInterceptors(token: string | null) {
-    axios.interceptors.request.use((request) => {
-      if (this.isAppUserLoggedIn() && token != null && request.headers) {
-        request.headers.authorization = token;
-        console.log("Inside interceptor");
-      }
-      return request;
-    });
-  }
   logout() {
     sessionStorage.clear();
   }

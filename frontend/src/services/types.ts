@@ -15,9 +15,7 @@ export interface IAuthenticationService {
     password: string
   ): Promise<AxiosResponse>;
   createBasicAuthToken(email: string, password: string): string;
-  registerSuccessfulLogin(): void;
   isAppUserLoggedIn(): boolean;
-  setupAxiosInterceptors(token: string | null): void;
   logout(): void;
 }
 export interface IRegistrationService {
