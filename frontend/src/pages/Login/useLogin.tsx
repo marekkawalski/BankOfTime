@@ -16,7 +16,6 @@ function useLogin({ email, password, setMyToast }: UseLoginProps) {
           password
         );
       console.log(resp);
-      services.authenticationService.registerSuccessfulLogin();
       navigate("/");
     } catch (e: any) {
       console.log(e);

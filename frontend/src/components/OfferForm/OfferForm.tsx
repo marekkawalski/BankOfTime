@@ -189,6 +189,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                     aria-label="Offer type select"
                     name="offerType"
                     defaultValue={offer?.offerType ?? OfferType.SELL_OFFER}
+                    onChange={handleChange}
                   >
                     <option value={OfferType.SELL_OFFER}>Sell offer</option>
                     <option value={OfferType.PURCHASE_OFFER}>

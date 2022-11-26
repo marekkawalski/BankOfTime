@@ -7,6 +7,7 @@ import com.bankoftime.models.ConfirmationToken;
 import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.AppUserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,8 +20,10 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private static final String USER_WAS_NOT_FOUND = "User %s was not found!";
+    private static final double BONUS_CREDIT = 5;
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
@@ -84,15 +87,20 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     @Override
     public Optional<Double> calculateClientAccountBalance(Long clientId) {
-        return find(clientId)
-                .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum()
+        Optional<Double> sum = find(clientId)
+                .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
                         - appUser.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
+        log.info("sum= " + sum.get());
+        return sum;
+
     }
 
     @Override
     public double calculateClientAccountBalance(AppUser client) {
-        return (client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum()
-                - client.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
+        double sum = client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
+                - client.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum();
+        log.info("sum= " + sum);
+        return sum;
     }
 
     @Override

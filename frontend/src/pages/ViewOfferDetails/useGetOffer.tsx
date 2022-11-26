@@ -6,9 +6,11 @@ import { MyToast } from '../../models/MyToast';
 import { IOffer } from '../../models/Offer';
 
 function useGetOffer(
-  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
+  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>,
+  reload?: boolean
 ) {
   const [offer, setOffer] = useState<IOffer>();
+
   const params = useParams();
   const services = useServices();
 
@@ -39,7 +41,7 @@ function useGetOffer(
     };
     handleGetOffer();
     if (!services) return;
-  }, []);
+  }, [reload]);
   return { offer };
 }
 

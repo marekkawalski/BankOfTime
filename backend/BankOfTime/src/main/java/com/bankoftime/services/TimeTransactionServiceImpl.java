@@ -85,22 +85,23 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         AppUser buyer = oBuyer.get();
         AppUser seller = oSeller.get();
 
-        if (offer.getSeller() != seller)
-            throw new TimeTransactionException("Seller isn't the owner of the offer!");
+        if (offer.getState() != OfferStatus.ACTIVE)
+            throw new TimeTransactionException("Offer is not active!");
 
         TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);
 
         if (appUserService.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             timeTransaction.setTransactionStatus(TransactionStatus.DECLINED);
+            timeTransactionRepository.save(timeTransaction);
             throw new TimeTransactionException("Not enough credits");
         }
 
         offer.setState(OfferStatus.UNAVAILABLE);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
+        timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
         buyer.getPurchaseTransactions().add(timeTransaction);
         seller.getSellTransactions().add(timeTransaction);
-        timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
 
         offerService.modifyOffer(offer);
         timeTransactionRepository.save(timeTransaction);

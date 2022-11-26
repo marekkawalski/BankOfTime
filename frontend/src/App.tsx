@@ -1,7 +1,7 @@
 import './App.scss';
 
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { Role } from './enums/Role';
@@ -11,17 +11,17 @@ import AppUserPurchaseOffers from './pages/AppUserPurchaseOffers/AppUserPurchase
 import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
 import Home from './pages/Home/Home';
-import Layout from './pages/Layout/Layout';
 import LoginComponent from './pages/Login/Login';
 import NotFound from './pages/NotFound/NotFound';
+import PurchaseOffers from './pages/PurchaseOffers/PurchaseOffers';
 import Register from './pages/Register/Register';
 import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
+    <BrowserRouter>
+      <Routes>
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />
         <Route path="register" element={<Register />} />
@@ -38,6 +38,8 @@ function App() {
             path="/appUserPurchaseOffers/:id"
             element={<ViewOfferDetails />}
           />
+          <Route path="/purchaseOffers" element={<PurchaseOffers />} />
+          <Route path="/purchaseOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
           <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/sellOffers" element={<SellOffers />} />
@@ -49,8 +51,8 @@ function App() {
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

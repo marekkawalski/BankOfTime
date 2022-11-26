@@ -4,7 +4,11 @@ import { useServices } from '../context/ServicesContext';
 import { IOffer } from '../models/Offer';
 import { UseGetAppUserOffersProps } from './types';
 
-const useGetOffers = ({ setMyToast, offerType }: UseGetAppUserOffersProps) => {
+const useGetOffers = ({
+  setMyToast,
+  offerType,
+  offerStatus,
+}: UseGetAppUserOffersProps) => {
   const services = useServices();
   const [offers, setOffers] = useState<IOffer[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -14,7 +18,12 @@ const useGetOffers = ({ setMyToast, offerType }: UseGetAppUserOffersProps) => {
       try {
         setLoading(true);
         if (services === undefined) return;
-        const result = await services.offerService.getAllOffers(offerType);
+        const result = offerStatus
+          ? await services.offerService.getAllOffersByTypeAndStatus(
+              offerType,
+              offerStatus
+            )
+          : await services.offerService.getAllOffers(offerType);
         console.log(result);
         setLoading(false);
         if (result.status === 200) {

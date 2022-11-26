@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { API_URL } from '../config/config';
+import { OfferStatus } from '../enums/OfferState';
 import { OfferType } from '../enums/OfferType';
 import { ICreateOffer, IOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
@@ -14,7 +15,18 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-
+  async getAllOffersByTypeAndStatus(
+    offerType: OfferType,
+    offerStatus: OfferStatus
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(
+        `${API_URL}/offers/type/${offerType}?offerStatus=${offerStatus}`
+      );
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/offers/${offerId}`);

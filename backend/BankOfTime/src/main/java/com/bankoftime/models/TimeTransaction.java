@@ -33,7 +33,7 @@ public class TimeTransaction {
 
     @NotNull
     private LocalDateTime transactionDate;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "OfferId", nullable = false)
     @NotNull
     private Offer offer;

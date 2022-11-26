@@ -2,6 +2,7 @@ package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
@@ -119,6 +120,11 @@ public class OfferServiceImpl implements OfferService {
             return false;
         offerRepository.delete(oOffer.get());
         return true;
+    }
+
+    @Override
+    public List<Offer> getAllOffersOfTypeAndStatus(OfferType offerType, OfferStatus offerStatus) {
+        return offerRepository.findByOfferTypeAndState(offerType, offerStatus);
     }
 
 }

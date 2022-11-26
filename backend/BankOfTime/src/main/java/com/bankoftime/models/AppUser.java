@@ -69,36 +69,47 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "seller")
     @ToString.Exclude
     @JsonIgnore
-    private transient Collection<Offer> sellOffers = new ArrayList<>();
+    private Collection<Offer> sellOffers = new ArrayList<>();
 
     @OneToMany(mappedBy = "buyer")
     @ToString.Exclude
     @JsonIgnore
-    private transient Collection<Offer> purchaseOffers = new ArrayList<>();
+    private Collection<Offer> purchaseOffers = new ArrayList<>();
 
     @OneToMany(mappedBy = "buyer")
     @ToString.Exclude
     @JsonIgnore
-    private transient Collection<TimeTransaction> purchaseTransactions = new ArrayList<>();
+    private Collection<TimeTransaction> purchaseTransactions = new ArrayList<>();
 
     @OneToMany(mappedBy = "seller")
     @ToString.Exclude
     @JsonIgnore
-    private transient Collection<TimeTransaction> sellTransactions = new ArrayList<>();
+    private Collection<TimeTransaction> sellTransactions = new ArrayList<>();
 
     @OneToMany(mappedBy = "appUser")
     @ToString.Exclude
     @JsonIgnore
-    private transient Collection<ConfirmationToken> confirmationTokens = new ArrayList<>();
+    private Collection<ConfirmationToken> confirmationTokens = new ArrayList<>();
 
     @OneToOne(mappedBy = "appUser")
-    private transient Image image;
+    private Image image;
 
     public AppUser(String firstName, String lastName, String email, String password, UserType userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
+        this.userType = userType;
+    }
+
+    public AppUser(final String firstName, final String lastName, @Nullable final String city, @Nullable final String country, final String email, final String password, @Nullable final String phoneNumber, final UserType userType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.country = country;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
         this.userType = userType;
     }
 

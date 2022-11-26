@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 
+import { OfferStatus } from '../enums/OfferState';
 import { OfferType } from '../enums/OfferType';
 import { IAppUser, IAppUserToRegister } from '../models/AppUser';
 import { ICreateOffer, IOffer } from '../models/Offer';
@@ -14,9 +15,7 @@ export interface IAuthenticationService {
     password: string
   ): Promise<AxiosResponse>;
   createBasicAuthToken(email: string, password: string): string;
-  registerSuccessfulLogin(): void;
   isAppUserLoggedIn(): boolean;
-  setupAxiosInterceptors(token: string | null): void;
   logout(): void;
 }
 export interface IRegistrationService {
@@ -37,6 +36,10 @@ export interface IOfferService {
   ): Promise<AxiosResponse>;
   updateOffer(offer: IOffer): Promise<AxiosResponse>;
   getAllOffers(offerType: OfferType): Promise<AxiosResponse>;
+  getAllOffersByTypeAndStatus(
+    offerType: OfferType,
+    offerStatus: OfferStatus
+  ): Promise<AxiosResponse<any, any>>;
 }
 
 export interface ITimeTransactionService {
