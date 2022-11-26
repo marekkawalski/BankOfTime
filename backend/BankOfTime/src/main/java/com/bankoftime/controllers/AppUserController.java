@@ -22,4 +22,12 @@ public class AppUserController {
                         .body(appUserService.mapAppUserToAppUserDto(appUser)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    @GetMapping(path = "/clients/{id}/balance")
+    public ResponseEntity<Double> getClientAccountBalance(@PathVariable("id") Long id) {
+        return appUserService.calculateClientAccountBalance(id).map(balance -> ResponseEntity.status(HttpStatus.OK)
+                        .body(balance))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
 }

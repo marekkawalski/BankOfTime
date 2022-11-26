@@ -85,6 +85,9 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         AppUser buyer = oBuyer.get();
         AppUser seller = oSeller.get();
 
+        if (offer.getState() != OfferStatus.ACTIVE)
+            throw new TimeTransactionException("Offer is not active!");
+
         if (offer.getSeller() != seller)
             throw new TimeTransactionException("Seller isn't the owner of the offer!");
 
@@ -99,9 +102,9 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         offer.setState(OfferStatus.UNAVAILABLE);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
+        timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
         buyer.getPurchaseTransactions().add(timeTransaction);
         seller.getSellTransactions().add(timeTransaction);
-        timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
 
         offerService.modifyOffer(offer);
         timeTransactionRepository.save(timeTransaction);
