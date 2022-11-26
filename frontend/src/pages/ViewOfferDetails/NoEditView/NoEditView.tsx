@@ -31,7 +31,8 @@ const images = [
 ];
 function NoEditView() {
   const { myToast, setMyToast } = useGetMyToast();
-  const { offer } = useGetOffer(setMyToast);
+  const [reload, setReload] = useState<boolean>(false);
+  const { offer } = useGetOffer(setMyToast, reload);
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const services = useServices();
 
@@ -56,6 +57,7 @@ function NoEditView() {
         title: "Success",
         show: true,
       });
+      setReload(true);
     } catch (error: any) {
       console.log(error);
       setMyToast({
@@ -109,14 +111,20 @@ function NoEditView() {
                 <div className="d-flex justify-content-end">
                   {offer?.offerType === OfferType.SELL_OFFER ? (
                     <Button
-                      disabled={offer?.seller?.id === appUser?.id}
+                      disabled={
+                        offer?.seller?.id === appUser?.id ||
+                        offer?.state !== OfferStatus.ACTIVE
+                      }
                       onClick={() => makeTransaction()}
                     >
                       Buy
                     </Button>
                   ) : (
                     <Button
-                      disabled={offer?.buyer?.id === appUser?.id}
+                      disabled={
+                        offer?.buyer?.id === appUser?.id ||
+                        offer?.state !== OfferStatus.ACTIVE
+                      }
                       onClick={() => makeTransaction()}
                     >
                       Sell

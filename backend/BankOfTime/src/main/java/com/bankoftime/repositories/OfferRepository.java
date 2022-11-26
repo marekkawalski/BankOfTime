@@ -1,5 +1,6 @@
 package com.bankoftime.repositories;
 
+import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.Offer;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     List<Offer> findByOfferType(OfferType offerType);
+
+    List<Offer> findByOfferTypeAndState(OfferType offerType, OfferStatus offerStatus);
 
     List<Offer> findBySellerId(Long userId);
 

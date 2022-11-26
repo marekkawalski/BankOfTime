@@ -14,6 +14,7 @@ import Home from './pages/Home/Home';
 import Layout from './pages/Layout/Layout';
 import LoginComponent from './pages/Login/Login';
 import NotFound from './pages/NotFound/NotFound';
+import PurchaseOffers from './pages/PurchaseOffers/PurchaseOffers';
 import Register from './pages/Register/Register';
 import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
@@ -38,6 +39,8 @@ function App() {
             path="/appUserPurchaseOffers/:id"
             element={<ViewOfferDetails />}
           />
+          <Route path="/purchaseOffers" element={<PurchaseOffers />} />
+          <Route path="/purchaseOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
           <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/sellOffers" element={<SellOffers />} />

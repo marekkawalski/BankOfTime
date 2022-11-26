@@ -2,6 +2,7 @@ package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
@@ -35,4 +36,5 @@ public interface OfferService {
 
     boolean deleteOffer(Long offerId);
 
+    List<Offer> getAllOffersOfTypeAndStatus(OfferType offerType, OfferStatus offerStatus);
 }
