@@ -28,8 +28,8 @@ public class OfferController {
     }
 
     @GetMapping(path = "/offers/type/{offerType}")
-    public ResponseEntity<List<Offer>> getSellOffers(@PathVariable OfferType offerType,
-                                                     @RequestParam(required = false) OfferStatus offerStatus) {
+    public ResponseEntity<List<Offer>> getOffersOfType(@PathVariable OfferType offerType,
+                                                       @RequestParam(required = false) OfferStatus offerStatus) {
         final List<Offer> offers = offerStatus == null ? offerService.getAllOffersOfType(offerType) :
                 offerService.getAllOffersOfTypeAndStatus(offerType, offerStatus);
         if (offers.isEmpty())

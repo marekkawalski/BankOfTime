@@ -88,9 +88,6 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         if (offer.getState() != OfferStatus.ACTIVE)
             throw new TimeTransactionException("Offer is not active!");
 
-        if (offer.getSeller() != seller)
-            throw new TimeTransactionException("Seller isn't the owner of the offer!");
-
         TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);
 
         if (appUserService.calculateClientAccountBalance(buyer) < offer.getPrice()) {
