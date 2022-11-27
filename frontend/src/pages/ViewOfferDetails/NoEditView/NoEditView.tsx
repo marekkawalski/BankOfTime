@@ -153,27 +153,49 @@ function NoEditView() {
                 </div>
                 <div>
                   <hr />
-                  <div>
-                    <div className="appUser-name">
-                      <span className="pe-1">{appUser?.firstName}</span>
-                      <span>{appUser?.lastName}</span>
-                    </div>
+                  <div className="appUser-name">Contact info</div>
+                  {offer?.offerType === OfferType.PURCHASE_OFFER && (
                     <div>
-                      <span className="pe-1">
-                        <FontAwesomeIcon icon={faEnvelope} />
-                      </span>
-                      <span>{appUser?.email}</span>
-                    </div>
-                    {appUser?.phoneNumber && (
-                      <CallTo phone={appUser.phoneNumber}>
+                      <span className="pe-1">{offer.buyer?.firstName}</span>
+                      <span>{offer.buyer?.lastName}</span>
+                      <div>
                         <span className="pe-1">
-                          <FontAwesomeIcon icon={faPhone} />
+                          <FontAwesomeIcon icon={faEnvelope} />
                         </span>
-                        {appUser.phoneNumber}
-                      </CallTo>
-                    )}
-                    <div></div>
-                  </div>
+                        <span>{offer.buyer?.email}</span>
+                      </div>
+                      {offer.buyer?.phoneNumber && (
+                        <CallTo phone={offer.buyer.phoneNumber}>
+                          <span className="pe-1">
+                            <FontAwesomeIcon icon={faPhone} />
+                          </span>
+                          {offer.buyer.phoneNumber}
+                        </CallTo>
+                      )}
+                      <div></div>
+                    </div>
+                  )}
+                  {offer?.offerType === OfferType.SELL_OFFER && (
+                    <div>
+                      <span className="pe-1">{offer.seller?.firstName}</span>
+                      <span>{offer.seller?.lastName}</span>
+                      <div>
+                        <span className="pe-1">
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </span>
+                        <span>{offer.seller?.email}</span>
+                      </div>
+                      {offer.seller?.phoneNumber && (
+                        <CallTo phone={offer.seller.phoneNumber}>
+                          <span className="pe-1">
+                            <FontAwesomeIcon icon={faPhone} />
+                          </span>
+                          {offer.seller.phoneNumber}
+                        </CallTo>
+                      )}
+                      <div></div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

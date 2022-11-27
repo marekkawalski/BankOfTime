@@ -47,13 +47,13 @@ function App() {
           <Route path="/sellOffers" element={<SellOffers />} />
           <Route path="/sellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/appUserOffers" element={<AppUserOffers />} />
-          <Route path="/appUserOffers:id" element={<ViewOfferDetails />} />
+          <Route path="/appUserOffers/:id" element={<ViewOfferDetails />} />
           <Route
             path="/appUserChosenOffers"
             element={<AppUserChosenOffers />}
           />
           <Route
-            path="/appUserChosenOffers:id"
+            path="/appUserChosenOffers/:id"
             element={<ViewOfferDetails />}
           />
         </Route>
