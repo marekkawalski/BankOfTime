@@ -9,6 +9,15 @@ import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
   async findAllOffersOwnedByAppUser(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/clients/${appUserId}/appUserOffers`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async findAllOffersOfTypeOwnedByAppUser(
     appUserId: number,
     offerType: OfferType
   ): Promise<AxiosResponse<any, any>> {

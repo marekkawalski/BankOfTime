@@ -14,20 +14,28 @@ const useGetAppUserOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleGetClientSellOffers = async () => {
+    const handleGetAppUserOffers = async () => {
       try {
         setLoading(true);
         if (services === undefined) return;
-        const result =
-          offerType === OfferType.PURCHASE_OFFER
-            ? await services.offerService.findAllOffersOwnedByAppUser(
-                services.appUserService.getAppUser().id,
-                OfferType.PURCHASE_OFFER
-              )
-            : await services.offerService.findAllOffersOwnedByAppUser(
-                services.appUserService.getAppUser().id,
-                OfferType.SELL_OFFER
-              );
+        let result: any;
+        if (!offerType) {
+          result = await services.offerService.findAllOffersOwnedByAppUser(
+            services.appUserService.getAppUser().id
+          );
+        } else {
+          result =
+            offerType === OfferType.PURCHASE_OFFER
+              ? await services.offerService.findAllOffersOfTypeOwnedByAppUser(
+                  services.appUserService.getAppUser().id,
+                  OfferType.PURCHASE_OFFER
+                )
+              : await services.offerService.findAllOffersOfTypeOwnedByAppUser(
+                  services.appUserService.getAppUser().id,
+                  OfferType.SELL_OFFER
+                );
+        }
+
         setLoading(false);
         if (result.status === 200) {
           setOffers(result?.data ?? []);
@@ -48,7 +56,7 @@ const useGetAppUserOffers = ({
         });
       }
     };
-    handleGetClientSellOffers();
+    handleGetAppUserOffers();
   }, [offerType, services, setMyToast]);
   return { loading: loading, offers: offers };
 };

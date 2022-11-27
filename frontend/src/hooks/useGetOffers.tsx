@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { useServices } from '../context/ServicesContext';
 import { IOffer } from '../models/Offer';
-import { UseGetAppUserOffersProps } from './types';
+import { UseGetOffersProps } from './types';
 
 const useGetOffers = ({
   setMyToast,
   offerType,
   offerStatus,
-}: UseGetAppUserOffersProps) => {
+}: UseGetOffersProps) => {
   const services = useServices();
   const [offers, setOffers] = useState<IOffer[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

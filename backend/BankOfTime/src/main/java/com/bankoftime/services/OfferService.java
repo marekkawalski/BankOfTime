@@ -32,6 +32,8 @@ public interface OfferService {
 
     List<Offer> findAllOffersOfTypeOwnedByUser(Long userId, OfferType offerType);
 
+    List<Offer> findAllOffersOwnedByUser(Long userId);
+
     Optional<Offer> getOneSellOfferOfClient(Long clientId, Long offerId);
 
     Optional<Offer> getOnePurchaseOfferOfClient(Long clientId, Long offerId);

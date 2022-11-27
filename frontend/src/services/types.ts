@@ -28,10 +28,11 @@ export interface IOfferService {
   getAllPurchaseOffersAssignedToAppUser(
     appUserId: number
   ): Promise<AxiosResponse>;
-  findAllOffersOwnedByAppUser(
+  findAllOffersOfTypeOwnedByAppUser(
     appUserId: number,
     offerType: OfferType
   ): Promise<AxiosResponse>;
+  findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
   getAppUserSellOfferById(
     appUserId: number,
     sellOfferId: number

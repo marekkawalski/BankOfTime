@@ -97,6 +97,11 @@ public class OfferServiceImpl implements OfferService {
                 findAllPurchaseOffersOwnedByUser(userId);
     }
 
+    @Override
+    public List<Offer> findAllOffersOwnedByUser(final Long userId) {
+        return offerRepository.findAllOffersOwnedByUser(userId);
+    }
+
 
     @Override
     public Optional<Offer> getOneSellOfferOfClient(Long sellerId, Long offerId) {
