@@ -102,6 +102,11 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.findAllOffersOwnedByUser(userId);
     }
 
+    @Override
+    public List<Offer> findAllOffersChosenByUser(final Long userId) {
+        return offerRepository.findAllOffersChosenByUser(userId);
+    }
+
 
     @Override
     public Optional<Offer> getOneSellOfferOfClient(Long sellerId, Long offerId) {

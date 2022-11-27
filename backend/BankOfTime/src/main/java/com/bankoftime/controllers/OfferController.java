@@ -90,6 +90,14 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(offers);
     }
 
+    @GetMapping(value = "/clients/{appUserId}/appUserChosenOffers")
+    public ResponseEntity<List<Offer>> findAllOffersChosenByAppUser(@PathVariable("appUserId") Long appUserId) {
+        List<Offer> offers = offerService.findAllOffersChosenByUser(appUserId);
+        if (offers.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(offers);
+    }
+
     @GetMapping(value = "/clients/{clientId}/purchaseOffers/{offerId}")
     public ResponseEntity<Offer> getClientPurchaseOffer(@PathVariable("clientId") Long clientId,
                                                         @PathVariable("offerId") Long offerId) {

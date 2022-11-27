@@ -32,6 +32,7 @@ export interface IOfferService {
     appUserId: number,
     offerType: OfferType
   ): Promise<AxiosResponse>;
+  findAllOffersChosenByAppUser(appUserId: number): Promise<AxiosResponse>;
   findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
   getAppUserSellOfferById(
     appUserId: number,

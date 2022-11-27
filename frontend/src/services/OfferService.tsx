@@ -8,6 +8,17 @@ import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
+  async findAllOffersChosenByAppUser(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(
+        `${API_URL}/clients/${appUserId}/appUserChosenOffers`
+      );
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   async findAllOffersOwnedByAppUser(
     appUserId: number
   ): Promise<AxiosResponse<any, any>> {

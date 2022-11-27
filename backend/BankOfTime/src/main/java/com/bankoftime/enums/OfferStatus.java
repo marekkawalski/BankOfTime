@@ -5,5 +5,7 @@ public enum OfferStatus {
 
     UNAVAILABLE,
 
+    ON_HOLD,
+
     DELETED,
 }

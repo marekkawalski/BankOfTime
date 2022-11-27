@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { Role } from './enums/Role';
 import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
+import AppUserChosenOffers from './pages/AppUserChosenOffers/AppUserChosenOffers';
 import AppUserOffers from './pages/AppUserOffers/AppUserOffers';
 import AppUserPurchaseOffers from './pages/AppUserPurchaseOffers/AppUserPurchaseOffers';
 import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
@@ -46,6 +47,15 @@ function App() {
           <Route path="/sellOffers" element={<SellOffers />} />
           <Route path="/sellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/appUserOffers" element={<AppUserOffers />} />
+          <Route path="/appUserOffers:id" element={<ViewOfferDetails />} />
+          <Route
+            path="/appUserChosenOffers"
+            element={<AppUserChosenOffers />}
+          />
+          <Route
+            path="/appUserChosenOffers:id"
+            element={<ViewOfferDetails />}
+          />
         </Route>
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>

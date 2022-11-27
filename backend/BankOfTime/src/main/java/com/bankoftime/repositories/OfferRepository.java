@@ -29,6 +29,10 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
             "o.seller.id =?1 and o.offerType=com.bankoftime.enums.OfferType.SELL_OFFER")
     List<Offer> findAllOffersOwnedByUser(Long userId);
 
+    @Query("select o from Offer o where o.buyer.id = ?1 and o.offerType=com.bankoftime.enums.OfferType.SELL_OFFER or " +
+            "o.seller.id =?1 and o.offerType=com.bankoftime.enums.OfferType.PURCHASE_OFFER")
+    List<Offer> findAllOffersChosenByUser(Long userId);
+
     List<Offer> findByBuyerId(Long clientId);
 
     Optional<Offer> findByIdAndSellerId(Long offerId, Long sellerId);
