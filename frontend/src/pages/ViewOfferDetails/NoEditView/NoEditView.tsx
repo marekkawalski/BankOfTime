@@ -41,11 +41,11 @@ function NoEditView() {
     setAppUser(services.appUserService.getAppUser());
   }, [setAppUser, offer, services]);
 
-  const makeTransaction = async () => {
+  const requestTransaction = async () => {
     let result: any;
     if (!(services && appUser && offer)) return;
     try {
-      result = await services.timeTransactionService.makeTransaction(
+      result = await services.timeTransactionService.requestTransaction(
         offer.id,
         offer?.seller?.id ?? appUser.id,
         offer?.buyer?.id ?? appUser.id
@@ -53,7 +53,7 @@ function NoEditView() {
       console.log(result);
       setMyToast({
         background: "success",
-        message: "Transaction succeeded!",
+        message: "Request has been sent!",
         title: "Success",
         show: true,
       });
@@ -115,7 +115,7 @@ function NoEditView() {
                         offer?.seller?.id === appUser?.id ||
                         offer?.state !== OfferStatus.ACTIVE
                       }
-                      onClick={() => makeTransaction()}
+                      onClick={() => requestTransaction()}
                     >
                       Buy
                     </Button>
@@ -125,7 +125,7 @@ function NoEditView() {
                         offer?.buyer?.id === appUser?.id ||
                         offer?.state !== OfferStatus.ACTIVE
                       }
-                      onClick={() => makeTransaction()}
+                      onClick={() => requestTransaction()}
                     >
                       Sell
                     </Button>

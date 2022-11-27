@@ -68,6 +68,32 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
                 .orElse(Optional.empty());
     }
 
+    @Override
+    public Optional<Offer> requestApproval(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException {
+        Optional<Offer> oOffer = offerService.findOffer(offerId);
+        if (oOffer.isEmpty())
+            throw new TimeTransactionException("Offer doesn't exist");
+        Optional<AppUser> oSeller = appUserService.find(sellerId);
+        if (oSeller.isEmpty())
+            throw new TimeTransactionException("Seller doesn't exist");
+        Optional<AppUser> oBuyer = appUserService.find(buyerId);
+        if (oBuyer.isEmpty())
+            throw new TimeTransactionException("Buyer doesn't exist");
+
+        Offer offer = oOffer.get();
+        AppUser buyer = oBuyer.get();
+        AppUser seller = oSeller.get();
+
+        if (appUserService.calculateClientAccountBalance(buyer) < offer.getPrice()) {
+            throw new TimeTransactionException("Not enough credits");
+        }
+
+        offer.setState(OfferStatus.ON_HOLD);
+        offer.setBuyer(buyer);
+        offer.setSeller(seller);
+        offerService.modifyOffer(offer);
+        return Optional.of(offer);
+    }
 
     @Transactional
     @Override
@@ -85,7 +111,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         AppUser buyer = oBuyer.get();
         AppUser seller = oSeller.get();
 
-        if (offer.getState() != OfferStatus.ACTIVE)
+        if (!(offer.getState() != OfferStatus.ACTIVE || offer.getState() != OfferStatus.ON_HOLD))
             throw new TimeTransactionException("Offer is not active!");
 
         TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);

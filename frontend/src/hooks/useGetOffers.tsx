@@ -14,7 +14,7 @@ const useGetOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleGetClientSellOffers = async () => {
+    const handleGetOffers = async () => {
       try {
         setLoading(true);
         if (services === undefined) return;
@@ -46,7 +46,7 @@ const useGetOffers = ({
         });
       }
     };
-    handleGetClientSellOffers();
+    handleGetOffers();
   }, [offerType, services, setMyToast]);
   return { loading: loading, offers: offers };
 };
