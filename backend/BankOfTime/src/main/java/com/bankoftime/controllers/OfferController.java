@@ -58,21 +58,30 @@ public class OfferController {
                         .body(null));
     }
 
-    @GetMapping(value = "/clients/{clientId}/sellOffers")
-    public ResponseEntity<List<Offer>> getClientSellOffers(@PathVariable("clientId") Long clientId) {
-        final List<Offer> selOffers = offerService.getClientSellOffers(clientId);
+    @GetMapping(value = "/clients/{clientId}/allSellOffers")
+    public ResponseEntity<List<Offer>> getAllSellOffersAssignedToClient(@PathVariable("clientId") Long clientId) {
+        final List<Offer> selOffers = offerService.getAllSellOffersAssignedToClient(clientId);
         if (selOffers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(selOffers);
     }
 
-    @GetMapping(value = "/clients/{clientId}/purchaseOffers")
-    public ResponseEntity<List<Offer>> getClientPurchaseOffers(@PathVariable("clientId") Long clientId) {
-        List<Offer> purchaseOffers = offerService.getClientPurchaseOffers(clientId);
+    @GetMapping(value = "/clients/{clientId}/allPurchaseOffers")
+    public ResponseEntity<List<Offer>> getAllPurchaseOffersAssignedToClient(@PathVariable("clientId") Long clientId) {
+        List<Offer> purchaseOffers = offerService.getAllPurchaseOffersAssignedToClient(clientId);
         if (purchaseOffers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
     }
+
+    @GetMapping(value = "/clients/{clientId}/offers/type/{offerType}")
+    public ResponseEntity<List<Offer>> findAllOffersOwnedByClient(@PathVariable("clientId") Long clientId, @PathVariable("offerType") OfferType offerType) {
+        List<Offer> purchaseOffers = offerService.findAllOffersOfTypeOwnedByUser(clientId, offerType);
+        if (purchaseOffers.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
+    }
+
 
     @GetMapping(value = "/clients/{clientId}/purchaseOffers/{offerId}")
     public ResponseEntity<Offer> getClientPurchaseOffer(@PathVariable("clientId") Long clientId,

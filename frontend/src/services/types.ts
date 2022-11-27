@@ -24,8 +24,14 @@ export interface IRegistrationService {
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
-  getAppUserSellOffers(appUserId: number): Promise<AxiosResponse>;
-  getAppUserPurchaseOffers(appUserId: number): Promise<AxiosResponse>;
+  getAllSellOffersAssignedToAppUser(appUserId: number): Promise<AxiosResponse>;
+  getAllPurchaseOffersAssignedToAppUser(
+    appUserId: number
+  ): Promise<AxiosResponse>;
+  findAllOffersOwnedByAppUser(
+    appUserId: number,
+    offerType: OfferType
+  ): Promise<AxiosResponse>;
   getAppUserSellOfferById(
     appUserId: number,
     sellOfferId: number

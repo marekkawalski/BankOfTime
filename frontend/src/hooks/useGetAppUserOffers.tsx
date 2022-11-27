@@ -20,11 +20,13 @@ const useGetAppUserOffers = ({
         if (services === undefined) return;
         const result =
           offerType === OfferType.PURCHASE_OFFER
-            ? await services.offerService.getAppUserPurchaseOffers(
-                services.appUserService.getAppUser().id
+            ? await services.offerService.findAllOffersOwnedByAppUser(
+                services.appUserService.getAppUser().id,
+                OfferType.PURCHASE_OFFER
               )
-            : await services.offerService.getAppUserSellOffers(
-                services.appUserService.getAppUser().id
+            : await services.offerService.findAllOffersOwnedByAppUser(
+                services.appUserService.getAppUser().id,
+                OfferType.SELL_OFFER
               );
         setLoading(false);
         if (result.status === 200) {
