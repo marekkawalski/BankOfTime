@@ -14,50 +14,51 @@ const useGetAppUserOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleGetAppUserOffers = async () => {
-      try {
-        setLoading(true);
-        if (services === undefined) return;
-        let result: any;
-        if (!offerType) {
-          result = await services.offerService.findAllOffersOwnedByAppUser(
-            services.appUserService.getAppUser().id
-          );
-        } else {
-          result =
-            offerType === OfferType.PURCHASE_OFFER
-              ? await services.offerService.findAllOffersOfTypeOwnedByAppUser(
-                  services.appUserService.getAppUser().id,
-                  OfferType.PURCHASE_OFFER
-                )
-              : await services.offerService.findAllOffersOfTypeOwnedByAppUser(
-                  services.appUserService.getAppUser().id,
-                  OfferType.SELL_OFFER
-                );
-        }
+    handleGetAppUserOffers();
+  }, [offerType, services, setMyToast]);
 
-        setLoading(false);
-        if (result.status === 200) {
-          setOffers(result?.data ?? []);
-        } else if (result.status === 204) {
-          setMyToast({
-            background: "warning",
-            message: "No offers",
-            title: "Info",
-            show: true,
-          });
-        }
-      } catch (error) {
+  const handleGetAppUserOffers = async () => {
+    try {
+      setLoading(true);
+      if (services === undefined) return;
+      let result: any;
+      if (!offerType) {
+        result = await services.offerService.findAllOffersOwnedByAppUser(
+          services.appUserService.getAppUser().id
+        );
+      } else {
+        result =
+          offerType === OfferType.PURCHASE_OFFER
+            ? await services.offerService.findAllOffersOfTypeOwnedByAppUser(
+                services.appUserService.getAppUser().id,
+                OfferType.PURCHASE_OFFER
+              )
+            : await services.offerService.findAllOffersOfTypeOwnedByAppUser(
+                services.appUserService.getAppUser().id,
+                OfferType.SELL_OFFER
+              );
+      }
+
+      setLoading(false);
+      if (result.status === 200) {
+        setOffers(result?.data ?? []);
+      } else if (result.status === 204) {
         setMyToast({
-          background: "danger",
-          message: error as string,
-          title: "Error",
+          background: "warning",
+          message: "No offers",
+          title: "Info",
           show: true,
         });
       }
-    };
-    handleGetAppUserOffers();
-  }, [offerType, services, setMyToast]);
+    } catch (error) {
+      setMyToast({
+        background: "danger",
+        message: error as string,
+        title: "Error",
+        show: true,
+      });
+    }
+  };
   return { loading, offers };
 };
 

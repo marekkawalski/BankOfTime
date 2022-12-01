@@ -13,35 +13,36 @@ const useGetAppUserChosenOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleGetAppUserChosenOffers = async () => {
-      try {
-        setLoading(true);
-        if (services === undefined) return;
-        const result = await services.offerService.findAllOffersChosenByAppUser(
-          services.appUserService.getAppUser().id
-        );
-        setLoading(false);
-        if (result.status === 200) {
-          setOffers(result?.data ?? []);
-        } else if (result.status === 204) {
-          setMyToast({
-            background: "warning",
-            message: "No offers",
-            title: "Info",
-            show: true,
-          });
-        }
-      } catch (error) {
+    handleGetAppUserChosenOffers();
+  }, [offerType, services, setMyToast]);
+
+  const handleGetAppUserChosenOffers = async () => {
+    try {
+      setLoading(true);
+      if (services === undefined) return;
+      const result = await services.offerService.findAllOffersChosenByAppUser(
+        services.appUserService.getAppUser().id
+      );
+      setLoading(false);
+      if (result.status === 200) {
+        setOffers(result?.data ?? []);
+      } else if (result.status === 204) {
         setMyToast({
-          background: "danger",
-          message: error as string,
-          title: "Error",
+          background: "warning",
+          message: "No offers",
+          title: "Info",
           show: true,
         });
       }
-    };
-    handleGetAppUserChosenOffers();
-  }, [offerType, services, setMyToast]);
+    } catch (error) {
+      setMyToast({
+        background: "danger",
+        message: error as string,
+        title: "Error",
+        show: true,
+      });
+    }
+  };
   return { loading: loading, offers: offers };
 };
 

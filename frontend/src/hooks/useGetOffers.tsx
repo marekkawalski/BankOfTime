@@ -14,40 +14,41 @@ const useGetOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleGetOffers = async () => {
-      try {
-        setLoading(true);
-        if (services === undefined) return;
-        const result = offerStatus
-          ? await services.offerService.getAllOffersByTypeAndStatus(
-              offerType,
-              offerStatus
-            )
-          : await services.offerService.getAllOffers(offerType);
-        console.log(result);
-        setLoading(false);
-        if (result.status === 200) {
-          setOffers(result?.data ?? []);
-        } else if (result.status === 204) {
-          setMyToast({
-            background: "warning",
-            message: "No offers",
-            title: "Info",
-            show: true,
-          });
-        }
-        console.log(result);
-      } catch (error) {
+    handleGetOffers();
+  }, [offerType, services, setMyToast]);
+
+  const handleGetOffers = async () => {
+    try {
+      setLoading(true);
+      if (services === undefined) return;
+      const result = offerStatus
+        ? await services.offerService.getAllOffersByTypeAndStatus(
+            offerType,
+            offerStatus
+          )
+        : await services.offerService.getAllOffers(offerType);
+      console.log(result);
+      setLoading(false);
+      if (result.status === 200) {
+        setOffers(result?.data ?? []);
+      } else if (result.status === 204) {
         setMyToast({
-          background: "danger",
-          message: error as string,
-          title: "Error",
+          background: "warning",
+          message: "No offers",
+          title: "Info",
           show: true,
         });
       }
-    };
-    handleGetOffers();
-  }, [offerType, services, setMyToast]);
+      console.log(result);
+    } catch (error) {
+      setMyToast({
+        background: "danger",
+        message: error as string,
+        title: "Error",
+        show: true,
+      });
+    }
+  };
   return { loading: loading, offers: offers };
 };
 
