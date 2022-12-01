@@ -56,7 +56,7 @@ export interface ITimeTransactionService {
     sellerId: number,
     buyerId: number
   ): Promise<AxiosResponse>;
-  requestTransaction(
+  requestApproval(
     offerId: number,
     sellerId: number,
     buyerId: number

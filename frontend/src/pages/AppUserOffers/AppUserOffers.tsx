@@ -7,9 +7,7 @@ import useGetAppUserOffers from '../../hooks/useGetAppUserOffers';
 
 function AppUserOffers() {
   const { setMyToast, myToast } = useGetMyToast();
-  const { loading, offers } = useGetAppUserOffers({
-    setMyToast: setMyToast,
-  });
+  const { loading, offers } = useGetAppUserOffers({ setMyToast });
   return (
     <section className="offers">
       <MyNavbar />

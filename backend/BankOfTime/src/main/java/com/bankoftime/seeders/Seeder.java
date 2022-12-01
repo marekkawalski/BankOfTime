@@ -69,7 +69,7 @@ public class Seeder {
     }
 
     private void seedOffers() {
-        offer1 = new Offer("Washing the car", 2, "Deep cleaning and washing of car", OfferType.SELL_OFFER,
+        offer1 = new Offer("Washing the car", 1, "Deep cleaning and washing of car", OfferType.SELL_OFFER,
                 "The best car washing in the world! You have never seen a car being as clean as the ones leaving our car wash ",
                 "New York");
         offer2 = new Offer("Washing a bike", 1, "Deep cleaning and washing of bike", OfferType.SELL_OFFER,
@@ -78,7 +78,7 @@ public class Seeder {
         offer3 = new Offer("English class", 2, "Online English class", OfferType.PURCHASE_OFFER,
                 "I am in an urgent need to bolster my English knowledge by having extracurricular classes",
                 "Toronto");
-        offer4 = new Offer("Washing Lamborghini", 4, "I need to have my car washed", OfferType.PURCHASE_OFFER,
+        offer4 = new Offer("Washing Lamborghini", 1, "I need to have my car washed", OfferType.PURCHASE_OFFER,
                 "Car is Lamborghini Aventador. I would really appreciate having it as clean as possible ",
                 "New York");
         offerService.createOffer(offer1, userNormal);

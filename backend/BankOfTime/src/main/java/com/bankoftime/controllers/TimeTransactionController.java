@@ -1,6 +1,7 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.exceptions.TimeTransactionException;
+import com.bankoftime.models.Offer;
 import com.bankoftime.models.TimeTransaction;
 import com.bankoftime.services.TimeTransactionService;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,10 @@ public class TimeTransactionController {
     }
 
     @PutMapping(path = "timeTransactions/offers/{offerId}/seller/{sellerId}/buyer/{buyerId}")
-    public ResponseEntity<TimeTransaction> requestApproval(@PathVariable Long offerId, @PathVariable Long sellerId,
-                                                           @PathVariable Long buyerId) {
+    public ResponseEntity<Offer> requestApproval(@PathVariable Long offerId, @PathVariable Long sellerId,
+                                                 @PathVariable Long buyerId) {
         try {
-            return timeTransactionService.makeTransaction(sellerId, buyerId, offerId)
+            return timeTransactionService.requestApproval(sellerId, buyerId, offerId)
                     .map(timeTransaction -> ResponseEntity.status(HttpStatus.OK).body(timeTransaction))
                     .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
         } catch (TimeTransactionException e) {

@@ -12,8 +12,8 @@ import useGetMyToast from '../../../components/Toast/useGetMyToast';
 import { useServices } from '../../../context/ServicesContext';
 import { OfferStatus } from '../../../enums/OfferState';
 import { OfferType } from '../../../enums/OfferType';
+import useGetOffer from '../../../hooks/useGetOffer';
 import { IAppUser } from '../../../models/AppUser';
-import useGetOffer from '../useGetOffer';
 
 const images = [
   {
@@ -32,7 +32,7 @@ const images = [
 function NoEditView() {
   const { myToast, setMyToast } = useGetMyToast();
   const [reload, setReload] = useState<boolean>(false);
-  const { offer } = useGetOffer(setMyToast, reload);
+  const { offer } = useGetOffer({ setMyToast, reload });
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const services = useServices();
 
@@ -45,7 +45,7 @@ function NoEditView() {
     let result: any;
     if (!(services && appUser && offer)) return;
     try {
-      result = await services.timeTransactionService.requestTransaction(
+      result = await services.timeTransactionService.requestApproval(
         offer.id,
         offer?.seller?.id ?? appUser.id,
         offer?.buyer?.id ?? appUser.id

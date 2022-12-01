@@ -13,3 +13,9 @@ export interface UseGetOffersProps {
   offerType: OfferType;
   offerStatus?: OfferStatus;
 }
+
+export interface UseGetOfferProps {
+  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>;
+  reload?: boolean;
+  id?: number;
+}

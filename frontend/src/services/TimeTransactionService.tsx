@@ -4,7 +4,7 @@ import { API_URL } from '../config/config';
 import { ITimeTransactionService } from './types';
 
 class TimeTransactionService implements ITimeTransactionService {
-  async requestTransaction(
+  async requestApproval(
     offerId: number,
     sellerId: number,
     buyerId: number

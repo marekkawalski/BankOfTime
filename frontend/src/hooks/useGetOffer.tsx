@@ -1,23 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useServices } from '../../context/ServicesContext';
-import { MyToast } from '../../models/MyToast';
-import { IOffer } from '../../models/Offer';
+import { useServices } from '../context/ServicesContext';
+import { IOffer } from '../models/Offer';
+import { UseGetOfferProps } from './types';
 
-function useGetOffer(
-  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>,
-  reload?: boolean
-) {
+function useGetOffer({ setMyToast, reload, id }: UseGetOfferProps) {
   const [offer, setOffer] = useState<IOffer>();
-
   const params = useParams();
   const services = useServices();
 
   useEffect(() => {
     const handleGetOffer = async () => {
       let result: any;
-      if (!params.id) {
+      if (!params.id && !id) {
         setMyToast({
           background: "danger",
           message: "no id param",
@@ -28,7 +24,9 @@ function useGetOffer(
       }
       if (!services) return;
       try {
-        result = await services.offerService.getOfferById(parseInt(params.id));
+        result = await services.offerService.getOfferById(
+          id ?? parseInt(params.id as string)
+        );
         setOffer(result?.data ?? {});
       } catch (error) {
         setMyToast({

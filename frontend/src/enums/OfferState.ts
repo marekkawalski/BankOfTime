@@ -1,3 +1,7 @@
 export enum OfferStatus {
   ACTIVE = "ACTIVE",
+  UNAVAILABLE = "UNAVAILABLE",
+  ON_HOLD = "ON_HOLD",
+  DELETED = "DELETED",
+  APPROVED = "APPROVED",
 }

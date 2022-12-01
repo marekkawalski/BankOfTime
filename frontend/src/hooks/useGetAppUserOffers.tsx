@@ -58,7 +58,7 @@ const useGetAppUserOffers = ({
     };
     handleGetAppUserOffers();
   }, [offerType, services, setMyToast]);
-  return { loading: loading, offers: offers };
+  return { loading, offers };
 };
 
 export default useGetAppUserOffers;

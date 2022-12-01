@@ -122,7 +122,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
             throw new TimeTransactionException("Not enough credits");
         }
 
-        offer.setState(OfferStatus.UNAVAILABLE);
+        offer.setState(OfferStatus.APPROVED);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
