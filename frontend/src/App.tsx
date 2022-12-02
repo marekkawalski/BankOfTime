@@ -3,6 +3,7 @@ import './App.scss';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import MyNavbar from './components/Navbar/MyNavbar';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import MyToastComponent from './components/Toast/MyToastComponent';
 import { Role } from './enums/Role';
@@ -23,6 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <MyToastComponent />
+      <MyNavbar />
       <Routes>
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import MyNavbar from '../../components/Navbar/MyNavbar';
 import OfferContainer from '../../components/OfferContainer/OfferContainer';
 import { OfferStatus } from '../../enums/OfferState';
 import { OfferType } from '../../enums/OfferType';
@@ -9,7 +8,6 @@ import useGetOffers from '../../hooks/useGetOffers';
 function PurchaseOffers() {
   return (
     <section className="offers">
-      <MyNavbar />
       <OfferContainer
         title="PurchaseOffers"
         getOffers={useGetOffers({

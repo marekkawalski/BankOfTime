@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Button, Col, Container, Form } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-import MyNavbar from '../../components/Navbar/MyNavbar';
 import { useServices } from '../../context/ServicesContext';
 import { registrationValidationSchema } from './registrationValidation';
 import useRegister from './useRegister';
@@ -18,7 +17,6 @@ function Register() {
 
   return (
     <>
-      <MyNavbar />
       <Container className="container-fluid bg-light text-dark p-5">
         <Container className="container bg-light p-5">
           <h2>Register</h2>

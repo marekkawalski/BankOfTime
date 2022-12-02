@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import MySpinner from '../../components/MySpinner/MySpinner';
-import MyNavbar from '../../components/Navbar/MyNavbar';
 import { IManageOffer, ManageOffer } from '../../components/Offer/ManageOffer';
 import { useServices } from '../../context/ServicesContext';
 import useGetOffer from '../../hooks/useGetOffer';
@@ -23,7 +22,6 @@ function ViewOfferDetails() {
   }, [setAppUser, offer, services]);
   return (
     <section>
-      <MyNavbar />
       <MySpinner show={!offer || !appUser}>
         {offer &&
           appUser &&

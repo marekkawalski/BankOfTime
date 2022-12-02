@@ -1,10 +1,8 @@
-import React from "react";
-import MyNavbar from "../../components/Navbar/MyNavbar";
+import React from 'react';
 
 function About() {
   return (
     <section>
-      <MyNavbar />
       <div>About</div>
     </section>
   );
