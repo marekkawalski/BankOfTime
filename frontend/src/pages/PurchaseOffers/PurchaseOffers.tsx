@@ -1,9 +1,8 @@
+import OfferContainer from '@/components/OfferContainer/OfferContainer';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import useGetOffers from '@/hooks/useGetOffers';
 import React from 'react';
-
-import OfferContainer from '../../components/OfferContainer/OfferContainer';
-import { OfferStatus } from '../../enums/OfferState';
-import { OfferType } from '../../enums/OfferType';
-import useGetOffers from '../../hooks/useGetOffers';
 
 function PurchaseOffers() {
   return (

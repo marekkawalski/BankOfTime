@@ -1,9 +1,9 @@
+import { useServices } from '@/context/ServicesContext';
 import { Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { Button, Col, Container, Form } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-import { useServices } from '../../context/ServicesContext';
 import { registrationValidationSchema } from './registrationValidation';
 import useRegister from './useRegister';
 

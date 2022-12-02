@@ -1,6 +1,6 @@
-import { OfferStatus } from '../../enums/OfferState';
-import { OfferType } from '../../enums/OfferType';
-import { IOffer } from '../../models/Offer';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { IOffer } from '@/models/Offer';
 
 export interface OfferContainerProps {
   title: string;

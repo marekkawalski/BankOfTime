@@ -1,20 +1,19 @@
 import './NoEditView.scss';
 
+import { CallTo } from '@/components/CallTo/CallTo';
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import useGetOffer from '@/hooks/useGetOffer';
+import { IAppUser } from '@/models/AppUser';
 import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
-
-import { CallTo } from '../../../components/CallTo/CallTo';
-import { useServices } from '../../../context/ServicesContext';
-import { useMyToast } from '../../../context/ToastContext';
-import { OfferStatus } from '../../../enums/OfferState';
-import { OfferType } from '../../../enums/OfferType';
-import { ToastBackground } from '../../../enums/ToastBackground';
-import { ToastTitle } from '../../../enums/ToastTitle';
-import useGetOffer from '../../../hooks/useGetOffer';
-import { IAppUser } from '../../../models/AppUser';
 
 const images = [
   {

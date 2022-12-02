@@ -1,7 +1,6 @@
+import { useServices } from '@/context/ServicesContext';
+import { IAppUser } from '@/models/AppUser';
 import React, { useEffect, useState } from 'react';
-
-import { useServices } from '../context/ServicesContext';
-import { IAppUser } from '../models/AppUser';
 
 function useGetAppUser() {
   const [appUser, setAppUser] = useState<IAppUser | undefined>();

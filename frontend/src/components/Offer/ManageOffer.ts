@@ -1,7 +1,7 @@
-import { OfferStatus } from '../../enums/OfferState';
-import { OfferType } from '../../enums/OfferType';
-import { IAppUser } from '../../models/AppUser';
-import { IOffer } from '../../models/Offer';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { IAppUser } from '@/models/AppUser';
+import { IOffer } from '@/models/Offer';
 
 export interface IManageOffer {
   canEdit(): boolean;

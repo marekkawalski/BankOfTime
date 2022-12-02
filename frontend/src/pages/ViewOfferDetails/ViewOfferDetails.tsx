@@ -1,10 +1,10 @@
+import MySpinner from '@/components/MySpinner/MySpinner';
+import { IManageOffer, ManageOffer } from '@/components/Offer/ManageOffer';
+import { useServices } from '@/context/ServicesContext';
+import useGetOffer from '@/hooks/useGetOffer';
+import { IAppUser } from '@/models/AppUser';
 import { useEffect, useState } from 'react';
 
-import MySpinner from '../../components/MySpinner/MySpinner';
-import { IManageOffer, ManageOffer } from '../../components/Offer/ManageOffer';
-import { useServices } from '../../context/ServicesContext';
-import useGetOffer from '../../hooks/useGetOffer';
-import { IAppUser } from '../../models/AppUser';
 import EditView from './EditView/EditView';
 import NoEditView from './NoEditView/NoEditView';
 

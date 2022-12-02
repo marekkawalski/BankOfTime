@@ -1,7 +1,7 @@
-import OfferContainer from '../../components/OfferContainer/OfferContainer';
-import { OfferStatus } from '../../enums/OfferState';
-import { OfferType } from '../../enums/OfferType';
-import useGetOffers from '../../hooks/useGetOffers';
+import OfferContainer from '@/components/OfferContainer/OfferContainer';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import useGetOffers from '@/hooks/useGetOffers';
 
 function SellOffers() {
   return (

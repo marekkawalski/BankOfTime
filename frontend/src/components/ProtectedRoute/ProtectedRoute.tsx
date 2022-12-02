@@ -1,9 +1,10 @@
-import React from "react";
-import AuthenticationService from "../../services/AuthenticationService";
-import { Outlet, Navigate } from "react-router";
-import { useLocation } from "react-router-dom";
-import AppUserService from "../../services/AppUserService";
-import { ProtectedRouteProps } from "./types";
+import AppUserService from '@/services/AppUserService';
+import AuthenticationService from '@/services/AuthenticationService';
+import React from 'react';
+import { Navigate, Outlet } from 'react-router';
+import { useLocation } from 'react-router-dom';
+
+import { ProtectedRouteProps } from './types';
 
 function ProtectedRoute({ allowedRole }: ProtectedRouteProps) {
   const location = useLocation();

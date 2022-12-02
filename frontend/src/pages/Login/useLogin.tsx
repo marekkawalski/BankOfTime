@@ -1,9 +1,9 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
 import { useNavigate } from 'react-router-dom';
 
-import { useServices } from '../../context/ServicesContext';
-import { useMyToast } from '../../context/ToastContext';
-import { ToastBackground } from '../../enums/ToastBackground';
-import { ToastTitle } from '../../enums/ToastTitle';
 import { UseLoginProps } from './types';
 
 function useLogin({ email, password }: UseLoginProps) {

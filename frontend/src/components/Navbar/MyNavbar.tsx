@@ -1,6 +1,7 @@
 import './MyNavbar.scss';
 
-import { useEffect, useState } from 'react';
+import ProtectedComponent from '@/components/ProtectedComponent/ProtectedComponent';
+import { Role } from '@/enums/Role';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -10,8 +11,6 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Link, useLocation } from 'react-router-dom';
 
-import { Role } from '../../enums/Role';
-import ProtectedComponent from '../ProtectedComponent/ProtectedComponent';
 import LoginLogout from './LoginLogout';
 
 function MyNavbar() {

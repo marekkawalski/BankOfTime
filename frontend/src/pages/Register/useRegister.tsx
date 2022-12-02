@@ -1,9 +1,8 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
 import React from 'react';
-
-import { useServices } from '../../context/ServicesContext';
-import { useMyToast } from '../../context/ToastContext';
-import { ToastBackground } from '../../enums/ToastBackground';
-import { ToastTitle } from '../../enums/ToastTitle';
 
 function useRegister() {
   const services = useServices();

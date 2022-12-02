@@ -1,4 +1,4 @@
-import { MyToast } from "../../models/MyToast";
+import { MyToast } from '@/models/MyToast';
 
 export interface MyToastComponentProps {
   myToast?: MyToast;

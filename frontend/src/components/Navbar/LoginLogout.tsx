@@ -1,8 +1,7 @@
+import { useServices } from '@/context/ServicesContext';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-
-import { useServices } from '../../context/ServicesContext';
 
 function LoginLogout() {
   const navigate = useNavigate();

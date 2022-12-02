@@ -1,5 +1,5 @@
-import { OfferStatus } from '../enums/OfferState';
-import { OfferType } from '../enums/OfferType';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
 
 export interface UseGetAppUserOffersProps {
   offerType?: OfferType;

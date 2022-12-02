@@ -1,10 +1,10 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import { IOffer } from '@/models/Offer';
 import { useEffect, useState } from 'react';
 
-import { useServices } from '../context/ServicesContext';
-import { useMyToast } from '../context/ToastContext';
-import { ToastBackground } from '../enums/ToastBackground';
-import { ToastTitle } from '../enums/ToastTitle';
-import { IOffer } from '../models/Offer';
 import { UseGetAppUserOffersProps } from './types';
 
 const useGetAppUserChosenOffers = ({ offerType }: UseGetAppUserOffersProps) => {

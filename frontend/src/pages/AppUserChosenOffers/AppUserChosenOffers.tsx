@@ -1,5 +1,5 @@
-import OfferContainer from '../../components/OfferContainer/OfferContainer';
-import useGetAppUserChosenOffers from '../../hooks/useGetAppUserChosenOffers';
+import OfferContainer from '@/components/OfferContainer/OfferContainer';
+import useGetAppUserChosenOffers from '@/hooks/useGetAppUserChosenOffers';
 
 function AppUserChosenOffers() {
   return (

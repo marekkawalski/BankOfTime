@@ -1,6 +1,6 @@
+import { API_URL } from '@/config/config';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { API_URL } from '../config/config';
 import { ITimeTransactionService } from './types';
 
 class TimeTransactionService implements ITimeTransactionService {

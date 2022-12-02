@@ -1,6 +1,6 @@
 import './OfferContainer.scss';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Row } from 'react-bootstrap';
 
 import FilterBar from '../FilterBar/FilterBar';
@@ -18,7 +18,6 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
   const { offers, handleGetOffers, loading } = getOffers;
   return (
     <MySpinner show={loading}>
-
       <section>
         <div className="main-container">
           <FilterBar title={title} handleGetOffers={handleGetOffers} />

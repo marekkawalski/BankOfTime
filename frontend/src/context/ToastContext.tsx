@@ -1,6 +1,6 @@
+import { MyToast } from '@/models/MyToast';
 import { createContext, useContext, useState } from 'react';
 
-import { MyToast } from '../models/MyToast';
 import { ToastContextProps, ToastContextProviderProps } from './types';
 
 const ToastContext = createContext<ToastContextProps | undefined>(undefined);

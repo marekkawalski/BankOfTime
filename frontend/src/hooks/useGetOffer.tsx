@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import { IOffer } from '@/models/Offer';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useServices } from '../context/ServicesContext';
-import { useMyToast } from '../context/ToastContext';
-import { ToastBackground } from '../enums/ToastBackground';
-import { ToastTitle } from '../enums/ToastTitle';
-import { IOffer } from '../models/Offer';
 import { UseGetOfferProps } from './types';
 
 function useGetOffer({ reload, id }: UseGetOfferProps) {

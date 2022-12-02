@@ -1,11 +1,11 @@
-import { MyToast } from '../models/MyToast';
+import { MyToast } from '@/models/MyToast';
 import {
   IAppUserService,
   IAuthenticationService,
   IOfferService,
   IRegistrationService,
   ITimeTransactionService,
-} from '../services/types';
+} from '@/services/types';
 
 export interface ServicesContextProviderProps {
   children: React.ReactNode;

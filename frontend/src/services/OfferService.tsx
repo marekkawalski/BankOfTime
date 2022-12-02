@@ -1,9 +1,9 @@
+import { API_URL } from '@/config/config';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { ICreateOffer, IOffer } from '@/models/Offer';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { API_URL } from '../config/config';
-import { OfferStatus } from '../enums/OfferState';
-import { OfferType } from '../enums/OfferType';
-import { ICreateOffer, IOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 

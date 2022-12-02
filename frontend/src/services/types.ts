@@ -1,9 +1,8 @@
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { IAppUser, IAppUserToRegister } from '@/models/AppUser';
+import { ICreateOffer, IOffer } from '@/models/Offer';
 import { AxiosResponse } from 'axios';
-
-import { OfferStatus } from '../enums/OfferState';
-import { OfferType } from '../enums/OfferType';
-import { IAppUser, IAppUserToRegister } from '../models/AppUser';
-import { ICreateOffer, IOffer } from '../models/Offer';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;

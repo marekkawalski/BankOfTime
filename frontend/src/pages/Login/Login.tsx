@@ -1,9 +1,9 @@
 import './Login.scss';
 
-import React, { useEffect, useState } from 'react';
+import AuthenticationService from '@/services/AuthenticationService';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthenticationService from '../../services/AuthenticationService';
 import useLogin from './useLogin';
 
 function LoginComponent() {

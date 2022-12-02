@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import useGetAppUser from '@/hooks/useGetAppUser';
+import { useEffect, useState } from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-import { useServices } from '../../context/ServicesContext';
-import { useMyToast } from '../../context/ToastContext';
-import { OfferStatus } from '../../enums/OfferState';
-import { OfferType } from '../../enums/OfferType';
-import { ToastBackground } from '../../enums/ToastBackground';
-import { ToastTitle } from '../../enums/ToastTitle';
-import useGetAppUser from '../../hooks/useGetAppUser';
 import { OfferProps } from '../OfferContainer/types';
 import { IManageOffer, ManageOffer } from './ManageOffer';
 

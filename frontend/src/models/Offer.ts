@@ -1,4 +1,5 @@
-import { OfferType } from '../enums/OfferType';
+import { OfferType } from '@/enums/OfferType';
+
 import { IAppUser } from './AppUser';
 
 export interface ICreateOffer {

@@ -1,10 +1,9 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import { IUpdateOffer } from '@/models/Offer';
 import React, { useState } from 'react';
-
-import { useServices } from '../../../../context/ServicesContext';
-import { useMyToast } from '../../../../context/ToastContext';
-import { ToastBackground } from '../../../../enums/ToastBackground';
-import { ToastTitle } from '../../../../enums/ToastTitle';
-import { IUpdateOffer } from '../../../../models/Offer';
 
 function useEditOffer() {
   const [loading, setLoading] = useState<boolean>(false);

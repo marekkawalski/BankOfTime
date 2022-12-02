@@ -1,7 +1,8 @@
-import React from "react";
-import AppUserService from "../../services/AppUserService";
-import AuthenticationService from "../../services/AuthenticationService";
-import { ProtectedComponentProps } from "./types";
+import AppUserService from '@/services/AppUserService';
+import AuthenticationService from '@/services/AuthenticationService';
+import React from 'react';
+
+import { ProtectedComponentProps } from './types';
 
 const ProtectedComponent: React.FC<ProtectedComponentProps> = ({
   allowedRole,

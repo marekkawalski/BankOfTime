@@ -1,6 +1,6 @@
+import OfferForm from '@/components/OfferForm/OfferForm';
 import React, { useState } from 'react';
 
-import OfferForm from '../../components/OfferForm/OfferForm';
 import useCreateOffer from './useCreateOffer';
 
 function CreateOffer() {

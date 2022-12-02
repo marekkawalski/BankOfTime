@@ -1,6 +1,5 @@
+import { APP_USER, AUTHENTICATION_TOKEN } from '@/constants/constants';
 import axios from 'axios';
-
-import { APP_USER, AUTHENTICATION_TOKEN } from '../constants/constants';
 
 export const interceptRequests = () => {
   const token = sessionStorage.getItem(AUTHENTICATION_TOKEN);

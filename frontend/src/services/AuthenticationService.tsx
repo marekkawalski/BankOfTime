@@ -1,7 +1,7 @@
+import { API_URL } from '@/config/config';
+import { APP_USER, AUTHENTICATION_TOKEN } from '@/constants/constants';
 import axios from 'axios';
 
-import { API_URL } from '../config/config';
-import { APP_USER, AUTHENTICATION_TOKEN } from '../constants/constants';
 import { IAuthenticationService } from './types';
 
 class AuthenticationService implements IAuthenticationService {

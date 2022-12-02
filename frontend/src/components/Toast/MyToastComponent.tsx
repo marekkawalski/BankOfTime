@@ -1,10 +1,9 @@
 import './MyToastComponent.scss';
 
+import { useMyToast } from '@/context/ToastContext';
+import { getCurrentTime } from '@/utils/getCurrentTime';
 import React from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
-
-import { useMyToast } from '../../context/ToastContext';
-import { getCurrentTime } from '../../utils/getCurrentTime';
 
 function MyToastComponent() {
   const toast = useMyToast();
