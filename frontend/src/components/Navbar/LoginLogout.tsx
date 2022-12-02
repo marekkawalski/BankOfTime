@@ -1,22 +1,21 @@
-import React from 'react';
+import { useServices } from '@/context/ServicesContext';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 
-import AppUserService from '../../services/AppUserService';
-import AuthenticationService from '../../services/AuthenticationService';
-
 function LoginLogout() {
   const navigate = useNavigate();
-  return AuthenticationService.isAppUserLoggedIn() ? (
+  const services = useServices();
+  return services?.authenticationService.isAppUserLoggedIn() ? (
     <>
       <div className="px-2">
-        Hello, {AppUserService.getAppUser().firstName}{" "}
-        {AppUserService.getAppUser().lastName}
+        Hello, {services?.appUserService.getAppUser().firstName}{" "}
+        {services?.appUserService.getAppUser().lastName}
       </div>
       <Button
         className="px-2"
         onClick={() => {
-          AuthenticationService.logout();
+          services?.authenticationService.logout();
           navigate("/");
         }}
       >
@@ -24,14 +23,17 @@ function LoginLogout() {
       </Button>
     </>
   ) : (
-    <Button
-      className="px-2"
-      onClick={() => {
-        navigate("/");
-      }}
-    >
-      Login
-    </Button>
+    <>
+      <div className="px-2">Hello, Guest</div>
+      <Button
+        className="px-2"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Login
+      </Button>
+    </>
   );
 }
 

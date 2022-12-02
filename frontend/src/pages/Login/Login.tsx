@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Login.scss";
-import AuthenticationService from "../../services/AuthenticationService";
-import MyToastComponent from "../../components/Toast/MyToastComponent";
-import { MyToast } from "../../models/MyToast";
-import useLogin from "./useLogin";
+import './Login.scss';
+
+import AuthenticationService from '@/services/AuthenticationService';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import useLogin from './useLogin';
 
 function LoginComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [myToast, setMyToast] = useState<MyToast>({
-    show: false,
-  });
 
   useEffect(() => {
     AuthenticationService.logout();
@@ -19,7 +16,6 @@ function LoginComponent() {
 
   return (
     <div className="login-component">
-      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <h1>Bank of time</h1>
       <div className="login-container">
         <div className="box">
@@ -58,7 +54,7 @@ function LoginComponent() {
             <input
               type="submit"
               value="Login"
-              onClick={useLogin({ email, password, setMyToast })}
+              onClick={useLogin({ email, password })}
             />
           </div>
         </div>

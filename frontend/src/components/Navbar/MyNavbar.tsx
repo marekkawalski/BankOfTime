@@ -1,5 +1,7 @@
 import './MyNavbar.scss';
 
+import ProtectedComponent from '@/components/ProtectedComponent/ProtectedComponent';
+import { Role } from '@/enums/Role';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,17 +9,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-import { Role } from '../../enums/Role';
-import ProtectedComponent from '../ProtectedComponent/ProtectedComponent';
 import LoginLogout from './LoginLogout';
 
 function MyNavbar() {
+  const location = useLocation();
+
   return (
     <>
       <Navbar
-        bg="dark"
+        bg={location.pathname.includes("login") ? "bright" : "dark"}
         expand="false"
         className="mb-3 "
         fixed="top"
@@ -79,12 +81,12 @@ function MyNavbar() {
                     title="My stuff"
                     id={`offcanvasNavbarDropdown-expand-${false}`}
                   >
-                    <NavDropdown.Header>My offers</NavDropdown.Header>
-                    <NavDropdown.Item as={Link} to="/appUserPurchaseOffers">
-                      Purchase offers
+                    <NavDropdown.Header>Offers</NavDropdown.Header>
+                    <NavDropdown.Item as={Link} to="/appUserOffers">
+                      My offers
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/appUserSellOffers">
-                      Sell offers
+                    <NavDropdown.Item as={Link} to="/appUserChosenOffers">
+                      Chosen offers
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/">
@@ -104,16 +106,10 @@ function MyNavbar() {
                       <NavDropdown.Item as={Link} to="/">
                         All users
                       </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/">
-                        Create user
-                      </NavDropdown.Item>
                       <NavDropdown.Divider />
                       <NavDropdown.Header>Manage offers</NavDropdown.Header>
                       <NavDropdown.Item as={Link} to="/">
-                        Purchase offers
-                      </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/">
-                        Sell offers
+                        Offers
                       </NavDropdown.Item>
                     </NavDropdown>
                   </ProtectedComponent>

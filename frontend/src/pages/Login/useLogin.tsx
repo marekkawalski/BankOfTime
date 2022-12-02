@@ -1,11 +1,15 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
 import { useNavigate } from 'react-router-dom';
 
-import { useServices } from '../../context/ServicesContext';
 import { UseLoginProps } from './types';
 
-function useLogin({ email, password, setMyToast }: UseLoginProps) {
+function useLogin({ email, password }: UseLoginProps) {
   const navigate = useNavigate();
   const services = useServices();
+  const toast = useMyToast();
 
   const loginClicked = async () => {
     try {
@@ -19,12 +23,7 @@ function useLogin({ email, password, setMyToast }: UseLoginProps) {
       navigate("/");
     } catch (e: any) {
       console.log(e);
-      setMyToast({
-        background: "danger",
-        message: e.message,
-        title: "Error",
-        show: true,
-      });
+      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, e.message);
     }
   };
   return loginClicked;

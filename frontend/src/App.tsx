@@ -3,12 +3,14 @@ import './App.scss';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import MyNavbar from './components/Navbar/MyNavbar';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import MyToastComponent from './components/Toast/MyToastComponent';
 import { Role } from './enums/Role';
 import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
-import AppUserPurchaseOffers from './pages/AppUserPurchaseOffers/AppUserPurchaseOffers';
-import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
+import AppUserChosenOffers from './pages/AppUserChosenOffers/AppUserChosenOffers';
+import AppUserOffers from './pages/AppUserOffers/AppUserOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
 import Home from './pages/Home/Home';
 import LoginComponent from './pages/Login/Login';
@@ -21,6 +23,8 @@ import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 function App() {
   return (
     <BrowserRouter>
+      <MyToastComponent />
+      <MyNavbar />
       <Routes>
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />
@@ -30,20 +34,20 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
-          <Route
-            path="/appUserPurchaseOffers"
-            element={<AppUserPurchaseOffers />}
-          />
-          <Route
-            path="/appUserPurchaseOffers/:id"
-            element={<ViewOfferDetails />}
-          />
           <Route path="/purchaseOffers" element={<PurchaseOffers />} />
           <Route path="/purchaseOffers/:id" element={<ViewOfferDetails />} />
-          <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
-          <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/sellOffers" element={<SellOffers />} />
           <Route path="/sellOffers/:id" element={<ViewOfferDetails />} />
+          <Route path="/appUserOffers" element={<AppUserOffers />} />
+          <Route path="/appUserOffers/:id" element={<ViewOfferDetails />} />
+          <Route
+            path="/appUserChosenOffers"
+            element={<AppUserChosenOffers />}
+          />
+          <Route
+            path="/appUserChosenOffers/:id"
+            element={<ViewOfferDetails />}
+          />
         </Route>
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>

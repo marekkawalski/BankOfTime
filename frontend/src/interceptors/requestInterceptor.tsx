@@ -1,8 +1,8 @@
+import { APP_USER, AUTHENTICATION_TOKEN } from '@/constants/constants';
 import axios from 'axios';
 
-import { APP_USER, AUTHENTICATION_TOKEN } from '../constants/constants';
-
 export const interceptRequests = () => {
+  console.log("before interceptor");
   const token = sessionStorage.getItem(AUTHENTICATION_TOKEN);
   axios.interceptors.request.use((request) => {
     if (sessionStorage.getItem(APP_USER) && token != null && request.headers) {

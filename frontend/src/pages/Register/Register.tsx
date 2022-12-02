@@ -1,20 +1,15 @@
+import { useServices } from '@/context/ServicesContext';
 import { Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Col, Container, Form } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-import MyNavbar from '../../components/Navbar/MyNavbar';
-import MyToastComponent from '../../components/Toast/MyToastComponent';
-import { useServices } from '../../context/ServicesContext';
-import { MyToast } from '../../models/MyToast';
 import { registrationValidationSchema } from './registrationValidation';
 import useRegister from './useRegister';
 
 function Register() {
-  const [myToast, setMyToast] = useState<MyToast>({
-    show: false,
-  });
   const services = useServices();
+
   useEffect(() => {
     if (!services) return;
     services.authenticationService.logout();
@@ -22,14 +17,12 @@ function Register() {
 
   return (
     <>
-      <MyNavbar />
-      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <Container className="container-fluid bg-light text-dark p-5">
         <Container className="container bg-light p-5">
           <h2>Register</h2>
           <Formik
             validationSchema={registrationValidationSchema}
-            onSubmit={useRegister(setMyToast)}
+            onSubmit={useRegister()}
             initialValues={{
               firstName: "",
               lastName: "",

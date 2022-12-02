@@ -1,10 +1,8 @@
-import React from "react";
-import MyNavbar from "../../components/Navbar/MyNavbar";
+import React from 'react';
 
 function Home() {
   return (
     <>
-      <MyNavbar />
       <section>
         <h2>home</h2>
         <p>

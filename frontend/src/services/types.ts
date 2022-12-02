@@ -1,9 +1,8 @@
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { IAppUser, IAppUserToRegister } from '@/models/AppUser';
+import { ICreateOffer, IOffer } from '@/models/Offer';
 import { AxiosResponse } from 'axios';
-
-import { OfferStatus } from '../enums/OfferState';
-import { OfferType } from '../enums/OfferType';
-import { IAppUser, IAppUserToRegister } from '../models/AppUser';
-import { ICreateOffer, IOffer } from '../models/Offer';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;
@@ -24,8 +23,16 @@ export interface IRegistrationService {
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
-  getAppUserSellOffers(appUserId: number): Promise<AxiosResponse>;
-  getAppUserPurchaseOffers(appUserId: number): Promise<AxiosResponse>;
+  getAllSellOffersAssignedToAppUser(appUserId: number): Promise<AxiosResponse>;
+  getAllPurchaseOffersAssignedToAppUser(
+    appUserId: number
+  ): Promise<AxiosResponse>;
+  findAllOffersOfTypeOwnedByAppUser(
+    appUserId: number,
+    offerType: OfferType
+  ): Promise<AxiosResponse>;
+  findAllOffersChosenByAppUser(appUserId: number): Promise<AxiosResponse>;
+  findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
   getAppUserSellOfferById(
     appUserId: number,
     sellOfferId: number
@@ -44,6 +51,11 @@ export interface IOfferService {
 
 export interface ITimeTransactionService {
   makeTransaction(
+    offerId: number,
+    sellerId: number,
+    buyerId: number
+  ): Promise<AxiosResponse>;
+  requestApproval(
     offerId: number,
     sellerId: number,
     buyerId: number

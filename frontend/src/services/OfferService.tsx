@@ -1,13 +1,45 @@
+import { API_URL } from '@/config/config';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { ICreateOffer, IOffer } from '@/models/Offer';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { API_URL } from '../config/config';
-import { OfferStatus } from '../enums/OfferState';
-import { OfferType } from '../enums/OfferType';
-import { ICreateOffer, IOffer } from '../models/Offer';
 import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
+  async findAllOffersChosenByAppUser(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(
+        `${API_URL}/clients/${appUserId}/appUserChosenOffers`
+      );
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async findAllOffersOwnedByAppUser(
+    appUserId: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/clients/${appUserId}/appUserOffers`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async findAllOffersOfTypeOwnedByAppUser(
+    appUserId: number,
+    offerType: OfferType
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(
+        `${API_URL}/clients/${appUserId}/offers/type/${offerType}`
+      );
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   async getAllOffers(offerType: OfferType): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/offers/type/${offerType}`);
@@ -42,7 +74,7 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async getAppUserSellOffers(
+  async getAllSellOffersAssignedToAppUser(
     appUserId: number
   ): Promise<AxiosResponse<any, any>> {
     try {
@@ -51,7 +83,7 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async getAppUserPurchaseOffers(
+  async getAllPurchaseOffersAssignedToAppUser(
     appUserId: number
   ): Promise<AxiosResponse<any, any>> {
     try {

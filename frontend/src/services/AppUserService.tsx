@@ -1,8 +1,8 @@
+import { API_URL } from '@/config/config';
+import { APP_USER } from '@/constants/constants';
+import { IAppUser } from '@/models/AppUser';
 import axios, { AxiosError } from 'axios';
 
-import { API_URL } from '../config/config';
-import { APP_USER } from '../constants/constants';
-import { IAppUser } from '../models/AppUser';
 import { IAppUserService } from './types';
 
 class AppUserService implements IAppUserService {

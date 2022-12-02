@@ -1,26 +1,26 @@
 import './MyToastComponent.scss';
 
+import { useMyToast } from '@/context/ToastContext';
+import { getCurrentTime } from '@/utils/getCurrentTime';
 import React from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
 
-import { getCurrentTime } from '../../utils/getCurrentTime';
-import { MyToastComponentProps } from './types';
-
-function MyToastComponent({ myToast, setMyToast }: MyToastComponentProps) {
+function MyToastComponent() {
+  const toast = useMyToast();
   return (
     <ToastContainer className="p-3 my-toast-container">
       <Toast
         delay={5000}
         autohide
-        show={myToast?.show}
-        onClose={() => setMyToast({ show: !myToast?.show })}
-        bg={myToast?.background}
+        show={toast?.get.show}
+        onClose={() => toast?.set({ show: !toast.get?.show })}
+        bg={toast?.get.background}
       >
         <Toast.Header>
-          <strong className="me-auto">{myToast?.title}</strong>
+          <strong className="me-auto">{toast?.get.title}</strong>
           <small>{getCurrentTime()}</small>
         </Toast.Header>
-        <Toast.Body>{myToast?.message}</Toast.Body>
+        <Toast.Body>{toast?.get.message}</Toast.Body>
       </Toast>
     </ToastContainer>
   );

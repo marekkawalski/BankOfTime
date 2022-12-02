@@ -1,54 +1,56 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { OfferType } from '@/enums/OfferType';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import { IOffer } from '@/models/Offer';
 import { useEffect, useState } from 'react';
 
-import { useServices } from '../context/ServicesContext';
-import { OfferType } from '../enums/OfferType';
-import { IOffer } from '../models/Offer';
 import { UseGetAppUserOffersProps } from './types';
 
-const useGetAppUserOffers = ({
-  setMyToast,
-  offerType,
-}: UseGetAppUserOffersProps) => {
-  const services = useServices();
+const useGetAppUserOffers = ({ offerType }: UseGetAppUserOffersProps) => {
   const [offers, setOffers] = useState<IOffer[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const services = useServices();
+  const toast = useMyToast();
 
   useEffect(() => {
-    const handleGetClientSellOffers = async () => {
-      try {
-        setLoading(true);
-        if (services === undefined) return;
-        const result =
+    handleGetOffers();
+  }, [offerType, services]);
+
+  const handleGetOffers = async () => {
+    try {
+      setLoading(true);
+      if (services === undefined) return;
+      let result: any;
+      if (!offerType) {
+        result = await services.offerService.findAllOffersOwnedByAppUser(
+          services.appUserService.getAppUser().id
+        );
+      } else {
+        result =
           offerType === OfferType.PURCHASE_OFFER
-            ? await services.offerService.getAppUserPurchaseOffers(
-                services.appUserService.getAppUser().id
+            ? await services.offerService.findAllOffersOfTypeOwnedByAppUser(
+                services.appUserService.getAppUser().id,
+                OfferType.PURCHASE_OFFER
               )
-            : await services.offerService.getAppUserSellOffers(
-                services.appUserService.getAppUser().id
+            : await services.offerService.findAllOffersOfTypeOwnedByAppUser(
+                services.appUserService.getAppUser().id,
+                OfferType.SELL_OFFER
               );
-        setLoading(false);
-        if (result.status === 200) {
-          setOffers(result?.data ?? []);
-        } else if (result.status === 204) {
-          setMyToast({
-            background: "warning",
-            message: "No offers",
-            title: "Info",
-            show: true,
-          });
-        }
-      } catch (error) {
-        setMyToast({
-          background: "danger",
-          message: error as string,
-          title: "Error",
-          show: true,
-        });
       }
-    };
-    handleGetClientSellOffers();
-  }, [offerType, services, setMyToast]);
-  return { loading: loading, offers: offers };
+
+      setLoading(false);
+      if (result.status === 200) {
+        setOffers(result?.data ?? []);
+      } else if (result.status === 204) {
+        toast?.make(ToastTitle.INFO, ToastBackground.WARNING, "No offers");
+      }
+    } catch (error) {
+      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, "An error occurred");
+    }
+  };
+  return { loading, offers, handleGetOffers };
 };
 
 export default useGetAppUserOffers;

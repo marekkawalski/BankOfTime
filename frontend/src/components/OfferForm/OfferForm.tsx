@@ -1,9 +1,9 @@
+import { OfferType } from '@/enums/OfferType';
+import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import { Formik } from 'formik';
 import React from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Spinner } from 'react-bootstrap';
 
-import { OfferType } from '../../enums/OfferType';
-import { ICreateOffer, IUpdateOffer } from '../../models/Offer';
 import { offerValidation } from './offerValidation';
 import { OfferFormProps } from './types';
 

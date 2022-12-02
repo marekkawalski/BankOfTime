@@ -1,6 +1,5 @@
+import { OfferType } from '@/enums/OfferType';
 import * as Yup from 'yup';
-
-import { OfferType } from '../../enums/OfferType';
 
 export const offerValidation = Yup.object().shape({
   title: Yup.string()

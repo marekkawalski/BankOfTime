@@ -1,6 +1,5 @@
+import { MyToast } from '@/models/MyToast';
 import { useState } from 'react';
-
-import { MyToast } from '../../models/MyToast';
 
 function useGetMyToast() {
   const [myToast, setMyToast] = useState<MyToast>({

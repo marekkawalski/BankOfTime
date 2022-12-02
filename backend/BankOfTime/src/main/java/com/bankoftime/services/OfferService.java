@@ -22,9 +22,19 @@ public interface OfferService {
 
     List<Offer> getAllOffersOfType(OfferType offerType);
 
-    List<Offer> getClientSellOffers(Long userId);
+    List<Offer> getAllSellOffersAssignedToClient(Long userId);
 
-    List<Offer> getClientPurchaseOffers(Long userId);
+    List<Offer> getAllPurchaseOffersAssignedToClient(Long userId);
+
+    List<Offer> findAllSellOffersOwnedByUser(Long userId);
+
+    List<Offer> findAllPurchaseOffersOwnedByUser(Long userId);
+
+    List<Offer> findAllOffersOfTypeOwnedByUser(Long userId, OfferType offerType);
+
+    List<Offer> findAllOffersOwnedByUser(Long userId);
+
+    List<Offer> findAllOffersChosenByUser(Long userId);
 
     Optional<Offer> getOneSellOfferOfClient(Long clientId, Long offerId);
 

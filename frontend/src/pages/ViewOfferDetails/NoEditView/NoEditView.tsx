@@ -1,19 +1,19 @@
 import './NoEditView.scss';
 
+import { CallTo } from '@/components/CallTo/CallTo';
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
+import useGetOffer from '@/hooks/useGetOffer';
+import { IAppUser } from '@/models/AppUser';
 import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
-
-import { CallTo } from '../../../components/CallTo/CallTo';
-import MyToastComponent from '../../../components/Toast/MyToastComponent';
-import useGetMyToast from '../../../components/Toast/useGetMyToast';
-import { useServices } from '../../../context/ServicesContext';
-import { OfferStatus } from '../../../enums/OfferState';
-import { OfferType } from '../../../enums/OfferType';
-import { IAppUser } from '../../../models/AppUser';
-import useGetOffer from '../useGetOffer';
 
 const images = [
   {
@@ -30,47 +30,44 @@ const images = [
   },
 ];
 function NoEditView() {
-  const { myToast, setMyToast } = useGetMyToast();
   const [reload, setReload] = useState<boolean>(false);
-  const { offer } = useGetOffer(setMyToast, reload);
+  const { offer } = useGetOffer({ reload });
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const services = useServices();
+  const toast = useMyToast();
 
   useEffect(() => {
     if (!services) return;
     setAppUser(services.appUserService.getAppUser());
   }, [setAppUser, offer, services]);
 
-  const makeTransaction = async () => {
+  const requestTransaction = async () => {
     let result: any;
     if (!(services && appUser && offer)) return;
     try {
-      result = await services.timeTransactionService.makeTransaction(
+      result = await services.timeTransactionService.requestApproval(
         offer.id,
         offer?.seller?.id ?? appUser.id,
         offer?.buyer?.id ?? appUser.id
       );
       console.log(result);
-      setMyToast({
-        background: "success",
-        message: "Transaction succeeded!",
-        title: "Success",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.SUCCESS,
+        ToastBackground.SUCCESS,
+        "Request has been sent!"
+      );
       setReload(true);
     } catch (error: any) {
       console.log(error);
-      setMyToast({
-        background: "danger",
-        message: (error?.message?.response?.data?.message as string) ?? "Error",
-        title: "Error",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.ERROR,
+        ToastBackground.ERROR,
+        (error?.message?.response?.data?.message as string) ?? "Error"
+      );
     }
   };
   return (
     <section id="offer-details-section">
-      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <div className="offer-container">
         <div className="offer-container-child">
           <ImageGallery items={images} />
@@ -115,7 +112,7 @@ function NoEditView() {
                         offer?.seller?.id === appUser?.id ||
                         offer?.state !== OfferStatus.ACTIVE
                       }
-                      onClick={() => makeTransaction()}
+                      onClick={() => requestTransaction()}
                     >
                       Buy
                     </Button>
@@ -125,7 +122,7 @@ function NoEditView() {
                         offer?.buyer?.id === appUser?.id ||
                         offer?.state !== OfferStatus.ACTIVE
                       }
-                      onClick={() => makeTransaction()}
+                      onClick={() => requestTransaction()}
                     >
                       Sell
                     </Button>
@@ -141,7 +138,7 @@ function NoEditView() {
                       <span>Available</span>
                     </div>
                   ) : (
-                    <div>Unavailable</div>
+                    <div>{offer?.state}</div>
                   )}
                 </div>
                 <div>
@@ -153,27 +150,49 @@ function NoEditView() {
                 </div>
                 <div>
                   <hr />
-                  <div>
-                    <div className="appUser-name">
-                      <span className="pe-1">{appUser?.firstName}</span>
-                      <span>{appUser?.lastName}</span>
-                    </div>
+                  <div className="appUser-name">Contact info</div>
+                  {offer?.offerType === OfferType.PURCHASE_OFFER && (
                     <div>
-                      <span className="pe-1">
-                        <FontAwesomeIcon icon={faEnvelope} />
-                      </span>
-                      <span>{appUser?.email}</span>
-                    </div>
-                    {appUser?.phoneNumber && (
-                      <CallTo phone={appUser.phoneNumber}>
+                      <span className="pe-1">{offer.buyer?.firstName}</span>
+                      <span>{offer.buyer?.lastName}</span>
+                      <div>
                         <span className="pe-1">
-                          <FontAwesomeIcon icon={faPhone} />
+                          <FontAwesomeIcon icon={faEnvelope} />
                         </span>
-                        {appUser.phoneNumber}
-                      </CallTo>
-                    )}
-                    <div></div>
-                  </div>
+                        <span>{offer.buyer?.email}</span>
+                      </div>
+                      {offer.buyer?.phoneNumber && (
+                        <CallTo phone={offer.buyer.phoneNumber}>
+                          <span className="pe-1">
+                            <FontAwesomeIcon icon={faPhone} />
+                          </span>
+                          {offer.buyer.phoneNumber}
+                        </CallTo>
+                      )}
+                      <div></div>
+                    </div>
+                  )}
+                  {offer?.offerType === OfferType.SELL_OFFER && (
+                    <div>
+                      <span className="pe-1">{offer.seller?.firstName}</span>
+                      <span>{offer.seller?.lastName}</span>
+                      <div>
+                        <span className="pe-1">
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </span>
+                        <span>{offer.seller?.email}</span>
+                      </div>
+                      {offer.seller?.phoneNumber && (
+                        <CallTo phone={offer.seller.phoneNumber}>
+                          <span className="pe-1">
+                            <FontAwesomeIcon icon={faPhone} />
+                          </span>
+                          {offer.seller.phoneNumber}
+                        </CallTo>
+                      )}
+                      <div></div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

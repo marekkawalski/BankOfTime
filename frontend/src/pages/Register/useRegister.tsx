@@ -1,12 +1,13 @@
+import { useServices } from '@/context/ServicesContext';
+import { useMyToast } from '@/context/ToastContext';
+import { ToastBackground } from '@/enums/ToastBackground';
+import { ToastTitle } from '@/enums/ToastTitle';
 import React from 'react';
 
-import { useServices } from '../../context/ServicesContext';
-import { MyToast } from '../../models/MyToast';
-
-function useRegister(
-  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
-) {
+function useRegister() {
   const services = useServices();
+  const toast = useMyToast();
+
   const handleSubmit = async (values: any) => {
     try {
       if (!services) return;
@@ -17,22 +18,15 @@ function useRegister(
         email: values.email,
       });
       if (resp.status === 201) {
-        setMyToast({
-          background: "success",
-          message: resp.data,
-          title: "Success",
-          show: true,
-        });
+        toast?.make(ToastTitle.SUCCESS, ToastBackground.SUCCESS, resp.data);
       }
     } catch (e: any) {
-      setMyToast({
-        background: "danger",
-        message:
-          e?.message?.response?.data?.toString() ??
-          e?.message?.message?.toString(),
-        title: "Error",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.ERROR,
+        ToastBackground.ERROR,
+        e?.message?.response?.data?.toString() ??
+          e?.message?.message?.toString()
+      );
       console.log(e);
     }
   };

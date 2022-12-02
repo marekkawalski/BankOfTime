@@ -1,18 +1,18 @@
-import { createContext, useContext, useEffect } from 'react';
-import { useState } from 'react';
-
-import AppUserService from '../services/AppUserService';
-import AuthenticationService from '../services/AuthenticationService';
-import OfferService from '../services/OfferService';
-import RegistrationService from '../services/RegistrationService';
-import TimeTransactionService from '../services/TimeTransactionService';
+import AppUserService from '@/services/AppUserService';
+import AuthenticationService from '@/services/AuthenticationService';
+import OfferService from '@/services/OfferService';
+import RegistrationService from '@/services/RegistrationService';
+import TimeTransactionService from '@/services/TimeTransactionService';
 import {
   IAppUserService,
   IAuthenticationService,
   IOfferService,
   IRegistrationService,
   ITimeTransactionService,
-} from '../services/types';
+} from '@/services/types';
+import { createContext, useContext, useEffect } from 'react';
+import { useState } from 'react';
+
 import { ContextProps, ServicesContextProviderProps } from './types';
 
 const ServicesContext = createContext<ContextProps | undefined>(undefined);

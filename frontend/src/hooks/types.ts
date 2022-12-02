@@ -1,9 +1,17 @@
-import { OfferStatus } from '../enums/OfferState';
-import { OfferType } from '../enums/OfferType';
-import { MyToast } from '../models/MyToast';
+import { OfferStatus } from '@/enums/OfferState';
+import { OfferType } from '@/enums/OfferType';
 
 export interface UseGetAppUserOffersProps {
-  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>;
+  offerType?: OfferType;
+  offerStatus?: OfferStatus;
+}
+
+export interface UseGetOffersProps {
   offerType: OfferType;
   offerStatus?: OfferStatus;
+}
+
+export interface UseGetOfferProps {
+  reload?: boolean;
+  id?: number;
 }

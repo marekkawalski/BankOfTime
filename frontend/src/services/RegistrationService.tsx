@@ -1,7 +1,7 @@
+import { API_URL } from '@/config/config';
+import { IAppUserToRegister } from '@/models/AppUser';
 import axios, { AxiosError } from 'axios';
 
-import { API_URL } from '../config/config';
-import { IAppUserToRegister } from '../models/AppUser';
 import { IRegistrationService } from './types';
 
 class RegistrationService implements IRegistrationService {

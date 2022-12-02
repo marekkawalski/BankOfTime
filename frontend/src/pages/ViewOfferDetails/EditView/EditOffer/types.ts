@@ -1,4 +1,4 @@
-import { IOffer } from '../../../../models/Offer';
+import { IOffer } from '@/models/Offer';
 
 export interface EditOfferProps {
   offer?: IOffer;
