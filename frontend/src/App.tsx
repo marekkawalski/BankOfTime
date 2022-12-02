@@ -9,8 +9,6 @@ import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
 import AppUserChosenOffers from './pages/AppUserChosenOffers/AppUserChosenOffers';
 import AppUserOffers from './pages/AppUserOffers/AppUserOffers';
-import AppUserPurchaseOffers from './pages/AppUserPurchaseOffers/AppUserPurchaseOffers';
-import AppUserSellOffers from './pages/AppUserSellOffers/AppUserSellOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
 import Home from './pages/Home/Home';
 import LoginComponent from './pages/Login/Login';
@@ -32,18 +30,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/createOffer" element={<CreateOffer />} />
-          <Route
-            path="/appUserPurchaseOffers"
-            element={<AppUserPurchaseOffers />}
-          />
-          <Route
-            path="/appUserPurchaseOffers/:id"
-            element={<ViewOfferDetails />}
-          />
           <Route path="/purchaseOffers" element={<PurchaseOffers />} />
           <Route path="/purchaseOffers/:id" element={<ViewOfferDetails />} />
-          <Route path="/appUserSellOffers" element={<AppUserSellOffers />} />
-          <Route path="/appUserSellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/sellOffers" element={<SellOffers />} />
           <Route path="/sellOffers/:id" element={<ViewOfferDetails />} />
           <Route path="/appUserOffers" element={<AppUserOffers />} />

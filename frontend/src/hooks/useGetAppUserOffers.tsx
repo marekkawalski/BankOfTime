@@ -14,10 +14,10 @@ const useGetAppUserOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    handleGetAppUserOffers();
+    handleGetOffers();
   }, [offerType, services, setMyToast]);
 
-  const handleGetAppUserOffers = async () => {
+  const handleGetOffers = async () => {
     try {
       setLoading(true);
       if (services === undefined) return;
@@ -59,7 +59,7 @@ const useGetAppUserOffers = ({
       });
     }
   };
-  return { loading, offers };
+  return { loading, offers, handleGetOffers };
 };
 
 export default useGetAppUserOffers;

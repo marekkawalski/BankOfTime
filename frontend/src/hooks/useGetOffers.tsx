@@ -49,7 +49,7 @@ const useGetOffers = ({
       });
     }
   };
-  return { loading: loading, offers: offers };
+  return { loading, offers, handleGetOffers };
 };
 
 export default useGetOffers;

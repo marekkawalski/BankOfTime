@@ -11,8 +11,7 @@ import MyToastComponent from '../Toast/MyToastComponent';
 import useGetMyToast from '../Toast/useGetMyToast';
 import { IManageOffer, ManageOffer } from './ManageOffer';
 
-function Offer({ offer }: OfferProps) {
-  const [reload, setReload] = useState<boolean>(false);
+function Offer({ offer, handleGetOffers }: OfferProps) {
   const { myToast, setMyToast } = useGetMyToast();
   const navigate = useNavigate();
   const { appUser } = useGetAppUser();
@@ -49,7 +48,7 @@ function Offer({ offer }: OfferProps) {
       console.log(result);
       setMyToast({
         background: "success",
-        message: "Buyer has been accepted!",
+        message: "Client has been accepted!",
         title: "Success",
         show: true,
       });
@@ -62,7 +61,17 @@ function Offer({ offer }: OfferProps) {
         show: true,
       });
     }
-    setReload(true);
+    await handleGetOffers();
+  };
+  const reload = async () => {
+    await handleGetOffers();
+    setMyToast({
+      background: "success",
+      message: "Client has been accepted!",
+      title: "Success",
+      show: true,
+    });
+    // await handleGetOffers();
   };
   return (
     <div>
@@ -123,6 +132,9 @@ function Offer({ offer }: OfferProps) {
                   )}
               </div>
             )}
+            <Button size="sm" variant="primary" onClick={() => reload()}>
+              Test
+            </Button>
           </Card.Body>
           <Card.Footer className={setFooterClassName()}>
             {offer.state}

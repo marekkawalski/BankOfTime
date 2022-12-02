@@ -5,7 +5,7 @@ import { Button, Form } from 'react-bootstrap';
 
 import { FilterBarProps } from './types';
 
-function FilterBar({ title }: FilterBarProps) {
+function FilterBar({ title, handleGetOffers }: FilterBarProps) {
   return (
     <div className="filter-bar-container">
       <h2>{title}</h2>

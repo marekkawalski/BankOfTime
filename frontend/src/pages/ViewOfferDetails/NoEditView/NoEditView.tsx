@@ -141,7 +141,7 @@ function NoEditView() {
                       <span>Available</span>
                     </div>
                   ) : (
-                    <div>Unavailable</div>
+                    <div>{offer?.state}</div>
                   )}
                 </div>
                 <div>

@@ -111,6 +111,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         AppUser buyer = oBuyer.get();
         AppUser seller = oSeller.get();
 
+        //todo check if is onhold and buyer is correct
         if (!(offer.getState() != OfferStatus.ACTIVE || offer.getState() != OfferStatus.ON_HOLD))
             throw new TimeTransactionException("Offer is not active!");
 
@@ -126,8 +127,8 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
-        buyer.getPurchaseTransactions().add(timeTransaction);
-        seller.getSellTransactions().add(timeTransaction);
+//        buyer.getPurchaseTransactions().add(timeTransaction);
+//        seller.getSellTransactions().add(timeTransaction);
 
         offerService.modifyOffer(offer);
         timeTransactionRepository.save(timeTransaction);

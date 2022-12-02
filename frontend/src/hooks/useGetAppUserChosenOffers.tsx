@@ -13,10 +13,10 @@ const useGetAppUserChosenOffers = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    handleGetAppUserChosenOffers();
+    handleGetOffers();
   }, [offerType, services, setMyToast]);
 
-  const handleGetAppUserChosenOffers = async () => {
+  const handleGetOffers = async () => {
     try {
       setLoading(true);
       if (services === undefined) return;
@@ -43,7 +43,7 @@ const useGetAppUserChosenOffers = ({
       });
     }
   };
-  return { loading: loading, offers: offers };
+  return { loading, offers, handleGetOffers };
 };
 
 export default useGetAppUserChosenOffers;
