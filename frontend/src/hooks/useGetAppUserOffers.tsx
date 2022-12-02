@@ -47,7 +47,7 @@ const useGetAppUserOffers = ({ offerType }: UseGetAppUserOffersProps) => {
         toast?.make(ToastTitle.INFO, ToastBackground.WARNING, "No offers");
       }
     } catch (error) {
-      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, error as string);
+      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, "An error occurred");
     }
   };
   return { loading, offers, handleGetOffers };
