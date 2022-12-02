@@ -3,20 +3,21 @@ import { Button, Card, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import { useServices } from '../../context/ServicesContext';
+import { useMyToast } from '../../context/ToastContext';
 import { OfferStatus } from '../../enums/OfferState';
 import { OfferType } from '../../enums/OfferType';
+import { ToastBackground } from '../../enums/ToastBackground';
+import { ToastTitle } from '../../enums/ToastTitle';
 import useGetAppUser from '../../hooks/useGetAppUser';
 import { OfferProps } from '../OfferContainer/types';
-import MyToastComponent from '../Toast/MyToastComponent';
-import useGetMyToast from '../Toast/useGetMyToast';
 import { IManageOffer, ManageOffer } from './ManageOffer';
 
 function Offer({ offer, handleGetOffers }: OfferProps) {
-  const { myToast, setMyToast } = useGetMyToast();
   const navigate = useNavigate();
   const { appUser } = useGetAppUser();
   const services = useServices();
   const [manageOffer, setManageOffer] = useState<IManageOffer>();
+  const toast = useMyToast();
 
   useEffect(() => {
     setManageOffer(new ManageOffer(offer, appUser));
@@ -46,36 +47,23 @@ function Offer({ offer, handleGetOffers }: OfferProps) {
         offer?.buyer?.id ?? appUser.id
       );
       console.log(result);
-      setMyToast({
-        background: "success",
-        message: "Client has been accepted!",
-        title: "Success",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.SUCCESS,
+        ToastBackground.SUCCESS,
+        "Client has been accepted!"
+      );
     } catch (error: any) {
       console.log(error);
-      setMyToast({
-        background: "danger",
-        message: (error?.message?.response?.data?.message as string) ?? "Error",
-        title: "Error",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.ERROR,
+        ToastBackground.ERROR,
+        (error?.message?.response?.data?.message as string) ?? "Error"
+      );
     }
     await handleGetOffers();
   };
-  const reload = async () => {
-    await handleGetOffers();
-    setMyToast({
-      background: "success",
-      message: "Client has been accepted!",
-      title: "Success",
-      show: true,
-    });
-    // await handleGetOffers();
-  };
   return (
     <div>
-      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <Col>
         <Card>
           <Card.Img
@@ -132,9 +120,6 @@ function Offer({ offer, handleGetOffers }: OfferProps) {
                   )}
               </div>
             )}
-            <Button size="sm" variant="primary" onClick={() => reload()}>
-              Test
-            </Button>
           </Card.Body>
           <Card.Footer className={setFooterClassName()}>
             {offer.state}

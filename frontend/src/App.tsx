@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import MyToastComponent from './components/Toast/MyToastComponent';
 import { Role } from './enums/Role';
 import About from './pages/About/About';
 import AdminPage from './pages/AdminPage/AdminPage';
@@ -21,6 +22,7 @@ import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 function App() {
   return (
     <BrowserRouter>
+      <MyToastComponent />
       <Routes>
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />

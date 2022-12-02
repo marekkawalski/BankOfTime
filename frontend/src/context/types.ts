@@ -1,3 +1,4 @@
+import { MyToast } from '../models/MyToast';
 import {
   IAppUserService,
   IAuthenticationService,
@@ -15,4 +16,13 @@ export interface ContextProps {
   registrationService: IRegistrationService;
   authenticationService: IAuthenticationService;
   timeTransactionService: ITimeTransactionService;
+}
+
+export interface ToastContextProviderProps {
+  children: React.ReactNode;
+}
+export interface ToastContextProps {
+  get: MyToast;
+  set: React.Dispatch<React.SetStateAction<MyToast>>;
+  make: (title: string, background: string, message: string) => void;
 }

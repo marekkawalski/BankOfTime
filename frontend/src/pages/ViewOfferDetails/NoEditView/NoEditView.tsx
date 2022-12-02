@@ -7,11 +7,12 @@ import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 
 import { CallTo } from '../../../components/CallTo/CallTo';
-import MyToastComponent from '../../../components/Toast/MyToastComponent';
-import useGetMyToast from '../../../components/Toast/useGetMyToast';
 import { useServices } from '../../../context/ServicesContext';
+import { useMyToast } from '../../../context/ToastContext';
 import { OfferStatus } from '../../../enums/OfferState';
 import { OfferType } from '../../../enums/OfferType';
+import { ToastBackground } from '../../../enums/ToastBackground';
+import { ToastTitle } from '../../../enums/ToastTitle';
 import useGetOffer from '../../../hooks/useGetOffer';
 import { IAppUser } from '../../../models/AppUser';
 
@@ -30,11 +31,11 @@ const images = [
   },
 ];
 function NoEditView() {
-  const { myToast, setMyToast } = useGetMyToast();
   const [reload, setReload] = useState<boolean>(false);
-  const { offer } = useGetOffer({ setMyToast, reload });
+  const { offer } = useGetOffer({ reload });
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const services = useServices();
+  const toast = useMyToast();
 
   useEffect(() => {
     if (!services) return;
@@ -51,26 +52,23 @@ function NoEditView() {
         offer?.buyer?.id ?? appUser.id
       );
       console.log(result);
-      setMyToast({
-        background: "success",
-        message: "Request has been sent!",
-        title: "Success",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.SUCCESS,
+        ToastBackground.SUCCESS,
+        "Request has been sent!"
+      );
       setReload(true);
     } catch (error: any) {
       console.log(error);
-      setMyToast({
-        background: "danger",
-        message: (error?.message?.response?.data?.message as string) ?? "Error",
-        title: "Error",
-        show: true,
-      });
+      toast?.make(
+        ToastTitle.ERROR,
+        ToastBackground.ERROR,
+        (error?.message?.response?.data?.message as string) ?? "Error"
+      );
     }
   };
   return (
     <section id="offer-details-section">
-      <MyToastComponent myToast={myToast} setMyToast={setMyToast} />
       <div className="offer-container">
         <div className="offer-container-child">
           <ImageGallery items={images} />

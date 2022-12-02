@@ -2,13 +2,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useServices } from '../context/ServicesContext';
+import { useMyToast } from '../context/ToastContext';
+import { ToastBackground } from '../enums/ToastBackground';
+import { ToastTitle } from '../enums/ToastTitle';
 import { IOffer } from '../models/Offer';
 import { UseGetOfferProps } from './types';
 
-function useGetOffer({ setMyToast, reload, id }: UseGetOfferProps) {
+function useGetOffer({ reload, id }: UseGetOfferProps) {
   const [offer, setOffer] = useState<IOffer>();
   const params = useParams();
   const services = useServices();
+  const toast = useMyToast();
+
   useEffect(() => {
     handleGetOffer();
     if (!services) return;
@@ -17,12 +22,7 @@ function useGetOffer({ setMyToast, reload, id }: UseGetOfferProps) {
   const handleGetOffer = async () => {
     let result: any;
     if (!params.id && !id) {
-      setMyToast({
-        background: "danger",
-        message: "no id param",
-        title: "Error",
-        show: true,
-      });
+      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, "no id param");
       return;
     }
     if (!services) return;
@@ -32,12 +32,7 @@ function useGetOffer({ setMyToast, reload, id }: UseGetOfferProps) {
       );
       setOffer(result?.data ?? {});
     } catch (error) {
-      setMyToast({
-        background: "danger",
-        message: error as string,
-        title: "Error",
-        show: true,
-      });
+      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, error as string);
     }
   };
   return { offer };

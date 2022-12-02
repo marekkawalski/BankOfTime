@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 
 import { useServices } from '../../context/ServicesContext';
-import { MyToast } from '../../models/MyToast';
+import { useMyToast } from '../../context/ToastContext';
+import { ToastBackground } from '../../enums/ToastBackground';
+import { ToastTitle } from '../../enums/ToastTitle';
 import { ICreateOffer } from '../../models/Offer';
 
-function useCreateOffer(
-  setMyToast: React.Dispatch<React.SetStateAction<MyToast>>
-) {
+function useCreateOffer() {
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
+  const toast = useMyToast();
+
   const handleSubmit = async <T,>(offer: T) => {
     try {
       setLoading(true);
@@ -18,31 +20,24 @@ function useCreateOffer(
       );
       setLoading(false);
       if (resp.status === 201) {
-        setMyToast({
-          background: "success",
-          message: "Offer has been created",
-          title: "Success",
-          show: true,
-        });
+        toast?.make(
+          ToastTitle.SUCCESS,
+          ToastBackground.SUCCESS,
+          "Offer has been created"
+        );
       } else {
-        setMyToast({
-          background: "danger",
-          message: "an error occurred",
-          title: "Error",
-          show: true,
-        });
+        toast?.make(
+          ToastTitle.ERROR,
+          ToastBackground.ERROR,
+          "An error occurred"
+        );
       }
     } catch (e: any) {
-      setMyToast({
-        background: "danger",
-        message: e.toString(),
-        title: "Error",
-        show: true,
-      });
+      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, e as string);
       console.log(e);
     }
   };
-  return { loading: loading, handleSubmit: handleSubmit };
+  return { loading, handleSubmit };
 }
 
 export default useCreateOffer;
