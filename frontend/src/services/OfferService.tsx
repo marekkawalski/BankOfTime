@@ -8,6 +8,14 @@ import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
+  async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
+    try {
+      const appUserId = AppUserService.getAppUser().id;
+      return await axios.post(`${API_URL}/offers/${appUserId}`, offer);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   async findAllOffersChosenByAppUser(
     appUserId: number
   ): Promise<AxiosResponse<any, any>> {
@@ -66,14 +74,7 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
-    try {
-      const appUserId = AppUserService.getAppUser().id;
-      return await axios.post(`${API_URL}/offers/${appUserId}`, offer);
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
+
   async getAllSellOffersAssignedToAppUser(
     appUserId: number
   ): Promise<AxiosResponse<any, any>> {
@@ -93,31 +94,31 @@ class OfferService implements IOfferService {
     }
   }
 
-  async getAppUserSellOfferById(
-    appUserId: number,
-    sellOfferId: number
-  ): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.get(
-        `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`
-      );
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
+  // async getAppUserSellOfferById(
+  //   appUserId: number,
+  //   sellOfferId: number
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(
+  //       `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`
+  //     );
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
 
-  async getAppUserPurchaseOfferById(
-    appUserId: number,
-    purchaseOfferId: number
-  ): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.get(
-        `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`
-      );
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
+  // async getAppUserPurchaseOfferById(
+  //   appUserId: number,
+  //   purchaseOfferId: number
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(
+  //       `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`
+  //     );
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
 
   async updateOffer(offer: IOffer): Promise<AxiosResponse<any, any>> {
     try {

@@ -33,14 +33,6 @@ export interface IOfferService {
   ): Promise<AxiosResponse>;
   findAllOffersChosenByAppUser(appUserId: number): Promise<AxiosResponse>;
   findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
-  getAppUserSellOfferById(
-    appUserId: number,
-    sellOfferId: number
-  ): Promise<AxiosResponse>;
-  getAppUserPurchaseOfferById(
-    appUserId: number,
-    purchaseOfferId: number
-  ): Promise<AxiosResponse>;
   updateOffer(offer: IOffer): Promise<AxiosResponse>;
   getAllOffers(offerType: OfferType): Promise<AxiosResponse>;
   getAllOffersByTypeAndStatus(

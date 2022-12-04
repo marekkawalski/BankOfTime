@@ -7,6 +7,8 @@ import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.OfferRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,7 +109,6 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.findAllOffersChosenByUser(userId);
     }
 
-
     @Override
     public Optional<Offer> getOneSellOfferOfClient(Long sellerId, Long offerId) {
         return offerRepository.findByIdAndSellerId(offerId, sellerId);
@@ -153,6 +154,16 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public List<Offer> getAllOffersOfTypeAndStatus(OfferType offerType, OfferStatus offerStatus) {
         return offerRepository.findByOfferTypeAndState(offerType, offerStatus);
+    }
+
+    @Override
+    public List<Offer> getSortedPagedAndFilteredOffers(final String sortField, final Integer pageSize, final Integer pageNum, final OfferStatus offerStatus, final Sort.Direction sortDirection) {
+        return offerRepository.findAllByState(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), offerStatus);
+    }
+
+    @Override
+    public List<Offer> getSortedPagedAndFilteredOffersOfType(String sortField, Integer pageSize, Integer pageNum, OfferType offerType, OfferStatus offerStatus, final Sort.Direction sortDirection) {
+        return offerRepository.findAllByOfferTypeAndState(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), offerType, offerStatus);
     }
 
 }
