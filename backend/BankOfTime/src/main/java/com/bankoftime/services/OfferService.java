@@ -21,35 +21,15 @@ public interface OfferService {
 
     Offer mapOfferDTOToOffer(OfferDTO OfferDTO);
 
-    List<Offer> getAllOffersOfType(OfferType offerType);
-
     List<Offer> getAllSellOffersAssignedToClient(Long userId);
 
     List<Offer> getAllPurchaseOffersAssignedToClient(Long userId);
 
-    List<Offer> findAllSellOffersOwnedByUser(Long userId);
-
-    List<Offer> findAllPurchaseOffersOwnedByUser(Long userId);
-
-    List<Offer> findAllOffersOfTypeOwnedByUser(Long userId, OfferType offerType);
-
-    List<Offer> findAllOffersOwnedByUser(Long userId);
-
-    List<Offer> findAllOffersChosenByUser(Long userId);
-
-    Optional<Offer> getOneSellOfferOfClient(Long clientId, Long offerId);
-
-    Optional<Offer> getOnePurchaseOfferOfClient(Long clientId, Long offerId);
-
     Optional<Offer> modifyOffer(Offer offerToSave);
 
-    Optional<Offer> getOfferById(Long offerId);
+    List<Offer> getSortedPagedAndFilteredOffers(final String sortField, final Integer pageSize, final Integer pageNum, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection);
 
-    boolean deleteOffer(Long offerId);
+    List<Offer> getPagedAndFilteredOffersOwnedByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection);
 
-    List<Offer> getAllOffersOfTypeAndStatus(OfferType offerType, OfferStatus offerStatus);
-
-    List<Offer> getSortedPagedAndFilteredOffers(String sortField, Integer pageSize, Integer pageNum, OfferStatus offerStatus, Sort.Direction sortDirection);
-
-    List<Offer> getSortedPagedAndFilteredOffersOfType(String sortField, Integer pageSize, Integer pageNum, OfferType offerType, OfferStatus offerStatus, Sort.Direction sortDirection);
+    List<Offer> getPagedAndFilteredOffersChosenByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection);
 }

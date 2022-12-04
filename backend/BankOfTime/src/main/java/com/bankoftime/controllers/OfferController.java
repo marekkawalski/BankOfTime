@@ -30,54 +30,48 @@ public class OfferController {
 
     @GetMapping(path = "/offers/{offerId:\\d*}")
     public ResponseEntity<Offer> getOfferById(@PathVariable Long offerId) {
-        return offerService.getOfferById(offerId)
+        return offerService.findOffer(offerId)
                 .map(offer -> ResponseEntity.status(HttpStatus.OK).body(offer))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @GetMapping(path = "/offers/type/{offerType}")
-    public ResponseEntity<List<Offer>> getOffersOfType(@PathVariable OfferType offerType,
-                                                       @RequestParam(required = false) OfferStatus offerStatus) {
-        final List<Offer> offers = offerStatus == null ? offerService.getAllOffersOfType(offerType) :
-                offerService.getAllOffersOfTypeAndStatus(offerType, offerStatus);
-        if (offers.isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(offers);
-    }
 
     @GetMapping(path = "/offers")
     public ResponseEntity<List<Offer>> getOffers(@RequestParam(required = false, value = "type") OfferType offerType,
-                                                 @RequestParam(value = "status", defaultValue = "ACTIVE") OfferStatus offerStatus,
+                                                 @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                  @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                  @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                  @RequestParam(value = "page-size", defaultValue = "2") Integer pageSize,
                                                  @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final List<Offer> offers = offerType == null ? offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerStatus, sortDirection) :
-                offerService.getSortedPagedAndFilteredOffersOfType(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection);
+        final List<Offer> offers = offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
     }
 
-    @GetMapping(value = "/clients/{appUserId}/offers/type/{offerType}")
-    public ResponseEntity<List<Offer>> findAllOffersOfTypeOwnedByAppUser(@PathVariable("appUserId") Long appUserId, @PathVariable("offerType") OfferType offerType) {
-        List<Offer> purchaseOffers = offerService.findAllOffersOfTypeOwnedByUser(appUserId, offerType);
-        if (purchaseOffers.isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
-    }
-
     @GetMapping(value = "/clients/{appUserId}/appUserOffers")
-    public ResponseEntity<List<Offer>> findAllOffersOwnedByAppUser(@PathVariable("appUserId") Long appUserId) {
-        List<Offer> offers = offerService.findAllOffersOwnedByUser(appUserId);
+    public ResponseEntity<List<Offer>> getAllOffersOwnedByAppUser(@PathVariable("appUserId") Long appUserId,
+                                                                  @RequestParam(required = false, value = "type") OfferType offerType,
+                                                                  @RequestParam(required = false, value = "status") OfferStatus offerStatus,
+                                                                  @RequestParam(value = "sort", defaultValue = "title") String sortField,
+                                                                  @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
+                                                                  @RequestParam(value = "page-size", defaultValue = "2") Integer pageSize,
+                                                                  @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
+        List<Offer> offers = offerService.getPagedAndFilteredOffersOwnedByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
     }
 
     @GetMapping(value = "/clients/{appUserId}/appUserChosenOffers")
-    public ResponseEntity<List<Offer>> findAllOffersChosenByAppUser(@PathVariable("appUserId") Long appUserId) {
-        List<Offer> offers = offerService.findAllOffersChosenByUser(appUserId);
+    public ResponseEntity<List<Offer>> getAllOffersChosenByAppUser(@PathVariable("appUserId") Long appUserId,
+                                                                   @RequestParam(required = false, value = "type") OfferType offerType,
+                                                                   @RequestParam(required = false, value = "status") OfferStatus offerStatus,
+                                                                   @RequestParam(value = "sort", defaultValue = "title") String sortField,
+                                                                   @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
+                                                                   @RequestParam(value = "page-size", defaultValue = "2") Integer pageSize,
+                                                                   @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
+        List<Offer> offers = offerService.getPagedAndFilteredOffersChosenByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -98,32 +92,6 @@ public class OfferController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
     }
-
-//    @GetMapping(value = "/clients/{clientId}/purchaseOffers/{offerId}")
-//    public ResponseEntity<Offer> getClientPurchaseOffer(@PathVariable("clientId") Long clientId,
-//                                                        @PathVariable("offerId") Long offerId) {
-//        Optional<Offer> oOffer = offerService.getOnePurchaseOfferOfClient(clientId, offerId);
-//
-//        if (oOffer.isEmpty())
-//            return ResponseEntity
-//                    .status(HttpStatus.NOT_FOUND)
-//                    .body(null);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(oOffer.get());
-//    }
-
-//    @GetMapping(value = "/clients/{clientId}/sellOffers/{offerId}")
-//    public ResponseEntity<Offer> getClientSellOffer(@PathVariable("clientId") Long clientId,
-//                                                    @PathVariable("offerId") Long offerId) {
-//        Optional<Offer> oOffer = offerService.getOneSellOfferOfClient(clientId, offerId);
-//
-//        if (oOffer.isEmpty())
-//            return ResponseEntity
-//                    .status(HttpStatus.NOT_FOUND)
-//                    .body(null);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(oOffer.get());
-//    }
 
     @PostMapping(path = "/offers/{clientId}")
     public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {

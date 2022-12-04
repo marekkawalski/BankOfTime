@@ -36,8 +36,7 @@ public class OfferServiceImpl implements OfferService {
     public Optional<Offer> findOffer(Long offerId) {
         return offerRepository.findById(offerId);
     }
-
-
+    
     @Override
     public Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO) {
         Offer offer = new Offer();
@@ -68,11 +67,6 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<Offer> getAllOffersOfType(OfferType offerType) {
-        return offerRepository.findByOfferType(offerType);
-    }
-
-    @Override
     public List<Offer> getAllSellOffersAssignedToClient(Long sellerId) {
         return offerRepository.findBySellerId(sellerId);
     }
@@ -80,43 +74,6 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public List<Offer> getAllPurchaseOffersAssignedToClient(Long buyerId) {
         return offerRepository.findByBuyerId(buyerId);
-    }
-
-    @Override
-    public List<Offer> findAllSellOffersOwnedByUser(final Long userId) {
-        return offerRepository.findAllSellOffersOwnedByUser(userId);
-    }
-
-    @Override
-    public List<Offer> findAllPurchaseOffersOwnedByUser(final Long userId) {
-        return offerRepository.findAllPurchaseOffersOwnedByUser(userId);
-    }
-
-    @Override
-    public List<Offer> findAllOffersOfTypeOwnedByUser(final Long userId, final OfferType offerType) {
-        return offerType == OfferType.SELL_OFFER ?
-                findAllSellOffersOwnedByUser(userId) :
-                findAllPurchaseOffersOwnedByUser(userId);
-    }
-
-    @Override
-    public List<Offer> findAllOffersOwnedByUser(final Long userId) {
-        return offerRepository.findAllOffersOwnedByUser(userId);
-    }
-
-    @Override
-    public List<Offer> findAllOffersChosenByUser(final Long userId) {
-        return offerRepository.findAllOffersChosenByUser(userId);
-    }
-
-    @Override
-    public Optional<Offer> getOneSellOfferOfClient(Long sellerId, Long offerId) {
-        return offerRepository.findByIdAndSellerId(offerId, sellerId);
-    }
-
-    @Override
-    public Optional<Offer> getOnePurchaseOfferOfClient(Long buyerId, Long offerId) {
-        return offerRepository.findByIdAndBuyerId(offerId, buyerId);
     }
 
     @Override
@@ -138,32 +95,17 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<Offer> getOfferById(final Long offerId) {
-        return offerRepository.findById(offerId);
+    public List<Offer> getSortedPagedAndFilteredOffers(final String sortField, final Integer pageSize, final Integer pageNum, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection) {
+        return offerRepository.findAllOffers(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), offerType, offerStatus);
     }
 
     @Override
-    public boolean deleteOffer(Long offerId) {
-        Optional<Offer> oOffer = offerRepository.findById(offerId);
-        if (oOffer.isEmpty())
-            return false;
-        offerRepository.delete(oOffer.get());
-        return true;
+    public List<Offer> getPagedAndFilteredOffersOwnedByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection) {
+        return offerRepository.findAllOffersOwnedByUser(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), userId, offerType, offerStatus);
     }
 
     @Override
-    public List<Offer> getAllOffersOfTypeAndStatus(OfferType offerType, OfferStatus offerStatus) {
-        return offerRepository.findByOfferTypeAndState(offerType, offerStatus);
+    public List<Offer> getPagedAndFilteredOffersChosenByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection) {
+        return offerRepository.findAllOffersChosenByUser(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), userId, offerType, offerStatus);
     }
-
-    @Override
-    public List<Offer> getSortedPagedAndFilteredOffers(final String sortField, final Integer pageSize, final Integer pageNum, final OfferStatus offerStatus, final Sort.Direction sortDirection) {
-        return offerRepository.findAllByState(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), offerStatus);
-    }
-
-    @Override
-    public List<Offer> getSortedPagedAndFilteredOffersOfType(String sortField, Integer pageSize, Integer pageNum, OfferType offerType, OfferStatus offerStatus, final Sort.Direction sortDirection) {
-        return offerRepository.findAllByOfferTypeAndState(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), offerType, offerStatus);
-    }
-
 }
