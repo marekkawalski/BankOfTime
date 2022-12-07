@@ -12,20 +12,17 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
   title,
   getOffers,
 }) => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const { offers, handleGetOffers, loading } = getOffers;
+  const { loading, data, handleGetOffers } = getOffers;
   return (
-    <MySpinner show={loading}>
+    <MySpinner show={loading || data === undefined}>
       <section>
         <div className="main-container">
           <FilterBar title={title} handleGetOffers={handleGetOffers} />
           <div className="content-container">
             <div>
-              {offers.length === 0 && <div>No offers</div>}
+              {data?.content.length === 0 && <div>No offers</div>}
               <Row xs={1} md={2} className="g-4 mb-3">
-                {offers.map((offer) => {
+                {data?.content.map((offer) => {
                   return (
                     <Offer offer={offer} handleGetOffers={handleGetOffers} />
                   );

@@ -5,7 +5,7 @@ import { ICreateOffer, IOffer } from '@/models/Offer';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import AppUserService from './AppUserService';
-import { IOfferService } from './types';
+import { IOfferService, OfferRequestParams } from './types';
 
 class OfferService implements IOfferService {
   async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
@@ -48,9 +48,41 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async getAllOffers(offerType: OfferType): Promise<AxiosResponse<any, any>> {
+  async getOffers(
+    offerRequestParams: OfferRequestParams
+  ): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.get(`${API_URL}/offers/type/${offerType}`);
+      const url: string = "".concat(
+        offerRequestParams?.offerTypeUrl ?? "",
+        "",
+        offerRequestParams?.offerStatusUrl ?? "",
+        offerRequestParams?.pageNumUrl ?? "",
+        offerRequestParams?.pageSizeUrl ?? "",
+        offerRequestParams?.sortDirectionUrl ?? "",
+        offerRequestParams?.sortFieldUrl ?? ""
+      );
+
+      return await axios.get(`${API_URL}/offers?${url}`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+  async getAppUserOffers(
+    offerRequestParams: OfferRequestParams,
+    id: number
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      const url: string = "".concat(
+        offerRequestParams?.offerTypeUrl ?? "",
+        "",
+        offerRequestParams?.offerStatusUrl ?? "",
+        offerRequestParams?.pageNumUrl ?? "",
+        offerRequestParams?.pageSizeUrl ?? "",
+        offerRequestParams?.sortDirectionUrl ?? "",
+        offerRequestParams?.sortFieldUrl ?? ""
+      );
+
+      return await axios.get(`${API_URL}/clients/${id}/appUserOffers?${url}`);
     } catch (error: any) {
       throw new AxiosError(error);
     }

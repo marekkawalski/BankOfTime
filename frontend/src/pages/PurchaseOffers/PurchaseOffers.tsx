@@ -10,8 +10,8 @@ function PurchaseOffers() {
       <OfferContainer
         title="PurchaseOffers"
         getOffers={useGetOffers({
-          offerType: OfferType.PURCHASE_OFFER,
-          offerStatus: OfferStatus.ACTIVE,
+          offerTypeUrl: `type=${OfferType.PURCHASE_OFFER}&`,
+          offerStatusUrl: `status=${OfferStatus.ACTIVE}&`,
         })}
       />
     </section>

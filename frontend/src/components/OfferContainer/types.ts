@@ -2,11 +2,13 @@ import { OfferStatus } from '@/enums/OfferState';
 import { OfferType } from '@/enums/OfferType';
 import { IOffer } from '@/models/Offer';
 
+import { OffersData } from '../../hooks/types';
+
 export interface OfferContainerProps {
   title: string;
   getOffers: {
     loading: boolean;
-    offers: IOffer[];
+    data: OffersData | null;
     handleGetOffers: () => Promise<void>;
   };
 }
