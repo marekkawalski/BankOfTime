@@ -20,6 +20,8 @@ import java.util.Optional;
 
 @RestController
 public class OfferController {
+
+    private static final String DEFAULT_PAGE_SIZE = " 10";
     private final OfferService offerService;
 
     private final AppUserService appUserService;
@@ -42,7 +44,7 @@ public class OfferController {
                                                        @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                        @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                        @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
-                                                       @RequestParam(value = "page-size", defaultValue = "2") Integer pageSize,
+                                                       @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                        @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
         final Page<List<Offer>> offers = offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection);
         if (offers.isEmpty())
@@ -56,7 +58,7 @@ public class OfferController {
                                                                         @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                                         @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                                         @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
-                                                                        @RequestParam(value = "page-size", defaultValue = "2") Integer pageSize,
+                                                                        @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                                         @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
         final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersOwnedByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection);
         if (offers.isEmpty())
@@ -70,7 +72,7 @@ public class OfferController {
                                                                          @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                                          @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                                          @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
-                                                                         @RequestParam(value = "page-size", defaultValue = "2") Integer pageSize,
+                                                                         @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                                          @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
         final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersChosenByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection);
         if (offers.isEmpty())

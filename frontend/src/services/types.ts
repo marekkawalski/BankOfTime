@@ -1,5 +1,3 @@
-import { OfferStatus } from '@/enums/OfferState';
-import { OfferType } from '@/enums/OfferType';
 import { IAppUser, IAppUserToRegister } from '@/models/AppUser';
 import { ICreateOffer, IOffer } from '@/models/Offer';
 import { AxiosResponse } from 'axios';
@@ -23,26 +21,30 @@ export interface IRegistrationService {
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
-  getAllSellOffersAssignedToAppUser(appUserId: number): Promise<AxiosResponse>;
-  getAllPurchaseOffersAssignedToAppUser(
-    appUserId: number
-  ): Promise<AxiosResponse>;
-  findAllOffersOfTypeOwnedByAppUser(
-    appUserId: number,
-    offerType: OfferType
-  ): Promise<AxiosResponse>;
-  findAllOffersChosenByAppUser(appUserId: number): Promise<AxiosResponse>;
-  findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
   updateOffer(offer: IOffer): Promise<AxiosResponse>;
   getOffers(offerRequestParams: OfferRequestParams): Promise<AxiosResponse>;
-  getAllOffersByTypeAndStatus(
-    offerType: OfferType,
-    offerStatus: OfferStatus
-  ): Promise<AxiosResponse<any, any>>;
   getAppUserOffers(
     offerRequestParams: OfferRequestParams,
     id: number
   ): Promise<AxiosResponse<any, any>>;
+  getAppUserChosenOffers(
+    offerRequestParams: OfferRequestParams,
+    id: number
+  ): Promise<AxiosResponse<any, any>>;
+  // getAllSellOffersAssignedToAppUser(appUserId: number): Promise<AxiosResponse>;
+  // getAllPurchaseOffersAssignedToAppUser(
+  //   appUserId: number
+  // ): Promise<AxiosResponse>;
+  // findAllOffersOfTypeOwnedByAppUser(
+  //   appUserId: number,
+  //   offerType: OfferType
+  // ): Promise<AxiosResponse>;
+  // findAllOffersChosenByAppUser(appUserId: number): Promise<AxiosResponse>;
+  // findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
+  // getAllOffersByTypeAndStatus(
+  //   offerType: OfferType,
+  //   offerStatus: OfferStatus
+  // ): Promise<AxiosResponse<any, any>>;
 }
 
 export interface ITimeTransactionService {

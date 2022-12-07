@@ -2,31 +2,31 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
-import { IOffer } from '@/models/Offer';
 import { useEffect, useState } from 'react';
 
-import { UseGetAppUserOffersProps } from './types';
+import { OffersData } from './types';
 
-const useGetAppUserChosenOffers = ({ offerType }: UseGetAppUserOffersProps) => {
+const useGetAppUserChosenOffers = () => {
   const services = useServices();
-  const [offers, setOffers] = useState<IOffer[]>([]);
+  const [data, setData] = useState<OffersData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useMyToast();
 
   useEffect(() => {
     handleGetOffers();
-  }, [offerType, services]);
+  }, [services]);
 
   const handleGetOffers = async () => {
     try {
       setLoading(true);
       if (services === undefined) return;
-      const result = await services.offerService.findAllOffersChosenByAppUser(
+      const result = await services.offerService.getAppUserChosenOffers(
+        {},
         services.appUserService.getAppUser().id
       );
       setLoading(false);
       if (result.status === 200) {
-        setOffers(result?.data ?? []);
+        setData(result?.data ?? {});
       } else if (result.status === 204) {
         toast?.make(ToastTitle.INFO, ToastBackground.WARNING, "No offers");
       }
@@ -34,7 +34,7 @@ const useGetAppUserChosenOffers = ({ offerType }: UseGetAppUserOffersProps) => {
       toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, "An error occurred");
     }
   };
-  return { loading, offers, handleGetOffers };
+  return { loading, data, handleGetOffers };
 };
 
 export default useGetAppUserChosenOffers;

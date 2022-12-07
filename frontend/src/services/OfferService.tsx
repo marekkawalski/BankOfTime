@@ -1,6 +1,4 @@
 import { API_URL } from '@/config/config';
-import { OfferStatus } from '@/enums/OfferState';
-import { OfferType } from '@/enums/OfferType';
 import { ICreateOffer, IOffer } from '@/models/Offer';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
@@ -16,34 +14,9 @@ class OfferService implements IOfferService {
       throw new AxiosError(error);
     }
   }
-  async findAllOffersChosenByAppUser(
-    appUserId: number
-  ): Promise<AxiosResponse<any, any>> {
+  async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.get(
-        `${API_URL}/clients/${appUserId}/appUserChosenOffers`
-      );
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
-  async findAllOffersOwnedByAppUser(
-    appUserId: number
-  ): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.get(`${API_URL}/clients/${appUserId}/appUserOffers`);
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
-  async findAllOffersOfTypeOwnedByAppUser(
-    appUserId: number,
-    offerType: OfferType
-  ): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.get(
-        `${API_URL}/clients/${appUserId}/offers/type/${offerType}`
-      );
+      return await axios.get(`${API_URL}/offers/${offerId}`);
     } catch (error: any) {
       throw new AxiosError(error);
     }
@@ -52,17 +25,9 @@ class OfferService implements IOfferService {
     offerRequestParams: OfferRequestParams
   ): Promise<AxiosResponse<any, any>> {
     try {
-      const url: string = "".concat(
-        offerRequestParams?.offerTypeUrl ?? "",
-        "",
-        offerRequestParams?.offerStatusUrl ?? "",
-        offerRequestParams?.pageNumUrl ?? "",
-        offerRequestParams?.pageSizeUrl ?? "",
-        offerRequestParams?.sortDirectionUrl ?? "",
-        offerRequestParams?.sortFieldUrl ?? ""
+      return await axios.get(
+        `${API_URL}/offers?${this.getUrlString(offerRequestParams)}`
       );
-
-      return await axios.get(`${API_URL}/offers?${url}`);
     } catch (error: any) {
       throw new AxiosError(error);
     }
@@ -72,59 +37,119 @@ class OfferService implements IOfferService {
     id: number
   ): Promise<AxiosResponse<any, any>> {
     try {
-      const url: string = "".concat(
-        offerRequestParams?.offerTypeUrl ?? "",
-        "",
-        offerRequestParams?.offerStatusUrl ?? "",
-        offerRequestParams?.pageNumUrl ?? "",
-        offerRequestParams?.pageSizeUrl ?? "",
-        offerRequestParams?.sortDirectionUrl ?? "",
-        offerRequestParams?.sortFieldUrl ?? ""
+      return await axios.get(
+        `${API_URL}/clients/${id}/appUserOffers?${this.getUrlString(
+          offerRequestParams
+        )}`
       );
-
-      return await axios.get(`${API_URL}/clients/${id}/appUserOffers?${url}`);
     } catch (error: any) {
       throw new AxiosError(error);
     }
   }
-  async getAllOffersByTypeAndStatus(
-    offerType: OfferType,
-    offerStatus: OfferStatus
+  async getAppUserChosenOffers(
+    offerRequestParams: OfferRequestParams,
+    id: number
   ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
-        `${API_URL}/offers/type/${offerType}?offerStatus=${offerStatus}`
+        `${API_URL}/clients/${id}/appUserChosenOffers?${this.getUrlString(
+          offerRequestParams
+        )}`
       );
     } catch (error: any) {
       throw new AxiosError(error);
     }
   }
-  async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
+
+  async updateOffer(offer: IOffer): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.get(`${API_URL}/offers/${offerId}`);
+      return await axios.put(`${API_URL}/offers`, offer);
     } catch (error: any) {
       throw new AxiosError(error);
     }
   }
 
-  async getAllSellOffersAssignedToAppUser(
-    appUserId: number
-  ): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.get(`${API_URL}/clients/${appUserId}/sellOffers`);
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
+  private getUrlString(offerRequestParams: OfferRequestParams): string {
+    return "".concat(
+      offerRequestParams?.offerTypeUrl ?? "",
+      "",
+      offerRequestParams?.offerStatusUrl ?? "",
+      offerRequestParams?.pageNumUrl ?? "",
+      offerRequestParams?.pageSizeUrl ?? "",
+      offerRequestParams?.sortDirectionUrl ?? "",
+      offerRequestParams?.sortFieldUrl ?? ""
+    );
   }
-  async getAllPurchaseOffersAssignedToAppUser(
-    appUserId: number
-  ): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.get(`${API_URL}/clients/${appUserId}/purchaseOffers`);
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
+
+  // async findAllOffersChosenByAppUser(
+  //   appUserId: number
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(
+  //       `${API_URL}/clients/${appUserId}/appUserChosenOffers`
+  //     );
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
+  // async findAllOffersOwnedByAppUser(
+  //   appUserId: number
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(`${API_URL}/clients/${appUserId}/appUserOffers`);
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
+  // async findAllOffersOfTypeOwnedByAppUser(
+  //   appUserId: number,
+  //   offerType: OfferType
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(
+  //       `${API_URL}/clients/${appUserId}/offers/type/${offerType}`
+  //     );
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
+  // async getAllOffersByTypeAndStatus(
+  //   offerType: OfferType,
+  //   offerStatus: OfferStatus
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(
+  //       `${API_URL}/offers/type/${offerType}?offerStatus=${offerStatus}`
+  //     );
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
+  // async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(`${API_URL}/offers/${offerId}`);
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
+  // async getAllSellOffersAssignedToAppUser(
+  //   appUserId: number
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(`${API_URL}/clients/${appUserId}/sellOffers`);
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
+  // async getAllPurchaseOffersAssignedToAppUser(
+  //   appUserId: number
+  // ): Promise<AxiosResponse<any, any>> {
+  //   try {
+  //     return await axios.get(`${API_URL}/clients/${appUserId}/purchaseOffers`);
+  //   } catch (error: any) {
+  //     throw new AxiosError(error);
+  //   }
+  // }
 
   // async getAppUserSellOfferById(
   //   appUserId: number,
@@ -151,14 +176,6 @@ class OfferService implements IOfferService {
   //     throw new AxiosError(error);
   //   }
   // }
-
-  async updateOffer(offer: IOffer): Promise<AxiosResponse<any, any>> {
-    try {
-      return await axios.put(`${API_URL}/offers`, offer);
-    } catch (error: any) {
-      throw new AxiosError(error);
-    }
-  }
 }
 
 export default new OfferService();

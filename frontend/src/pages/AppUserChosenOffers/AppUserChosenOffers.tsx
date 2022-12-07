@@ -6,7 +6,7 @@ function AppUserChosenOffers() {
     <section className="offers">
       <OfferContainer
         title="ChosenOffers"
-        getOffers={useGetAppUserChosenOffers({})}
+        getOffers={useGetAppUserChosenOffers()}
       />
     </section>
   );
