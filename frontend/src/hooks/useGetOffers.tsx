@@ -2,44 +2,44 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
-import { IOffer } from '@/models/Offer';
+import { OfferRequestParams } from '@/services/types';
 import { useEffect, useState } from 'react';
 
-import { UseGetOffersProps } from './types';
+import { OffersData } from './types';
 
-const useGetOffers = ({ offerType, offerStatus }: UseGetOffersProps) => {
-  const [offers, setOffers] = useState<IOffer[]>([]);
+const useGetOffers = ({ offerStatusUrl, offerTypeUrl }: OfferRequestParams) => {
+  const [data, setData] = useState<OffersData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const toast = useMyToast();
 
   useEffect(() => {
-    handleGetOffers();
-  }, [offerType, services]);
+    handleGetOffers({ offerStatusUrl, offerTypeUrl });
+  }, []);
 
-  const handleGetOffers = async () => {
+  const handleGetOffers = async (offerRequestParams: OfferRequestParams) => {
     try {
       setLoading(true);
       if (services === undefined) return;
-      const result = offerStatus
-        ? await services.offerService.getAllOffersByTypeAndStatus(
-            offerType,
-            offerStatus
-          )
-        : await services.offerService.getAllOffers(offerType);
+      const result = await services.offerService.getOffers({
+        offerStatusUrl,
+        offerTypeUrl,
+        ...offerRequestParams,
+      });
       console.log(result);
-      setLoading(false);
       if (result.status === 200) {
-        setOffers(result?.data ?? []);
+        setData(result?.data ?? {});
       } else if (result.status === 204) {
         toast?.make(ToastTitle.INFO, ToastBackground.WARNING, "No offers");
       }
+      setLoading(false);
       console.log(result);
     } catch (error) {
+      console.log(error);
       toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, error as string);
     }
   };
-  return { loading, offers, handleGetOffers };
+  return { loading, data, handleGetOffers };
 };
 
 export default useGetOffers;

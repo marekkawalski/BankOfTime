@@ -60,7 +60,7 @@ function Offer({ offer, handleGetOffers }: OfferProps) {
         (error?.message?.response?.data?.message as string) ?? "Error"
       );
     }
-    await handleGetOffers();
+    await handleGetOffers({});
   };
   return (
     <div>

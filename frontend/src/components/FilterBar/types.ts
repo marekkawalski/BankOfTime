@@ -1,4 +1,6 @@
+import { OfferRequestParams } from '@/services/types';
+
 export interface FilterBarProps {
   title: string;
-  handleGetOffers: () => Promise<void>;
+  handleGetOffers: (offerRequestParams: OfferRequestParams) => Promise<void>;
 }

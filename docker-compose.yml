@@ -25,7 +25,7 @@ services:
 
   bankoftime-db:
     container_name: bankoftime-db
-    image: "mcr.microsoft.com/mssql/server:2017-latest-ubuntu"
+    image: "mcr.microsoft.com/mssql/server:latest"
     environment:
       MSSQL_SA_PASSWORD: "Password123!"
       ACCEPT_EULA: "Y"

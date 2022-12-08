@@ -9,8 +9,8 @@ function SellOffers() {
       <OfferContainer
         title="SellOffers"
         getOffers={useGetOffers({
-          offerType: OfferType.SELL_OFFER,
-          offerStatus: OfferStatus.ACTIVE,
+          offerTypeUrl: `type=${OfferType.SELL_OFFER}&`,
+          offerStatusUrl: `status=${OfferStatus.ACTIVE}&`,
         })}
       />
     </section>

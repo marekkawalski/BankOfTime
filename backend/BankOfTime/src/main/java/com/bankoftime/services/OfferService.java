@@ -6,6 +6,8 @@ import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,31 +22,15 @@ public interface OfferService {
 
     Offer mapOfferDTOToOffer(OfferDTO OfferDTO);
 
-    List<Offer> getAllOffersOfType(OfferType offerType);
-
     List<Offer> getAllSellOffersAssignedToClient(Long userId);
 
     List<Offer> getAllPurchaseOffersAssignedToClient(Long userId);
 
-    List<Offer> findAllSellOffersOwnedByUser(Long userId);
-
-    List<Offer> findAllPurchaseOffersOwnedByUser(Long userId);
-
-    List<Offer> findAllOffersOfTypeOwnedByUser(Long userId, OfferType offerType);
-
-    List<Offer> findAllOffersOwnedByUser(Long userId);
-
-    List<Offer> findAllOffersChosenByUser(Long userId);
-
-    Optional<Offer> getOneSellOfferOfClient(Long clientId, Long offerId);
-
-    Optional<Offer> getOnePurchaseOfferOfClient(Long clientId, Long offerId);
-
     Optional<Offer> modifyOffer(Offer offerToSave);
 
-    Optional<Offer> getOfferById(Long offerId);
+    Page<List<Offer>> getSortedPagedAndFilteredOffers(final String sortField, final Integer pageSize, final Integer pageNum, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection);
 
-    boolean deleteOffer(Long offerId);
+    Page<List<Offer>> getPagedAndFilteredOffersOwnedByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection);
 
-    List<Offer> getAllOffersOfTypeAndStatus(OfferType offerType, OfferStatus offerStatus);
+    Page<List<Offer>> getPagedAndFilteredOffersChosenByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection);
 }
