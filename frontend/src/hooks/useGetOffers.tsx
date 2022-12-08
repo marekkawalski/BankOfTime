@@ -14,16 +14,17 @@ const useGetOffers = ({ offerStatusUrl, offerTypeUrl }: OfferRequestParams) => {
   const toast = useMyToast();
 
   useEffect(() => {
-    handleGetOffers();
-  }, [services]);
+    handleGetOffers({ offerStatusUrl, offerTypeUrl });
+  }, []);
 
-  const handleGetOffers = async () => {
+  const handleGetOffers = async (offerRequestParams: OfferRequestParams) => {
     try {
       setLoading(true);
       if (services === undefined) return;
       const result = await services.offerService.getOffers({
-        offerStatusUrl: offerStatusUrl,
-        offerTypeUrl: offerTypeUrl,
+        offerStatusUrl,
+        offerTypeUrl,
+        ...offerRequestParams,
       });
       console.log(result);
       if (result.status === 200) {

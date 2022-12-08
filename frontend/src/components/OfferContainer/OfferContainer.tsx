@@ -1,9 +1,10 @@
 import './OfferContainer.scss';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Row } from 'react-bootstrap';
 
 import FilterBar from '../FilterBar/FilterBar';
+import MyPagination from '../MyPagination/MyPagination';
 import MySpinner from '../MySpinner/MySpinner';
 import Offer from '../Offer/Offer';
 import { OfferContainerProps } from './types';
@@ -31,6 +32,11 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
             </div>
           </div>
         </div>
+        <MyPagination
+          offersData={data}
+          filters=""
+          handleGetOffers={handleGetOffers}
+        ></MyPagination>
       </section>
     </MySpinner>
   );

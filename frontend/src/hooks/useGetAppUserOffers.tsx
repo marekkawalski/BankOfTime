@@ -7,22 +7,22 @@ import { useEffect, useState } from 'react';
 
 import { OffersData } from './types';
 
-const useGetAppUserOffers = ({}: OfferRequestParams) => {
+const useGetAppUserOffers = () => {
   const [data, setData] = useState<OffersData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const toast = useMyToast();
 
   useEffect(() => {
-    handleGetOffers();
-  }, [services]);
+    handleGetOffers({});
+  }, []);
 
-  const handleGetOffers = async () => {
+  const handleGetOffers = async (offerRequestParams: OfferRequestParams) => {
     try {
       setLoading(true);
       if (services === undefined) return;
       const result = await services.offerService.getAppUserOffers(
-        {},
+        offerRequestParams,
         services.appUserService.getAppUser().id
       );
 
