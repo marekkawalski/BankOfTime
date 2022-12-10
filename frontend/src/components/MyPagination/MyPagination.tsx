@@ -1,5 +1,3 @@
-import './MyPagination.scss';
-
 import Pagination from 'react-bootstrap/Pagination';
 
 import { MyPaginationProps } from './types';
@@ -11,7 +9,7 @@ function MyPagination({
 }: MyPaginationProps) {
   if (!offersData) return <></>;
   return (
-    <Pagination className="pagination-container">
+    <Pagination>
       <Pagination.First
         disabled={offersData?.number === 0}
         onClick={async () =>

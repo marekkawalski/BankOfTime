@@ -7,25 +7,23 @@ import { useEffect, useState } from 'react';
 
 import { OffersData } from './types';
 
-const useGetOffers = ({ offerStatusUrl, offerTypeUrl }: OfferRequestParams) => {
+const useGetOffers = (defaultOfferRequestParams: OfferRequestParams) => {
   const [data, setData] = useState<OffersData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const toast = useMyToast();
 
   useEffect(() => {
-    handleGetOffers({ offerStatusUrl, offerTypeUrl });
+    handleGetOffers(defaultOfferRequestParams);
   }, []);
 
-  const handleGetOffers = async (offerRequestParams: OfferRequestParams) => {
+  const handleGetOffers = async (offerRequestParams?: OfferRequestParams) => {
     try {
       setLoading(true);
       if (services === undefined) return;
-      const result = await services.offerService.getOffers({
-        offerStatusUrl,
-        offerTypeUrl,
-        ...offerRequestParams,
-      });
+      const result = await services.offerService.getOffers(
+        offerRequestParams ?? defaultOfferRequestParams
+      );
       console.log(result);
       if (result.status === 200) {
         setData(result?.data ?? {});

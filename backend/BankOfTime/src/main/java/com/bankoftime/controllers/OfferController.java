@@ -99,15 +99,13 @@ public class OfferController {
     @PostMapping(path = "/offers/{clientId}")
     public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {
         Optional<AppUser> oAppUser = appUserService.find(clientId);
-        if (oAppUser.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        return offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), oAppUser.get())
+        return oAppUser.map(appUser -> offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), appUser)
                 .map(value -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(value))
                 .orElseGet(() -> ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
-                        .body(null));
+                        .body(null))).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @PutMapping(value = "/offers")

@@ -1,6 +1,5 @@
 import './MySpinner.scss';
 
-import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
 import { MySpinnerProps } from './types';
