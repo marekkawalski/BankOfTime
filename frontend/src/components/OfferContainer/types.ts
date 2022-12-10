@@ -22,4 +22,5 @@ export interface GetOffersProps {
 export interface OfferProps {
   offer: IOffer;
   handleGetOffers: (offerRequestParams: OfferRequestParams) => Promise<void>;
+  filters: OfferRequestParams;
 }

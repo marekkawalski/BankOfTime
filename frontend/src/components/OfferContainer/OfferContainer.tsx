@@ -1,5 +1,6 @@
 import './OfferContainer.scss';
 
+import { OfferRequestParams } from '@/services/types';
 import React, { useState } from 'react';
 import { Row } from 'react-bootstrap';
 
@@ -13,11 +14,11 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
   title,
   getOffers,
 }) => {
-  const [filters, setFilers] = useState("");
+  const [filters, setFilers] = useState({});
   const { loading, data, handleGetOffers } = getOffers;
 
-  const handleSettingFilters = (filtersUrl: string) => {
-    setFilers(filtersUrl);
+  const handleSettingFilters = (offerRequestParams: OfferRequestParams) => {
+    setFilers(offerRequestParams);
   };
   return (
     <section>
@@ -35,7 +36,11 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
             <Row xs={1} md={2} className="g-4 mb-3">
               {data?.content.map((offer) => {
                 return (
-                  <Offer offer={offer} handleGetOffers={handleGetOffers} />
+                  <Offer
+                    offer={offer}
+                    handleGetOffers={handleGetOffers}
+                    filters={filters}
+                  />
                 );
               })}
             </Row>

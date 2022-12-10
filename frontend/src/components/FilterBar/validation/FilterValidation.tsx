@@ -5,12 +5,14 @@ import * as Yup from 'yup';
 
 export const Filter_Validation = Yup.object().shape({
   sortBy: Yup.string().oneOf([
+    undefined,
     SortBy.NAME_A_Z,
     SortBy.NAME_Z_A,
     SortBy.CHEAPEST_FIRST,
     SortBy.MOST_EXPENSIVE_FIRST,
   ]),
   offerStatus: Yup.string().oneOf([
+    undefined,
     OfferStatus.ACTIVE,
     OfferStatus.APPROVED,
     OfferStatus.DELETED,
@@ -18,6 +20,7 @@ export const Filter_Validation = Yup.object().shape({
     OfferStatus.UNAVAILABLE,
   ]),
   offerType: Yup.string().oneOf([
+    OfferType.ALL,
     OfferType.PURCHASE_OFFER,
     OfferType.SELL_OFFER,
   ]),
