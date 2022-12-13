@@ -13,6 +13,7 @@ function useSubmitFilters({
     offerType: OfferType;
     offerStatus?: OfferStatus;
     sortBy: SortBy;
+    keyword: string;
   }) => {
     let sortFieldUrl = "";
     let sortDirectionUrl = "";
@@ -46,11 +47,17 @@ function useSubmitFilters({
         ? ""
         : `status=${submittedValues.offerStatus}&`;
 
+    const keywordUrl =
+      submittedValues?.keyword === undefined
+        ? ""
+        : `keyword=${submittedValues.keyword}&`;
+
     await handleGetOffers({
       offerTypeUrl: offerTypeUrl,
       offerStatusUrl: offerStatusUrl,
       sortFieldUrl: sortFieldUrl,
       sortDirectionUrl: sortDirectionUrl,
+      keywordUrl: keywordUrl,
     });
 
     handleSettingFilters({
@@ -58,6 +65,7 @@ function useSubmitFilters({
       offerStatusUrl: offerStatusUrl,
       sortFieldUrl: sortFieldUrl,
       sortDirectionUrl: sortDirectionUrl,
+      keywordUrl: keywordUrl,
     });
   };
 

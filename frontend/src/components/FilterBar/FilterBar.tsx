@@ -33,15 +33,6 @@ function FilterBar({
   return (
     <div className="filter-bar-container">
       <h2>{title}</h2>
-      <Form className="d-flex pb-3 mt-1">
-        <Form.Control
-          type="search"
-          placeholder="Search"
-          className="me-2"
-          aria-label="Search"
-        />
-        <Button variant="outline-success">Search</Button>
-      </Form>
       <Formik
         validationSchema={Filter_Validation}
         onSubmit={async (submittedValues) =>
@@ -49,6 +40,7 @@ function FilterBar({
         }
         enableReinitialize={false}
         initialValues={{
+          keyword: "",
           sortBy: SortBy.NAME_A_Z,
           offerStatus: undefined,
           offerType: getDefaultOfferType(),
@@ -57,6 +49,16 @@ function FilterBar({
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <div className="filter-bar-container-child">
+              <Form.Group className="mb-3" controlId="validateSearch">
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  name="keyword"
+                  value={values.keyword}
+                  onChange={handleChange}
+                />
+              </Form.Group>
               <Form.Group className="mb-3" controlId="validateSorting">
                 <Form.Label>Sort by</Form.Label>
                 <Form.Select

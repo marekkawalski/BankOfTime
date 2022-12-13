@@ -72,110 +72,14 @@ class OfferService implements IOfferService {
   private getUrlString(offerRequestParams: OfferRequestParams): string {
     return "".concat(
       offerRequestParams?.offerTypeUrl ?? "",
-      "",
       offerRequestParams?.offerStatusUrl ?? "",
       offerRequestParams?.pageNumUrl ?? "",
       offerRequestParams?.pageSizeUrl ?? "",
       offerRequestParams?.sortDirectionUrl ?? "",
-      offerRequestParams?.sortFieldUrl ?? ""
+      offerRequestParams?.sortFieldUrl ?? "",
+      offerRequestParams?.keywordUrl ?? ""
     );
   }
-
-  // async findAllOffersChosenByAppUser(
-  //   appUserId: number
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(
-  //       `${API_URL}/clients/${appUserId}/appUserChosenOffers`
-  //     );
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-  // async findAllOffersOwnedByAppUser(
-  //   appUserId: number
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(`${API_URL}/clients/${appUserId}/appUserOffers`);
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-  // async findAllOffersOfTypeOwnedByAppUser(
-  //   appUserId: number,
-  //   offerType: OfferType
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(
-  //       `${API_URL}/clients/${appUserId}/offers/type/${offerType}`
-  //     );
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-  // async getAllOffersByTypeAndStatus(
-  //   offerType: OfferType,
-  //   offerStatus: OfferStatus
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(
-  //       `${API_URL}/offers/type/${offerType}?offerStatus=${offerStatus}`
-  //     );
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-  // async getOfferById(offerId: number): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(`${API_URL}/offers/${offerId}`);
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-  // async getAllSellOffersAssignedToAppUser(
-  //   appUserId: number
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(`${API_URL}/clients/${appUserId}/sellOffers`);
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-  // async getAllPurchaseOffersAssignedToAppUser(
-  //   appUserId: number
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(`${API_URL}/clients/${appUserId}/purchaseOffers`);
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-
-  // async getAppUserSellOfferById(
-  //   appUserId: number,
-  //   sellOfferId: number
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(
-  //       `${API_URL}/clients/${appUserId}/sellOffers/${sellOfferId}`
-  //     );
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
-
-  // async getAppUserPurchaseOfferById(
-  //   appUserId: number,
-  //   purchaseOfferId: number
-  // ): Promise<AxiosResponse<any, any>> {
-  //   try {
-  //     return await axios.get(
-  //       `${API_URL}/clients/${appUserId}/purchaseOffers/${purchaseOfferId}`
-  //     );
-  //   } catch (error: any) {
-  //     throw new AxiosError(error);
-  //   }
-  // }
 }
 
 export default new OfferService();

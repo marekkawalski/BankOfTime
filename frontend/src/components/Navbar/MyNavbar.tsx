@@ -2,9 +2,7 @@ import './MyNavbar.scss';
 
 import ProtectedComponent from '@/components/ProtectedComponent/ProtectedComponent';
 import { Role } from '@/enums/Role';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -50,18 +48,6 @@ function MyNavbar() {
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <ProtectedComponent>
-                <Form className="d-flex pb-3">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                  />
-                  <Button variant="outline-success">Search</Button>
-                </Form>
-              </ProtectedComponent>
-
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <ProtectedComponent>
                   <Nav.Link as={Link} to="/">
