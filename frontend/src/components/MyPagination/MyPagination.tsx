@@ -1,5 +1,3 @@
-import './MyPagination.scss';
-
 import Pagination from 'react-bootstrap/Pagination';
 
 import { MyPaginationProps } from './types';
@@ -11,12 +9,13 @@ function MyPagination({
 }: MyPaginationProps) {
   if (!offersData) return <></>;
   return (
-    <Pagination className="pagination-container">
+    <Pagination>
       <Pagination.First
         disabled={offersData?.number === 0}
         onClick={async () =>
           await handleGetOffers({
-            pageNumUrl: `${filters}page-num=0&`,
+            pageNumUrl: `page-num=0&`,
+            ...filters,
           })
         }
       />
@@ -24,7 +23,8 @@ function MyPagination({
         disabled={offersData?.number === 0}
         onClick={async () =>
           await handleGetOffers({
-            pageNumUrl: `${filters}page-num=${offersData?.number - 1}&`,
+            pageNumUrl: `page-num=${offersData?.number - 1}&`,
+            ...filters,
           })
         }
       />
@@ -32,7 +32,8 @@ function MyPagination({
         <Pagination.Item
           onClick={async () =>
             await handleGetOffers({
-              pageNumUrl: `${filters}page-num=0&`,
+              pageNumUrl: `page-num=0&`,
+              ...filters,
             })
           }
         >
@@ -47,7 +48,8 @@ function MyPagination({
         <Pagination.Item
           onClick={async () =>
             await handleGetOffers({
-              pageNumUrl: `${filters}page-num=${offersData?.number - 1}&`,
+              pageNumUrl: `page-num=${offersData?.number - 1}&`,
+              ...filters,
             })
           }
         >
@@ -59,7 +61,8 @@ function MyPagination({
         <Pagination.Item
           onClick={async () =>
             await handleGetOffers({
-              pageNumUrl: `${filters}page-num=${offersData?.number + 1}&`,
+              pageNumUrl: `page-num=${offersData?.number + 1}&`,
+              ...filters,
             })
           }
         >
@@ -74,7 +77,8 @@ function MyPagination({
         <Pagination.Item
           onClick={async () =>
             await handleGetOffers({
-              pageNumUrl: `${filters}page-num=${offersData?.totalPages - 1}&`,
+              pageNumUrl: `page-num=${offersData?.totalPages - 1}&`,
+              ...filters,
             })
           }
         >
@@ -85,7 +89,8 @@ function MyPagination({
         disabled={offersData.number === offersData?.totalPages - 1}
         onClick={async () =>
           await handleGetOffers({
-            pageNumUrl: `${filters}page-num=${offersData?.number + 1}&`,
+            pageNumUrl: `page-num=${offersData?.number + 1}&`,
+            ...filters,
           })
         }
       />
@@ -93,7 +98,8 @@ function MyPagination({
         disabled={offersData.number === offersData?.totalPages - 1}
         onClick={async () =>
           await handleGetOffers({
-            pageNumUrl: `${filters}page-num=${offersData?.totalPages - 1}&`,
+            pageNumUrl: `page-num=${offersData?.totalPages - 1}&`,
+            ...filters,
           })
         }
       />

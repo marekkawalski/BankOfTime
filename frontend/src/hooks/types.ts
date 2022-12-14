@@ -1,6 +1,7 @@
 import { OfferStatus } from '@/enums/OfferState';
 import { OfferType } from '@/enums/OfferType';
 import { IOffer } from '@/models/Offer';
+import { OfferRequestParams } from '@/services/types';
 
 export interface UseGetAppUserOffersProps {
   offerType?: OfferType;
@@ -24,4 +25,7 @@ export interface OffersData {
   sort: any;
   totalElements: number;
   totalPages: number;
+}
+export interface UseGetOffersProps {
+  defaultOfferRequestParams: OfferRequestParams;
 }

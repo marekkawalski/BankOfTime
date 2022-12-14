@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { OfferProps } from '../OfferContainer/types';
 import { IManageOffer, ManageOffer } from './ManageOffer';
 
-function Offer({ offer, handleGetOffers }: OfferProps) {
+function Offer({ offer, handleGetOffers, filters }: OfferProps) {
   const navigate = useNavigate();
   const { appUser } = useGetAppUser();
   const services = useServices();
@@ -60,7 +60,7 @@ function Offer({ offer, handleGetOffers }: OfferProps) {
         (error?.message?.response?.data?.message as string) ?? "Error"
       );
     }
-    await handleGetOffers({});
+    await handleGetOffers(filters);
   };
   return (
     <div>
@@ -76,9 +76,10 @@ function Offer({ offer, handleGetOffers }: OfferProps) {
               <div>{offer.shortDescription}</div>
               <div className="price">{offer.price}h</div>
             </Card.Text>
-            {offer?.location && (
-              <Card.Text>location: {offer?.location}</Card.Text>
-            )}
+
+            <Card.Text>
+              location: {offer?.location ? offer?.location : "Not provided"}
+            </Card.Text>
             <Card.Text> {offer.offerType}</Card.Text>
             {manageOffer?.canEdit() ? (
               <div>

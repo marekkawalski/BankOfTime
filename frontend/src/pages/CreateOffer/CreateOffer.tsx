@@ -1,5 +1,4 @@
 import OfferForm from '@/components/OfferForm/OfferForm';
-import React, { useState } from 'react';
 
 import useCreateOffer from './useCreateOffer';
 

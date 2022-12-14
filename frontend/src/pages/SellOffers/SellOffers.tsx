@@ -7,7 +7,7 @@ function SellOffers() {
   return (
     <section className="offers">
       <OfferContainer
-        title="SellOffers"
+        title="Sell Offers"
         getOffers={useGetOffers({
           offerTypeUrl: `type=${OfferType.SELL_OFFER}&`,
           offerStatusUrl: `status=${OfferStatus.ACTIVE}&`,

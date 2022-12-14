@@ -41,12 +41,13 @@ public class OfferController {
 
     @GetMapping(path = "/offers")
     public ResponseEntity<Page<List<Offer>>> getOffers(@RequestParam(required = false, value = "type") OfferType offerType,
+                                                       @RequestParam(required = false, value = "keyword") String keyword,
                                                        @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                        @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                        @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                        @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                        @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final Page<List<Offer>> offers = offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection);
+        final Page<List<Offer>> offers = offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection, keyword);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -55,12 +56,13 @@ public class OfferController {
     @GetMapping(value = "/clients/{appUserId}/appUserOffers")
     public ResponseEntity<Page<List<Offer>>> getAllOffersOwnedByAppUser(@PathVariable("appUserId") Long appUserId,
                                                                         @RequestParam(required = false, value = "type") OfferType offerType,
+                                                                        @RequestParam(required = false, value = "keyword") String keyword,
                                                                         @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                                         @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                                         @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                                         @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                                         @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersOwnedByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection);
+        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersOwnedByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection, keyword);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -69,12 +71,13 @@ public class OfferController {
     @GetMapping(value = "/clients/{appUserId}/appUserChosenOffers")
     public ResponseEntity<Page<List<Offer>>> getAllOffersChosenByAppUser(@PathVariable("appUserId") Long appUserId,
                                                                          @RequestParam(required = false, value = "type") OfferType offerType,
+                                                                         @RequestParam(required = false, value = "keyword") String keyword,
                                                                          @RequestParam(required = false, value = "status") OfferStatus offerStatus,
                                                                          @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                                          @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                                          @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                                          @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersChosenByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection);
+        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersChosenByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection, keyword);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -99,15 +102,13 @@ public class OfferController {
     @PostMapping(path = "/offers/{clientId}")
     public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {
         Optional<AppUser> oAppUser = appUserService.find(clientId);
-        if (oAppUser.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        return offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), oAppUser.get())
+        return oAppUser.map(appUser -> offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), appUser)
                 .map(value -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(value))
                 .orElseGet(() -> ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
-                        .body(null));
+                        .body(null))).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @PutMapping(value = "/offers")

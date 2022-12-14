@@ -67,4 +67,5 @@ export interface OfferRequestParams {
   sortDirectionUrl?: string;
   pageSizeUrl?: string;
   pageNumUrl?: string;
+  keywordUrl?: string;
 }

@@ -8,7 +8,7 @@ function PurchaseOffers() {
   return (
     <section className="offers">
       <OfferContainer
-        title="PurchaseOffers"
+        title="Purchase Offers"
         getOffers={useGetOffers({
           offerTypeUrl: `type=${OfferType.PURCHASE_OFFER}&`,
           offerStatusUrl: `status=${OfferStatus.ACTIVE}&`,

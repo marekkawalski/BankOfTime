@@ -4,5 +4,5 @@ import { OfferRequestParams } from '@/services/types';
 export interface MyPaginationProps {
   offersData: OffersData | null;
   handleGetOffers: (offerRequestParams: OfferRequestParams) => Promise<void>;
-  filters: string;
+  filters: OfferRequestParams;
 }
