@@ -77,7 +77,6 @@ public class Offer {
     @ManyToMany(mappedBy = "offers")
     @ToString.Exclude
     @NotNull
-    @JsonIgnore
     private Collection<Category> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "offer")

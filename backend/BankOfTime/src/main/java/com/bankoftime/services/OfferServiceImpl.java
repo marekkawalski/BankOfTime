@@ -20,8 +20,11 @@ import java.util.Optional;
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
 
-    public OfferServiceImpl(OfferRepository offerRepository) {
+    private final CategoryService categoryService;
+
+    public OfferServiceImpl(OfferRepository offerRepository, final CategoryService categoryService) {
         this.offerRepository = offerRepository;
+        this.categoryService = categoryService;
     }
 
     @Transactional
@@ -49,6 +52,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setLocation(createOfferDTO.location());
         if (createOfferDTO.longDescription() != null)
             offer.setLongDescription(createOfferDTO.longDescription());
+        offer.setCategories(createOfferDTO.categories().stream().map(categoryService::mapCategoryDtoToCategory).toList());
         return offer;
     }
 
@@ -90,6 +94,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setShortDescription(offerToSave.getShortDescription());
         offer.setLongDescription(offerToSave.getLongDescription());
         offer.setLocation(offerToSave.getLocation());
+        offer.setCategories(offerToSave.getCategories());
 
         offer = offerRepository.save(offer);
         return Optional.of(offer);
