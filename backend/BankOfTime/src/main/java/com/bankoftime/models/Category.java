@@ -38,4 +38,7 @@ public class Category {
     )
     private Collection<Offer> offers = new ArrayList<>();
 
+    public Category(final String name) {
+        this.name = name;
+    }
 }
