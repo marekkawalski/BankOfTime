@@ -31,20 +31,6 @@ export interface IOfferService {
     offerRequestParams: OfferRequestParams,
     id: number
   ): Promise<AxiosResponse<any, any>>;
-  // getAllSellOffersAssignedToAppUser(appUserId: number): Promise<AxiosResponse>;
-  // getAllPurchaseOffersAssignedToAppUser(
-  //   appUserId: number
-  // ): Promise<AxiosResponse>;
-  // findAllOffersOfTypeOwnedByAppUser(
-  //   appUserId: number,
-  //   offerType: OfferType
-  // ): Promise<AxiosResponse>;
-  // findAllOffersChosenByAppUser(appUserId: number): Promise<AxiosResponse>;
-  // findAllOffersOwnedByAppUser(appUserId: number): Promise<AxiosResponse>;
-  // getAllOffersByTypeAndStatus(
-  //   offerType: OfferType,
-  //   offerStatus: OfferStatus
-  // ): Promise<AxiosResponse<any, any>>;
 }
 
 export interface ITimeTransactionService {
@@ -60,6 +46,9 @@ export interface ITimeTransactionService {
   ): Promise<AxiosResponse>;
 }
 
+export interface ICategoryService {
+  getAllCategories(): Promise<AxiosResponse<any, any>>;
+}
 export interface OfferRequestParams {
   offerTypeUrl?: string;
   offerStatusUrl?: string;

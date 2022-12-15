@@ -74,9 +74,12 @@ public class Offer {
     @Nullable
     private AppUser buyer;
 
-    @ManyToMany(mappedBy = "offers")
-    @ToString.Exclude
-    @NotNull
+    @ManyToMany
+    @JoinTable(
+            name = "OfferCategory",
+            joinColumns = @JoinColumn(name = "OfferId"),
+            inverseJoinColumns = @JoinColumn(name = "CategoryId")
+    )
     private Collection<Category> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "offer")

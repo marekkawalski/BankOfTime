@@ -7,16 +7,17 @@ import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.OfferRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
 
@@ -27,7 +28,6 @@ public class OfferServiceImpl implements OfferService {
         this.categoryService = categoryService;
     }
 
-    @Transactional
     @Override
     public Optional<Offer> createOffer(Offer offer, AppUser appUser) {
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
@@ -53,6 +53,7 @@ public class OfferServiceImpl implements OfferService {
         if (createOfferDTO.longDescription() != null)
             offer.setLongDescription(createOfferDTO.longDescription());
         offer.setCategories(createOfferDTO.categories().stream().map(categoryService::mapCategoryDtoToCategory).toList());
+        log.info(offer.getCategories().toString());
         return offer;
     }
 
@@ -64,6 +65,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setPrice(offerDTO.price());
         offer.setShortDescription(offerDTO.shortDescription());
         offer.setTitle(offerDTO.title());
+        offer.setCategories(offerDTO.categories().stream().map(categoryService::mapCategoryDtoToCategory).toList());
         if (offerDTO.location() != null)
             offer.setLocation(offerDTO.location());
         if (offerDTO.longDescription() != null)

@@ -6,6 +6,7 @@ import com.bankoftime.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -17,6 +18,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<Category> findById(final Long id) {
+        return categoryRepository.findById(id);
+    }
+
+    @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
@@ -24,6 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category mapCategoryDtoToCategory(final CategoryDTO categoryDto) {
         Category category = new Category();
+        category.setId(categoryDto.id());
         category.setName(categoryDto.name());
         return category;
     }

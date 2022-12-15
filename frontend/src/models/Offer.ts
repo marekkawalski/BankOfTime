@@ -1,6 +1,7 @@
 import { OfferType } from '@/enums/OfferType';
 
 import { IAppUser } from './AppUser';
+import { Category } from './Category';
 
 export interface ICreateOffer {
   title: string;
@@ -9,6 +10,7 @@ export interface ICreateOffer {
   offerType: OfferType;
   longDescription?: string;
   location?: string;
+  categories: Category[];
 }
 export interface IUpdateOffer extends ICreateOffer {
   readonly id: number;
