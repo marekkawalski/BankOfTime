@@ -5,6 +5,7 @@ import com.bankoftime.dto.OfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
+import com.bankoftime.models.Category;
 import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.OfferRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,22 +87,21 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<Offer> modifyOffer(Offer offerToSave) {
-        Optional<Offer> oOffer = offerRepository.findById(offerToSave.getId());
-        if (oOffer.isEmpty()) {
-            return Optional.empty();
-        }
-        Offer offer = oOffer.get();
-        offer.setTitle(offerToSave.getTitle());
-        offer.setOfferType(offerToSave.getOfferType());
-        offer.setPrice(offerToSave.getPrice());
-        offer.setShortDescription(offerToSave.getShortDescription());
-        offer.setLongDescription(offerToSave.getLongDescription());
-        offer.setLocation(offerToSave.getLocation());
-        offer.setCategories(offerToSave.getCategories());
-
-        offer = offerRepository.save(offer);
-        return Optional.of(offer);
+    public Optional<Offer> modifyOffer(final @NotNull Offer offerToSave) {
+        return offerRepository.findById(offerToSave.getId())
+                .map(offer -> {
+                    offer.setTitle(offerToSave.getTitle());
+                    offer.setOfferType(offerToSave.getOfferType());
+                    offer.setPrice(offerToSave.getPrice());
+                    offer.setShortDescription(offerToSave.getShortDescription());
+                    offer.setLongDescription(offerToSave.getLongDescription());
+                    offer.setLocation(offerToSave.getLocation());
+                    ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
+                    offer.setCategories(categories);
+                    offer = offerRepository.save(offer);
+                    return Optional.of(offer);
+                })
+                .orElse(Optional.empty());
     }
 
     @Override

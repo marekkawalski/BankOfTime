@@ -7,8 +7,8 @@ import { Field, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap';
 
+import MyReactSelect from '../MyReactSelect/MyReactSelect';
 import MySpinner from '../MySpinner/MySpinner';
-import CategorySelect from './CategorySelect';
 import { CategoryOption, OfferFormProps } from './types';
 import { offerValidation } from './validation/offerValidation';
 
@@ -231,11 +231,13 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                         className="was-validated"
                         name="categories"
                         options={categoriesOptions}
-                        component={CategorySelect}
+                        component={MyReactSelect}
+                        values={values?.categories}
                         placeholder="Select categories"
                         isMulti={true}
                         isValid={touched.categories && !errors.categories}
                         isInvalid={touched.categories && !!errors.categories}
+                        label="name"
                       />
                       <div className="text-danger small">
                         {errors?.categories as string}
