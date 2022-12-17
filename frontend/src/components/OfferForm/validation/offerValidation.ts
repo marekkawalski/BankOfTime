@@ -1,5 +1,4 @@
 import { OfferType } from '@/enums/OfferType';
-import { Category } from '@/models/Category';
 import * as Yup from 'yup';
 
 export const offerValidation = Yup.object().shape({
@@ -25,6 +24,6 @@ export const offerValidation = Yup.object().shape({
     OfferType.SELL_OFFER,
   ]),
   categories: Yup.array()
-    .of(Yup.object().shape(<Category>{}))
+    .of(Yup.string())
     .required("Add at least one category"),
 });

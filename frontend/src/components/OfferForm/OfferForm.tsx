@@ -7,23 +7,35 @@ import { Field, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap';
 
+import { Category } from '../../models/Category';
 import MyReactSelect from '../MyReactSelect/MyReactSelect';
 import MySpinner from '../MySpinner/MySpinner';
-import { CategoryOption, OfferFormProps } from './types';
+import { OfferFormProps } from './types';
 import { offerValidation } from './validation/offerValidation';
 
 function OfferForm({ offer, submit }: OfferFormProps) {
   const { categories, loading } = useGetCategories();
-  const [categoriesOptions, seCategoriesOptions] = useState<CategoryOption[]>(
-    []
-  );
+  const [categoriesOptions, seCategoriesOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [defaultCategoriesOptions, seDefaultCategoriesOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
 
   useEffect(() => {
-    const tempArray: CategoryOption[] = [];
+    let tempArray: { value: string; label: string }[] = [];
     categories?.map((category) => {
-      tempArray.push({ value: category, label: category.name });
+      tempArray.push({ value: category.name, label: category.name });
     });
     seCategoriesOptions(tempArray);
+
+    if (offer) {
+      tempArray = [];
+      offer.categories?.map((category) => {
+        tempArray.push({ value: category.name, label: category.name });
+      });
+      seDefaultCategoriesOptions(tempArray);
+    }
   }, [loading]);
 
   return (
@@ -33,9 +45,20 @@ function OfferForm({ offer, submit }: OfferFormProps) {
           {offer ? <h2>Edit offer</h2> : <h2>Create offer</h2>}
           <Formik
             validationSchema={offerValidation}
-            onSubmit={(fOffer: ICreateOffer | IUpdateOffer) =>
-              submit.handleSubmit(fOffer)
-            }
+            onSubmit={(fOffer: ICreateOffer | IUpdateOffer) => {
+              if (!categories) return;
+              const chosenCategories: Category[] = [];
+              for (const category of categories) {
+                for (const categoryString of fOffer.categories) {
+                  if (categoryString === category.name) {
+                    chosenCategories.push(category);
+                  }
+                }
+              }
+              const offerToSubmit = fOffer;
+              offerToSubmit.categories = chosenCategories;
+              submit.handleSubmit(offerToSubmit);
+            }}
             initialValues={{
               id: offer?.id ?? undefined,
               title: offer?.title ?? "",
@@ -44,7 +67,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
               longDescription: offer?.longDescription ?? "",
               location: offer?.location ?? "",
               offerType: offer?.offerType ?? OfferType.SELL_OFFER,
-              categories: offer?.categories ?? [],
+              categories: defaultCategoriesOptions.map((value) => value.label),
             }}
           >
             {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -231,8 +254,8 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                         className="was-validated"
                         name="categories"
                         options={categoriesOptions}
+                        defaultCategoriesOptions={defaultCategoriesOptions}
                         component={MyReactSelect}
-                        values={values?.categories}
                         placeholder="Select categories"
                         isMulti={true}
                         isValid={touched.categories && !errors.categories}
