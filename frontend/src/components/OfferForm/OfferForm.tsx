@@ -2,7 +2,6 @@ import './OfferForm.scss';
 
 import { OfferType } from '@/enums/OfferType';
 import useGetCategories from '@/hooks/useGetCategories';
-import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import { Field, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap';
@@ -10,7 +9,7 @@ import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react
 import { Category } from '../../models/Category';
 import MyReactSelect from '../MyReactSelect/MyReactSelect';
 import MySpinner from '../MySpinner/MySpinner';
-import { OfferFormProps } from './types';
+import { OfferFormProps, OfferToSubmit } from './types';
 import { offerValidation } from './validation/offerValidation';
 
 function OfferForm({ offer, submit }: OfferFormProps) {
@@ -45,7 +44,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
           {offer ? <h2>Edit offer</h2> : <h2>Create offer</h2>}
           <Formik
             validationSchema={offerValidation}
-            onSubmit={(fOffer: ICreateOffer | IUpdateOffer) => {
+            onSubmit={(fOffer: OfferToSubmit) => {
               if (!categories) return;
               const chosenCategories: Category[] = [];
               for (const category of categories) {
@@ -55,9 +54,16 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                   }
                 }
               }
-              const offerToSubmit = fOffer;
-              offerToSubmit.categories = chosenCategories;
-              submit.handleSubmit(offerToSubmit);
+              submit.handleSubmit({
+                id: fOffer.id,
+                title: fOffer.title,
+                shortDescription: fOffer.shortDescription,
+                price: fOffer.price,
+                offerType: fOffer.offerType,
+                longDescription: fOffer.longDescription,
+                location: fOffer.location,
+                categories: chosenCategories,
+              });
             }}
             initialValues={{
               id: offer?.id ?? undefined,
