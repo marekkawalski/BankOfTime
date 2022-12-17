@@ -3,7 +3,7 @@ import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import { ICreateOffer } from '@/models/Offer';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function useCreateOffer() {
   const [loading, setLoading] = useState<boolean>(false);

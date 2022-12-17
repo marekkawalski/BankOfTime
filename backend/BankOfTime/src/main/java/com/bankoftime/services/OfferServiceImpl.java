@@ -5,26 +5,32 @@ import com.bankoftime.dto.OfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
+import com.bankoftime.models.Category;
 import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.OfferRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
 
-    public OfferServiceImpl(OfferRepository offerRepository) {
+    private final CategoryService categoryService;
+
+    public OfferServiceImpl(OfferRepository offerRepository, final CategoryService categoryService) {
         this.offerRepository = offerRepository;
+        this.categoryService = categoryService;
     }
 
-    @Transactional
     @Override
     public Optional<Offer> createOffer(Offer offer, AppUser appUser) {
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
@@ -49,6 +55,8 @@ public class OfferServiceImpl implements OfferService {
             offer.setLocation(createOfferDTO.location());
         if (createOfferDTO.longDescription() != null)
             offer.setLongDescription(createOfferDTO.longDescription());
+        offer.setCategories(createOfferDTO.categories().stream().map(categoryService::mapCategoryDtoToCategory).toList());
+        log.info(offer.getCategories().toString());
         return offer;
     }
 
@@ -60,6 +68,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setPrice(offerDTO.price());
         offer.setShortDescription(offerDTO.shortDescription());
         offer.setTitle(offerDTO.title());
+        offer.setCategories(offerDTO.categories().stream().map(categoryService::mapCategoryDtoToCategory).toList());
         if (offerDTO.location() != null)
             offer.setLocation(offerDTO.location());
         if (offerDTO.longDescription() != null)
@@ -78,21 +87,21 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<Offer> modifyOffer(Offer offerToSave) {
-        Optional<Offer> oOffer = offerRepository.findById(offerToSave.getId());
-        if (oOffer.isEmpty()) {
-            return Optional.empty();
-        }
-        Offer offer = oOffer.get();
-        offer.setTitle(offerToSave.getTitle());
-        offer.setOfferType(offerToSave.getOfferType());
-        offer.setPrice(offerToSave.getPrice());
-        offer.setShortDescription(offerToSave.getShortDescription());
-        offer.setLongDescription(offerToSave.getLongDescription());
-        offer.setLocation(offerToSave.getLocation());
-
-        offer = offerRepository.save(offer);
-        return Optional.of(offer);
+    public Optional<Offer> modifyOffer(final @NotNull Offer offerToSave) {
+        return offerRepository.findById(offerToSave.getId())
+                .map(offer -> {
+                    offer.setTitle(offerToSave.getTitle());
+                    offer.setOfferType(offerToSave.getOfferType());
+                    offer.setPrice(offerToSave.getPrice());
+                    offer.setShortDescription(offerToSave.getShortDescription());
+                    offer.setLongDescription(offerToSave.getLongDescription());
+                    offer.setLocation(offerToSave.getLocation());
+                    ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
+                    offer.setCategories(categories);
+                    offer = offerRepository.save(offer);
+                    return Optional.of(offer);
+                })
+                .orElse(Optional.empty());
     }
 
     @Override

@@ -2,6 +2,7 @@ import { MyToast } from '@/models/MyToast';
 import {
   IAppUserService,
   IAuthenticationService,
+  ICategoryService,
   IOfferService,
   IRegistrationService,
   ITimeTransactionService,
@@ -16,6 +17,7 @@ export interface ContextProps {
   registrationService: IRegistrationService;
   authenticationService: IAuthenticationService;
   timeTransactionService: ITimeTransactionService;
+  categoryService: ICategoryService;
 }
 
 export interface ToastContextProviderProps {

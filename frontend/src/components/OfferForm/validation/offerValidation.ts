@@ -23,4 +23,7 @@ export const offerValidation = Yup.object().shape({
     OfferType.PURCHASE_OFFER,
     OfferType.SELL_OFFER,
   ]),
+  categories: Yup.array()
+    .of(Yup.string())
+    .required("Add at least one category"),
 });
