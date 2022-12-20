@@ -1,7 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
-import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class OfferServiceImpl implements OfferService {
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
             offer.setSeller(appUser);
         } else offer.setBuyer(appUser);
+        offer.setCreatedAt(LocalDateTime.now());
         return Optional.of(offerRepository.save(offer));
     }
 
@@ -61,7 +63,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Offer mapOfferDTOToOffer(final OfferDTO offerDTO) {
+    public Offer mapOfferDTOToOffer(final UpdateOfferDTO offerDTO) {
         Offer offer = new Offer();
         offer.setId(offerDTO.id());
         offer.setOfferType(offerDTO.offerType());
@@ -98,6 +100,7 @@ public class OfferServiceImpl implements OfferService {
                     offer.setLocation(offerToSave.getLocation());
                     ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
                     offer.setCategories(categories);
+                    offer.setUpdatedAt(LocalDateTime.now());
                     offer = offerRepository.save(offer);
                     return Optional.of(offer);
                 })

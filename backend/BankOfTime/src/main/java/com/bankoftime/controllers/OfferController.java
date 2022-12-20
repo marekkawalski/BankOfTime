@@ -1,7 +1,7 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.dto.CreateOfferDTO;
-import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
@@ -117,7 +117,7 @@ public class OfferController {
     }
 
     @PutMapping(value = "/offers")
-    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody OfferDTO offerDTO) {
+    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody UpdateOfferDTO offerDTO) {
         return offerService.modifyOffer(offerService.mapOfferDTOToOffer(offerDTO))
                 .map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));

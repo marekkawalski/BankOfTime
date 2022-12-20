@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public record OfferDTO(
+public record UpdateOfferDTO(
         @NotNull Long id,
         @NotBlank(message = "title can't be blank") String title,
         @NotBlank(message = "shortDescription can't be blank") String shortDescription,

@@ -1,7 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CreateOfferDTO;
-import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
@@ -20,7 +20,7 @@ public interface OfferService {
 
     Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO);
 
-    Offer mapOfferDTOToOffer(OfferDTO OfferDTO);
+    Offer mapOfferDTOToOffer(UpdateOfferDTO OfferDTO);
 
     List<Offer> getAllSellOffersAssignedToClient(Long userId);
 

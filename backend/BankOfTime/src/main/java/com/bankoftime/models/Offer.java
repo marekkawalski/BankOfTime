@@ -2,6 +2,7 @@ package com.bankoftime.models;
 
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -53,7 +55,11 @@ public class Offer {
 
     @Nullable
     private Double previousPrice;
-
+    @JsonFormat(pattern = "dd:MM:yyyy HH:mm")
+    private LocalDateTime createdAt;
+    @Nullable
+    @JsonFormat(pattern = "dd:MM:yyyy HH:mm")
+    private LocalDateTime updatedAt;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @NotNull
