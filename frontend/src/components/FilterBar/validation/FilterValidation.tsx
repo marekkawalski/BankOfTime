@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 export const Filter_Validation = Yup.object().shape({
   keyword: Yup.string(),
+  category: Yup.string(),
   sortBy: Yup.string().oneOf([
     undefined,
     SortBy.NAME_A_Z,

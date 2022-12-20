@@ -25,3 +25,11 @@ export interface OfferToSubmit {
   location?: string;
   categories: string[];
 }
+
+export interface UseSubmitOfferProps {
+  categories?: Category[];
+  submit: {
+    loading: boolean;
+    handleSubmit: <T>(offer: T) => Promise<any>;
+  };
+}

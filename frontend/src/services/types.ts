@@ -57,4 +57,5 @@ export interface OfferRequestParams {
   pageSizeUrl?: string;
   pageNumUrl?: string;
   keywordUrl?: string;
+  categoryUrl?: string;
 }

@@ -77,7 +77,8 @@ class OfferService implements IOfferService {
       offerRequestParams?.pageSizeUrl ?? "",
       offerRequestParams?.sortDirectionUrl ?? "",
       offerRequestParams?.sortFieldUrl ?? "",
-      offerRequestParams?.keywordUrl ?? ""
+      offerRequestParams?.keywordUrl ?? "",
+      offerRequestParams?.categoryUrl ?? ""
     );
   }
 }
