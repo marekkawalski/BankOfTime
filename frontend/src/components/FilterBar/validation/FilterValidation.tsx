@@ -11,6 +11,8 @@ export const Filter_Validation = Yup.object().shape({
     SortBy.NAME_Z_A,
     SortBy.CHEAPEST_FIRST,
     SortBy.MOST_EXPENSIVE_FIRST,
+    SortBy.NEWEST_FIRST,
+    SortBy.OLDEST_FIRST,
   ]),
   offerStatus: Yup.string().oneOf([
     undefined,

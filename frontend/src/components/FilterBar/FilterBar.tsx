@@ -74,6 +74,8 @@ function FilterBar({
                   <option value={SortBy.MOST_EXPENSIVE_FIRST}>
                     Most expensive first
                   </option>
+                  <option value={SortBy.NEWEST_FIRST}>Newest first</option>
+                  <option value={SortBy.OLDEST_FIRST}>Oldest first</option>
                 </Form.Select>
               </Form.Group>
             </div>

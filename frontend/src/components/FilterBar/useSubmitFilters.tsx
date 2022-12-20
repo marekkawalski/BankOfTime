@@ -34,6 +34,14 @@ function useSubmitFilters({
         sortFieldUrl = `sort=title&`;
         sortDirectionUrl = `sort-dir=${SortDir.DESC}&`;
         break;
+      case SortBy.NEWEST_FIRST === submittedValues.sortBy:
+        sortFieldUrl = `sort=createdAt&`;
+        sortDirectionUrl = `sort-dir=${SortDir.DESC}&`;
+        break;
+      case SortBy.OLDEST_FIRST === submittedValues.sortBy:
+        sortFieldUrl = `sort=createdAt&`;
+        sortDirectionUrl = `sort-dir=${SortDir.ASC}&`;
+        break;
       default:
         console.log("Error");
         break;
