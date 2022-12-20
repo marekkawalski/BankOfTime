@@ -50,19 +50,15 @@ function MyNavbar() {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <ProtectedComponent>
-                  <Nav.Link as={Link} to="/">
-                    Home
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/createOffer">
-                    Create offer
+                  <Nav.Link as={Link} to="/sellOffers">
+                    Sell offers
                   </Nav.Link>
                   <Nav.Link as={Link} to="/purchaseOffers">
                     Purchase offers
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/sellOffers">
-                    Sell offers
+                  <Nav.Link as={Link} to="/createOffer">
+                    Create offer
                   </Nav.Link>
-
                   <NavDropdown
                     title="My stuff"
                     id={`offcanvasNavbarDropdown-expand-${false}`}
@@ -100,9 +96,6 @@ function MyNavbar() {
                     </NavDropdown>
                   </ProtectedComponent>
                 </ProtectedComponent>
-                <Nav.Link as={Link} to="/about">
-                  About
-                </Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
