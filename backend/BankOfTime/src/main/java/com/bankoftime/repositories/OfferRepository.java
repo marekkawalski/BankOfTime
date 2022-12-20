@@ -20,18 +20,20 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     List<Offer> findByBuyerId(Long clientId);
 
     @Query(value = "select o from Offer o where (:offerType is null or (:offerType = o.offerType)) and (:offerStatus is null or (:offerStatus = o.state)) " +
-            " and (:keyword is null or (o.title like %:keyword% or o.shortDescription like %:keyword%))")
+            " and (:keyword is null or (o.title like %:keyword% or o.shortDescription like %:keyword%)) and (:category is null or (:category in (select c.name from o.categories c)))")
     Page<List<Offer>> findAllOffers(final Pageable pageable, @Param("offerType") OfferType offerType, @Param("offerStatus") OfferStatus offerStatus,
-                                    @Param("keyword") String keyword);
+                                    @Param("keyword") String keyword, @Param("category") String category);
 
     @Query(value = "select o from Offer o where (o.buyer.id = :userId and o.offerType=com.bankoftime.enums.OfferType.PURCHASE_OFFER or " +
             "o.seller.id = :userId and o.offerType=com.bankoftime.enums.OfferType.SELL_OFFER) and (:offerType is null or (:offerType = o.offerType)) and (:offerStatus is null or (:offerStatus = o.state)) " +
-            " and (:keyword is null or (o.title like %:keyword% or o.shortDescription like %:keyword%))")
-    Page<List<Offer>> findAllOffersOwnedByUser(final Pageable pageable, @Param("userId") Long userId, @Param("offerType") OfferType offerType, @Param("offerStatus") OfferStatus offerStatus, @Param("keyword") String keyword);
+            " and (:keyword is null or (o.title like %:keyword% or o.shortDescription like %:keyword%)) and (:category is null or (:category in (select c.name from o.categories c)))")
+    Page<List<Offer>> findAllOffersOwnedByUser(final Pageable pageable, @Param("userId") Long userId, @Param("offerType") OfferType offerType, @Param("offerStatus") OfferStatus offerStatus, @Param("keyword") String keyword,
+                                               @Param("category") String category);
 
     @Query(value = "select o from Offer o where (o.buyer.id =:userId and o.offerType=com.bankoftime.enums.OfferType.SELL_OFFER or " +
             "o.seller.id =:userId and o.offerType=com.bankoftime.enums.OfferType.PURCHASE_OFFER) and (:offerType is null or (:offerType = o.offerType)) and (:offerStatus is null or (:offerStatus = o.state))  " +
-            " and (:keyword is null or (o.title like %:keyword% or o.shortDescription like %:keyword%))")
-    Page<List<Offer>> findAllOffersChosenByUser(final Pageable pageable, @Param("userId") Long userId, @Param("offerType") OfferType offerType, @Param("offerStatus") OfferStatus offerStatus, @Param("keyword") String keyword);
+            " and (:keyword is null or (o.title like %:keyword% or o.shortDescription like %:keyword%)) and (:category is null or (:category in (select c.name from o.categories c)))")
+    Page<List<Offer>> findAllOffersChosenByUser(final Pageable pageable, @Param("userId") Long userId, @Param("offerType") OfferType offerType, @Param("offerStatus") OfferStatus offerStatus, @Param("keyword") String keyword,
+                                                @Param("category") String category);
 
 }
