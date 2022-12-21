@@ -22,6 +22,8 @@ public interface TimeTransactionService {
 
     Optional<Offer> requestApproval(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException;
 
+    Optional<Offer> rejectPendingApproval(Long offerId) throws TimeTransactionException;
+
     Optional<TimeTransaction> makeTransaction(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException;
 
 }

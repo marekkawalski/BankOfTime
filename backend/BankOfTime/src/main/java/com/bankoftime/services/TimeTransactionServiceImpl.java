@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.enums.OfferStatus;
+import com.bankoftime.enums.OfferType;
 import com.bankoftime.enums.TransactionStatus;
 import com.bankoftime.exceptions.TimeTransactionException;
 import com.bankoftime.models.AppUser;
@@ -94,6 +95,23 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         offerService.modifyOffer(offer);
         return Optional.of(offer);
     }
+
+    @Override
+    public Optional<Offer> rejectPendingApproval(Long offerId) throws TimeTransactionException {
+        Optional<Offer> oOffer = offerService.findOffer(offerId);
+        if (oOffer.isEmpty())
+            throw new TimeTransactionException("Offer doesn't exist");
+        Offer offer = oOffer.get();
+        offer.setState(OfferStatus.ACTIVE);
+        if (offer.getOfferType() == OfferType.SELL_OFFER) {
+            offer.setBuyer(null);
+        } else {
+            offer.setSeller(null);
+        }
+        offerService.modifyOffer(offer);
+        return Optional.of(offer);
+    }
+
 
     @Transactional
     @Override

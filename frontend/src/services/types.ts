@@ -44,6 +44,7 @@ export interface ITimeTransactionService {
     sellerId: number,
     buyerId: number
   ): Promise<AxiosResponse>;
+  rejectPendingApproval(offerId: number): Promise<AxiosResponse>;
 }
 
 export interface ICategoryService {

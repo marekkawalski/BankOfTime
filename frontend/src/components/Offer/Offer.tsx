@@ -1,3 +1,5 @@
+import './Offer.scss';
+
 import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { OfferStatus } from '@/enums/OfferState';
@@ -62,6 +64,31 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
     }
     await handleGetOffers(filters);
   };
+
+  const rejectPendingApproval = async () => {
+    let result: any;
+    if (!(services && offer)) return;
+    try {
+      result = await services.timeTransactionService.rejectPendingApproval(
+        offer.id
+      );
+      console.log(result);
+      toast?.make(
+        ToastTitle.SUCCESS,
+        ToastBackground.SUCCESS,
+        "Client has been rejected!"
+      );
+    } catch (error: any) {
+      console.log(error);
+      toast?.make(
+        ToastTitle.ERROR,
+        ToastBackground.ERROR,
+        (error?.message?.response?.data?.message as string) ?? "Error"
+      );
+    }
+    await handleGetOffers(filters);
+  };
+
   return (
     <div>
       <Col>
@@ -94,30 +121,52 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
                 </Button>
               </div>
             ) : (
-              <div>
+              <div className="">
                 <Button
                   onClick={() => {
                     navigate(`${offer.id}`);
                   }}
                   size="sm"
                   variant="primary"
+                  className="btn-offer-details"
                 >
                   View offer details
                 </Button>
                 {manageOffer?.isOfferOwner() &&
                   offer.state === OfferStatus.ON_HOLD && (
-                    <Button
-                      size="sm"
-                      variant="primary"
-                      onClick={() => makeTransaction()}
-                    >
-                      Accept
-                      {offer.offerType === OfferType.PURCHASE_OFFER ? (
-                        <span>seller </span>
-                      ) : (
-                        <span>buyer</span>
-                      )}
-                    </Button>
+                    <>
+                      <Button size="sm" variant="primary" className="mx-2">
+                        View client profile
+                      </Button>
+                      <div className="btn-actions">
+                        <Button
+                          size="sm"
+                          variant="success"
+                          onClick={() => makeTransaction()}
+                          className="btn-accept"
+                        >
+                          Accept
+                          {offer.offerType === OfferType.PURCHASE_OFFER ? (
+                            <span> seller </span>
+                          ) : (
+                            <span> buyer</span>
+                          )}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="danger"
+                          className="btn-reject"
+                          onClick={() => rejectPendingApproval()}
+                        >
+                          Reject{" "}
+                          {offer.offerType === OfferType.PURCHASE_OFFER ? (
+                            <span> seller </span>
+                          ) : (
+                            <span> buyer</span>
+                          )}
+                        </Button>
+                      </div>
+                    </>
                   )}
               </div>
             )}
