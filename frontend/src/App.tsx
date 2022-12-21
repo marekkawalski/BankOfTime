@@ -17,6 +17,7 @@ import PurchaseOffers from './pages/PurchaseOffers/PurchaseOffers';
 import Register from './pages/Register/Register';
 import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
+import ViewProfile from './pages/ViewProfile/ViewProfile';
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
             element={<ViewOfferDetails />}
           />
         </Route>
+        <Route path="/appUser" element={<ViewProfile />} />
+        <Route path="/appUser/:email" element={<ViewProfile />} />
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>
           <Route path="/admin" element={<AdminPage />} />

@@ -74,10 +74,10 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Optional<AppUser> oSeller = appUserService.find(sellerId);
+        Optional<AppUser> oSeller = appUserService.findById(sellerId);
         if (oSeller.isEmpty())
             throw new TimeTransactionException("Seller doesn't exist");
-        Optional<AppUser> oBuyer = appUserService.find(buyerId);
+        Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
 
@@ -119,10 +119,10 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Optional<AppUser> oSeller = appUserService.find(sellerId);
+        Optional<AppUser> oSeller = appUserService.findById(sellerId);
         if (oSeller.isEmpty())
             throw new TimeTransactionException("Seller doesn't exist");
-        Optional<AppUser> oBuyer = appUserService.find(buyerId);
+        Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
         Offer offer = oOffer.get();

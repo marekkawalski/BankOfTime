@@ -4,6 +4,7 @@ import { AxiosResponse } from 'axios';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;
+  getAppUserById(id: number): Promise<AxiosResponse>;
   getAppUser(): IAppUser;
 }
 export interface IAuthenticationService {

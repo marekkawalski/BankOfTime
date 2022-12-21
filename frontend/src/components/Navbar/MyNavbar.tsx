@@ -71,7 +71,7 @@ function MyNavbar() {
                       Chosen offers
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/">
+                    <NavDropdown.Item as={Link} to="/appUser">
                       Profile
                     </NavDropdown.Item>
                     <NavDropdown.Divider />

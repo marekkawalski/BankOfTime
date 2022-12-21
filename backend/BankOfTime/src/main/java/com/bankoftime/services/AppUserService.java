@@ -13,7 +13,7 @@ public interface AppUserService {
 
     String getUserRoleByUsername(String username);
 
-    Optional<AppUser> find(Long id);
+    Optional<AppUser> findById(Long id);
 
     Optional<AppUser> findByEmail(String email);
 

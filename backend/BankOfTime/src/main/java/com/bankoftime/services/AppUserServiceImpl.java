@@ -70,7 +70,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public Optional<AppUser> find(Long id) {
+    public Optional<AppUser> findById(Long id) {
         return appUserRepository.findById(id);
     }
 
@@ -87,7 +87,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     @Override
     public Optional<Double> calculateClientAccountBalance(Long clientId) {
-        Optional<Double> sum = find(clientId)
+        Optional<Double> sum = findById(clientId)
                 .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
                         - appUser.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
         log.info("sum= " + sum.get());

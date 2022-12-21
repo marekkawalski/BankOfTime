@@ -104,7 +104,7 @@ public class OfferController {
 
     @PostMapping(path = "/offers/{clientId}")
     public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {
-        Optional<AppUser> oAppUser = appUserService.find(clientId);
+        Optional<AppUser> oAppUser = appUserService.findById(clientId);
         return oAppUser
                 .map(appUser -> offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), appUser)
                         .map(value -> ResponseEntity

@@ -12,7 +12,8 @@ import { Button, Card, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import { OfferProps } from '../OfferContainer/types';
-import { IManageOffer, ManageOffer } from './ManageOffer';
+import { ManageOffer } from './ManageOffer';
+import { IManageOffer } from './types';
 
 function Offer({ offer, handleGetOffers, filters }: OfferProps) {
   const navigate = useNavigate();
