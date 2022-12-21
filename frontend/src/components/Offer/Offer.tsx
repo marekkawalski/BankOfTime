@@ -136,7 +136,20 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
                 {manageOffer?.isOfferOwner() &&
                   offer.state === OfferStatus.ON_HOLD && (
                     <>
-                      <Button size="sm" variant="primary" className="mx-2">
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        className="mx-2"
+                        onClick={() =>
+                          navigate(
+                            `/appUser/${
+                              offer.offerType === OfferType.PURCHASE_OFFER
+                                ? offer.seller?.email
+                                : offer.buyer?.email
+                            }`
+                          )
+                        }
+                      >
                         View client profile
                       </Button>
                       <div className="btn-actions">
