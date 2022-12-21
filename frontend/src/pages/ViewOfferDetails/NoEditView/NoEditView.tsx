@@ -11,7 +11,7 @@ import useGetOffer from '@/hooks/useGetOffer';
 import { IAppUser } from '@/models/AppUser';
 import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 

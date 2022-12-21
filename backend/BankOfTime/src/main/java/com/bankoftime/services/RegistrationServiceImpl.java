@@ -1,11 +1,9 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.RegistrationDTO;
-import com.bankoftime.enums.UserType;
 import com.bankoftime.exceptions.EmailException;
 import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.exceptions.UserException;
-import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,14 +28,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
         try {
             String token = appUserService.signUpUser(
-                    new AppUser(
-                            request.firstName(),
-                            request.lastName(),
-                            request.email(),
-                            request.password(),
-                            UserType.NORMAL
-                    )
-            );
+                    appUserService.mapRegistrationDtoToAppUser(request));
             emailSender.send(request.email(), buildEmail(request.firstName(), "http://localhost:8080/registration/confirm?token=" + token));
             return token;
         } catch (UserException userException) {

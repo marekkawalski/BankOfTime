@@ -21,5 +21,7 @@ public record AppUserDTO(Long id,
                          @Email @NotBlank(message = "Email is mandatory")
                          String email,
                          String phoneNumber,
-                         @NotNull UserType userType) implements Serializable {
+                         @NotNull UserType userType,
+
+                         String aboutMe) implements Serializable {
 }

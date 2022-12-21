@@ -1,6 +1,9 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.AppUserDTO;
+import com.bankoftime.dto.RegistrationDTO;
+import com.bankoftime.dto.UpdateUserDTO;
+import com.bankoftime.enums.UserType;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
@@ -82,7 +85,58 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public AppUserDTO mapAppUserToAppUserDto(AppUser appUser) {
         return new AppUserDTO(appUser.getId(), appUser.getFirstName(), appUser.getLastName(), appUser.getCity(),
-                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType());
+                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType(), appUser.getAboutMe());
+    }
+
+    @Override
+    public AppUser mapRegistrationDtoToAppUser(RegistrationDTO registrationDTO) {
+        AppUser appUser = new AppUser();
+        appUser.setUserType(UserType.NORMAL);
+        appUser.setFirstName(registrationDTO.firstName());
+        appUser.setLastName(registrationDTO.lastName());
+        appUser.setPassword(registrationDTO.password());
+        appUser.setEmail(registrationDTO.email());
+        if (registrationDTO.city() != null) {
+            appUser.setCity(registrationDTO.city());
+        }
+        if (registrationDTO.country() != null) {
+            appUser.setCountry(registrationDTO.country());
+        }
+        if (registrationDTO.phoneNumber() != null) {
+            appUser.setPhoneNumber(registrationDTO.phoneNumber());
+        }
+        if (registrationDTO.aboutMe() != null) {
+            appUser.setAboutMe(registrationDTO.aboutMe());
+        }
+        return appUser;
+    }
+
+    @Override
+    public AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO) {
+        AppUser appUser = new AppUser();
+        appUser.setUserType(UserType.NORMAL);
+        appUser.setEnabled(true);
+        appUser.setId(updateUserDTO.id());
+        appUser.setFirstName(updateUserDTO.firstName());
+        appUser.setLastName(updateUserDTO.lastName());
+        appUser.setEmail(updateUserDTO.email());
+
+        if (updateUserDTO.password() != null) {
+            appUser.setPassword(bCryptPasswordEncoder.encode(updateUserDTO.password()));
+        }
+        if (updateUserDTO.city() != null) {
+            appUser.setCity(updateUserDTO.city());
+        }
+        if (updateUserDTO.country() != null) {
+            appUser.setCountry(updateUserDTO.country());
+        }
+        if (updateUserDTO.phoneNumber() != null) {
+            appUser.setPhoneNumber(updateUserDTO.phoneNumber());
+        }
+        if (updateUserDTO.aboutMe() != null) {
+            appUser.setAboutMe(updateUserDTO.aboutMe());
+        }
+        return appUser;
     }
 
     @Override
@@ -107,22 +161,21 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     public Optional<AppUser> modifyAppUser(final AppUser appUserToSave) {
         return appUserRepository.findById(appUserToSave.getId())
                 .map(appUser -> {
+                    appUser.setFirstName(appUserToSave.getFirstName());
+                    appUser.setLastName(appUserToSave.getLastName());
+                    if (appUserToSave.getPassword() != null) {
+                        appUser.setPassword(appUserToSave.getPassword());
+                    }
                     appUser.setUserType(appUserToSave.getUserType());
                     appUser.setCountry(appUserToSave.getCountry());
                     appUser.setPhoneNumber(appUserToSave.getPhoneNumber());
-                    appUser.setLastName(appUserToSave.getLastName());
-                    appUser.setPassword(appUserToSave.getPassword());
-                    appUser.setFirstName(appUserToSave.getFirstName());
                     appUser.setCity(appUserToSave.getCity());
                     appUser.setEmail(appUserToSave.getEmail());
                     appUser.setEnabled(appUserToSave.isEnabled());
                     appUser.setConfirmationTokens(appUserToSave.getConfirmationTokens());
-                    appUser.setSellTransactions(appUserToSave.getSellTransactions());
-                    appUser.setPurchaseOffers(appUserToSave.getPurchaseOffers());
-                    appUser.setSellOffers(appUserToSave.getSellOffers());
-                    appUser.setPurchaseTransactions(appUserToSave.getPurchaseTransactions());
                     appUser.setImage(appUserToSave.getImage());
                     appUser.setLocked(appUser.isLocked());
+                    appUser.setAboutMe(appUserToSave.getAboutMe());
                     appUser = appUserRepository.save(appUser);
                     return Optional.of(appUser);
                 }).orElse(Optional.empty());

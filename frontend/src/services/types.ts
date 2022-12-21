@@ -1,11 +1,12 @@
-import { IAppUser, IAppUserToRegister } from '@/models/AppUser';
-import { ICreateOffer, IOffer } from '@/models/Offer';
+import { IAppUser, IAppUserToRegister, IAppUserToUpdate } from '@/models/AppUser';
+import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import { AxiosResponse } from 'axios';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;
   getAppUserById(id: number): Promise<AxiosResponse>;
   getAppUser(): IAppUser;
+  updateAppUser(appUser: IAppUserToUpdate): Promise<AxiosResponse<any, any>>;
 }
 export interface IAuthenticationService {
   executeBasicAuthenticationService(
@@ -22,7 +23,7 @@ export interface IRegistrationService {
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
-  updateOffer(offer: IOffer): Promise<AxiosResponse>;
+  updateOffer(offer: IUpdateOffer): Promise<AxiosResponse>;
   getOffers(offerRequestParams: OfferRequestParams): Promise<AxiosResponse>;
   getAppUserOffers(
     offerRequestParams: OfferRequestParams,

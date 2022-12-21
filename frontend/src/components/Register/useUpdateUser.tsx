@@ -2,35 +2,44 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
-import React from 'react';
+import { useState } from 'react';
 
-function useRegister() {
+export function useUpdateUser() {
   const services = useServices();
   const toast = useMyToast();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (values: any) => {
     try {
       if (!services) return;
-      const resp = await services.registrationService.register({
+      setLoading(true);
+      const resp = await services.appUserService.updateAppUser({
+        id: values.id,
         firstName: values.firstName,
         lastName: values.lastName,
         password: values.password,
         email: values.email,
+        phoneNumber: values.phone,
+        city: values.city,
+        country: values.country,
+        aboutMe: values.aboutMe,
       });
-      if (resp.status === 201) {
-        toast?.make(ToastTitle.SUCCESS, ToastBackground.SUCCESS, resp.data);
+      if (resp.status === 200) {
+        toast?.make(
+          ToastTitle.SUCCESS,
+          ToastBackground.SUCCESS,
+          "User has been updated!"
+        );
       }
     } catch (e: any) {
       toast?.make(
         ToastTitle.ERROR,
         ToastBackground.ERROR,
-        e?.message?.response?.data?.toString() ??
-          e?.message?.message?.toString()
+        "Error while updating user"
       );
       console.log(e);
     }
+    setLoading(false);
   };
-  return handleSubmit;
+  return { handleSubmit, loading };
 }
-
-export default useRegister;

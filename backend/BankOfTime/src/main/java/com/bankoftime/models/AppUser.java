@@ -60,6 +60,9 @@ public class AppUser implements UserDetails {
 
     @Nullable
     private String phoneNumber;
+
+    @Nullable
+    private String aboutMe;
     private boolean locked;
     private boolean enabled;
     @Enumerated(EnumType.STRING)

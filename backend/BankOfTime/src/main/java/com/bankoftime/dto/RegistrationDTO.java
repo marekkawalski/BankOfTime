@@ -16,5 +16,10 @@ public record RegistrationDTO(
         String password,
         @Email
         @NotBlank(message = "Email is mandatory")
-        String email) {
+        String email,
+        String city,
+        String country,
+        String phoneNumber,
+        String aboutMe
+) {
 }

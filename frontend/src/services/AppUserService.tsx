@@ -1,12 +1,13 @@
 import { API_URL } from '@/config/config';
 import { APP_USER } from '@/constants/constants';
 import { IAppUser } from '@/models/AppUser';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
+import { IAppUserToUpdate } from '../models/AppUser';
 import { IAppUserService } from './types';
 
 class AppUserService implements IAppUserService {
-  async getAppUserByEmail(email: string) {
+  async getAppUserByEmail(email: string): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/clients/${email}`);
     } catch (error: any) {
@@ -14,9 +15,19 @@ class AppUserService implements IAppUserService {
     }
   }
 
-  async getAppUserById(id: number) {
+  async getAppUserById(id: number): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(`${API_URL}/clients/id/${id}`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
+  async updateAppUser(
+    appUser: IAppUserToUpdate
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.put(`${API_URL}/clients/updateClient`, appUser);
     } catch (error: any) {
       throw new AxiosError(error);
     }

@@ -14,7 +14,7 @@ import CreateOffer from './pages/CreateOffer/CreateOffer';
 import LoginComponent from './pages/Login/Login';
 import NotFound from './pages/NotFound/NotFound';
 import PurchaseOffers from './pages/PurchaseOffers/PurchaseOffers';
-import Register from './pages/Register/Register';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 import ViewProfile from './pages/ViewProfile/ViewProfile';
@@ -27,7 +27,7 @@ function App() {
       <Routes>
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />
-        <Route path="register" element={<Register />} />
+        <Route path="register" element={<RegisterPage />} />
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Navigate to="/sellOffers" />} />

@@ -1,13 +1,14 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.dto.AppUserDTO;
+import com.bankoftime.dto.UpdateUserDTO;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.services.AppUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class AppUserController {
@@ -38,4 +39,10 @@ public class AppUserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
+    @PutMapping(path = "/clients/updateClient")
+    public ResponseEntity<AppUser> updateClient(@Valid @RequestBody UpdateUserDTO updateUserDTO) {
+        return appUserService.modifyAppUser(appUserService.mapUpdateUserDtoToAppUser(updateUserDTO))
+                .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUser))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
 }
