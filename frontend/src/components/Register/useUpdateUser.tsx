@@ -3,11 +3,13 @@ import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function useUpdateUser() {
+  const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const toast = useMyToast();
-  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (values: any) => {
     try {
@@ -40,6 +42,11 @@ export function useUpdateUser() {
       console.log(e);
     }
     setLoading(false);
+    if (values.password) {
+      services?.authenticationService.logout();
+      navigate("/login");
+      window.location.reload();
+    }
   };
   return { handleSubmit, loading };
 }

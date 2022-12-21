@@ -21,13 +21,9 @@ function useGetUserToView() {
 
   const handleGetUser = async () => {
     if (!appUser || !services) return;
-    if (!params.email) {
-      setUserToView(appUser);
-      return { userToView };
-    }
     try {
       const result = await services.appUserService.getAppUserByEmail(
-        params.email
+        params?.email ?? appUser.email
       );
       setUserToView(result?.data ?? {});
     } catch (error) {
