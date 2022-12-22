@@ -7,7 +7,7 @@ import { OfferType } from '@/enums/OfferType';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import useGetAppUser from '@/hooks/useGetAppUser';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,21 +26,8 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
     setManageOffer(new ManageOffer(offer, appUser));
   }, [appUser]);
 
-  const setFooterClassName = (): string => {
-    switch (true) {
-      case offer.state === OfferStatus.ACTIVE:
-        return "text-success";
-      case offer.state === OfferStatus.APPROVED:
-        return "text-success";
-      case offer.state === OfferStatus.ON_HOLD:
-        return "text-warning";
-      case offer.state === OfferStatus.UNAVAILABLE:
-        return "text-secondary";
-      default:
-        return "text-secondary";
-    }
-  };
-  const makeTransaction = async () => {
+  const makeTransaction = useCallback(async () => {
+    console.log("Make transaction");
     let result: any;
     if (!(services && appUser && offer)) return;
     try {
@@ -64,9 +51,10 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
       );
     }
     await handleGetOffers(filters);
-  };
+  }, [offer, services, appUser, toast]);
 
-  const rejectPendingApproval = async () => {
+  const rejectPendingApproval = useCallback(async () => {
+    console.log("Reject approval");
     let result: any;
     if (!(services && offer)) return;
     try {
@@ -88,6 +76,21 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
       );
     }
     await handleGetOffers(filters);
+  }, [offer, services, toast]);
+
+  const setFooterClassName = (): string => {
+    switch (true) {
+      case offer.state === OfferStatus.ACTIVE:
+        return "text-success";
+      case offer.state === OfferStatus.APPROVED:
+        return "text-success";
+      case offer.state === OfferStatus.ON_HOLD:
+        return "text-warning";
+      case offer.state === OfferStatus.UNAVAILABLE:
+        return "text-secondary";
+      default:
+        return "text-secondary";
+    }
   };
 
   return (
@@ -156,7 +159,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
                         <Button
                           size="sm"
                           variant="success"
-                          onClick={() => makeTransaction()}
+                          onClick={makeTransaction}
                           className="btn-accept"
                         >
                           Accept
@@ -170,7 +173,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
                           size="sm"
                           variant="danger"
                           className="btn-reject"
-                          onClick={() => rejectPendingApproval()}
+                          onClick={rejectPendingApproval}
                         >
                           Reject{" "}
                           {offer.offerType === OfferType.PURCHASE_OFFER ? (
