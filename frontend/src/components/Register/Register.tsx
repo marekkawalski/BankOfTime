@@ -1,5 +1,6 @@
+import './Register.scss';
+
 import { Formik } from 'formik';
-import { useEffect } from 'react';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useLocation } from 'react-router-dom';
@@ -37,6 +38,7 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                 country: appUser?.country ?? "",
                 aboutMe: appUser?.aboutMe ?? "",
                 phone: appUser?.phoneNumber ?? "",
+                occupation: appUser?.occupation ?? "",
               } as ValuesProps
             }
           >
@@ -277,6 +279,36 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                       as={Col}
                       md="6"
                       className="mb-3"
+                      controlId="validateOccupation"
+                    >
+                      <FloatingLabel
+                        controlId="validateOccupation"
+                        label="occupation"
+                        className="m-0"
+                      >
+                        <Form.Control
+                          required
+                          type="text"
+                          name="occupation"
+                          placeholder="occupation"
+                          value={values.occupation}
+                          onChange={handleChange}
+                          isValid={touched.occupation && !errors.occupation}
+                          isInvalid={touched.occupation && !!errors.occupation}
+                        />
+                        <Form.Control.Feedback type="valid">
+                          Looks good!
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.occupation}
+                        </Form.Control.Feedback>
+                      </FloatingLabel>
+                    </Form.Group>
+                    <Form.Group
+                      as={Col}
+                      md="10"
+                      className="mb-3 about-me"
+                      size="lg"
                       controlId="validateAboutMe"
                     >
                       <FloatingLabel
@@ -289,6 +321,7 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                           required
                           type="textarea"
                           name="aboutMe"
+                          style={{ height: "120px" }}
                           placeholder="aboutMe"
                           value={values.aboutMe}
                           onChange={handleChange}

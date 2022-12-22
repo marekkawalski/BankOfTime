@@ -36,4 +36,7 @@ export const updateUserValidationSchema = Yup.object().shape({
   phone: Yup.string()
     .min(9, "Phone me must be at least 9 characters")
     .max(13, "Phone me must not exceed 13 characters"),
+  occupation: Yup.string()
+    .min(3, "City must be at least 3 characters")
+    .max(25, "City must not exceed 25 characters"),
 });

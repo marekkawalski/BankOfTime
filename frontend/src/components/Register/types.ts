@@ -16,6 +16,7 @@ export interface ValuesProps {
   country?: string;
   aboutMe?: string;
   phone?: string;
+  occupation?: string;
 }
 
 export interface UseUpdateUserProps {

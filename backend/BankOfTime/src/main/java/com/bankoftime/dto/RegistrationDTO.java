@@ -20,6 +20,7 @@ public record RegistrationDTO(
         String city,
         String country,
         String phoneNumber,
-        String aboutMe
+        String aboutMe,
+        String occupation
 ) {
 }

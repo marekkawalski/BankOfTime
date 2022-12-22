@@ -22,6 +22,7 @@ export function useRegister() {
         city: values.city,
         country: values.country,
         aboutMe: values.aboutMe,
+        occupation: values.occupation,
       });
       if (resp.status === 201) {
         toast?.make(ToastTitle.SUCCESS, ToastBackground.SUCCESS, resp.data);

@@ -26,17 +26,7 @@ function NoEditView() {
               <h3 className="m-b-0">
                 {userToView?.firstName} {userToView?.lastName}
               </h3>
-              <p className="mb-4">Web Designer &amp; Developer</p>{" "}
-              <div className="d-flex justify-content-center gap-5">
-                <div className="">
-                  <h3 className="m-b-0 font-light">10434</h3>
-                  <small>Sell offers</small>
-                </div>
-                <div className="">
-                  <h3 className="m-b-0 font-light">434</h3>
-                  <small>Purchase offers</small>
-                </div>
-              </div>
+              <p className="mb-4">{userToView?.occupation}</p>
             </div>
           </div>
           <div className="card">

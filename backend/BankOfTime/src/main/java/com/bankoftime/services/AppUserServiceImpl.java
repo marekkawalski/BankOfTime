@@ -85,7 +85,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public AppUserDTO mapAppUserToAppUserDto(AppUser appUser) {
         return new AppUserDTO(appUser.getId(), appUser.getFirstName(), appUser.getLastName(), appUser.getCity(),
-                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType(), appUser.getAboutMe());
+                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType(), appUser.getAboutMe(), appUser.getOccupation());
     }
 
     @Override
@@ -96,6 +96,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         appUser.setLastName(registrationDTO.lastName());
         appUser.setPassword(registrationDTO.password());
         appUser.setEmail(registrationDTO.email());
+        appUser.setOccupation(registrationDTO.occupation());
         if (registrationDTO.city() != null) {
             appUser.setCity(registrationDTO.city());
         }
@@ -120,6 +121,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         appUser.setFirstName(updateUserDTO.firstName());
         appUser.setLastName(updateUserDTO.lastName());
         appUser.setEmail(updateUserDTO.email());
+        appUser.setOccupation(updateUserDTO.occupation());
 
         if (updateUserDTO.password() != null) {
             appUser.setPassword(bCryptPasswordEncoder.encode(updateUserDTO.password()));
@@ -141,20 +143,16 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     @Override
     public Optional<Double> calculateClientAccountBalance(Long clientId) {
-        Optional<Double> sum = findById(clientId)
+        return findById(clientId)
                 .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
                         - appUser.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
-        log.info("sum= " + sum.get());
-        return sum;
 
     }
 
     @Override
     public double calculateClientAccountBalance(AppUser client) {
-        double sum = client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
+        return client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
                 - client.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum();
-        log.info("sum= " + sum);
-        return sum;
     }
 
     @Override
@@ -176,6 +174,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                     appUser.setImage(appUserToSave.getImage());
                     appUser.setLocked(appUser.isLocked());
                     appUser.setAboutMe(appUserToSave.getAboutMe());
+                    appUser.setOccupation(appUserToSave.getOccupation());
                     appUser = appUserRepository.save(appUser);
                     return Optional.of(appUser);
                 }).orElse(Optional.empty());

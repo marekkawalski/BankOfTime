@@ -23,5 +23,7 @@ public record AppUserDTO(Long id,
                          String phoneNumber,
                          @NotNull UserType userType,
 
-                         String aboutMe) implements Serializable {
+                         String aboutMe,
+                         String occupation
+) implements Serializable {
 }

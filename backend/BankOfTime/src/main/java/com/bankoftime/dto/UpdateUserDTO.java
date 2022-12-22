@@ -19,6 +19,7 @@ public record UpdateUserDTO(
         String city,
         String country,
         String phoneNumber,
-        String aboutMe
+        String aboutMe,
+        String occupation
 ) implements Serializable {
 }

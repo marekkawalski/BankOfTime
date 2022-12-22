@@ -63,6 +63,9 @@ public class AppUser implements UserDetails {
 
     @Nullable
     private String aboutMe;
+
+    @Nullable
+    private String occupation;
     private boolean locked;
     private boolean enabled;
     @Enumerated(EnumType.STRING)
