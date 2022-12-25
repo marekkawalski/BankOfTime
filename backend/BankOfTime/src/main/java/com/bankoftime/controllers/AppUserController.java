@@ -4,14 +4,17 @@ import com.bankoftime.dto.AppUserDTO;
 import com.bankoftime.dto.UpdateUserDTO;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.services.AppUserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class AppUserController {
+    private static final String DEFAULT_PAGE_SIZE = " 10";
     private final AppUserService appUserService;
 
     public AppUserController(AppUserService appUserService) {
@@ -24,6 +27,18 @@ public class AppUserController {
                 .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUserService.mapAppUserToAppUserDto(appUser)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    @GetMapping(path = "/clients")
+    public ResponseEntity<Page<List<AppUser>>> getClients(
+            @RequestParam(value = "sort", defaultValue = "lastName") String sortField,
+            @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
+            @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
+        final Page<List<AppUser>> appUsers = appUserService.getPagedAppUsers(sortField, pageSize, pageNum);
+        if (appUsers.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(appUsers);
+    }
+
 
     @GetMapping(path = "/clients/{id}/balance")
     public ResponseEntity<Double> getClientAccountBalance(@PathVariable("id") Long id) {

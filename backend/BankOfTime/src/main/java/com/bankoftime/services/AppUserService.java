@@ -5,7 +5,9 @@ import com.bankoftime.dto.RegistrationDTO;
 import com.bankoftime.dto.UpdateUserDTO;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
+import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AppUserService {
@@ -31,4 +33,5 @@ public interface AppUserService {
 
     Optional<AppUser> modifyAppUser(AppUser appUserToSave);
 
+    Page<List<AppUser>> getPagedAppUsers(String sortField, Integer pageSize, Integer pageNum);
 }

@@ -11,6 +11,9 @@ import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.AppUserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -176,5 +180,10 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                     appUser = appUserRepository.save(appUser);
                     return Optional.of(appUser);
                 }).orElse(Optional.empty());
+    }
+
+    @Override
+    public Page<List<AppUser>> getPagedAppUsers(final String sortField, final Integer pageSize, final Integer pageNum) {
+        return appUserRepository.findAllBy(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.ASC, sortField)));
     }
 }

@@ -121,4 +121,6 @@ public class OfferServiceImpl implements OfferService {
     public Page<List<Offer>> getPagedAndFilteredOffersChosenByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection, final String keyword, final String category) {
         return offerRepository.findAllOffersChosenByUser(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), userId, offerType, offerStatus, keyword, category);
     }
+
+
 }

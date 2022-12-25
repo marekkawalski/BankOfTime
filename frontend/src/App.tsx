@@ -7,7 +7,7 @@ import MyNavbar from './components/Navbar/MyNavbar';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import MyToastComponent from './components/Toast/MyToastComponent';
 import { Role } from './enums/Role';
-import AdminPage from './pages/AdminPage/AdminPage';
+import ManageUsers from './pages/Admin/ManageUsers/ManageUsers';
 import AppUserChosenOffers from './pages/AppUserChosenOffers/AppUserChosenOffers';
 import AppUserOffers from './pages/AppUserOffers/AppUserOffers';
 import CreateOffer from './pages/CreateOffer/CreateOffer';
@@ -51,7 +51,7 @@ function App() {
         <Route path="/appUser/:email" element={<ViewProfile />} />
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/manage-users" element={<ManageUsers />} />
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>

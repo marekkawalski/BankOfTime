@@ -84,14 +84,14 @@ function MyNavbar() {
                       title="Admin"
                       id={`offcanvasNavbarDropdown-expand-${false}`}
                     >
-                      <NavDropdown.Header>Manage users</NavDropdown.Header>
-                      <NavDropdown.Item as={Link} to="/">
-                        All users
+                      <NavDropdown.Header>Users</NavDropdown.Header>
+                      <NavDropdown.Item as={Link} to="/admin/manage-users">
+                        Manage users
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
-                      <NavDropdown.Header>Manage offers</NavDropdown.Header>
+                      <NavDropdown.Header>Offers</NavDropdown.Header>
                       <NavDropdown.Item as={Link} to="/">
-                        Offers
+                        Manage offers
                       </NavDropdown.Item>
                     </NavDropdown>
                   </ProtectedComponent>
