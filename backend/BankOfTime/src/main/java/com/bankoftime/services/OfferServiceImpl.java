@@ -27,13 +27,13 @@ public class OfferServiceImpl implements OfferService {
 
     private final CategoryService categoryService;
 
-    public OfferServiceImpl(OfferRepository offerRepository, final CategoryService categoryService) {
+    public OfferServiceImpl(final OfferRepository offerRepository, final CategoryService categoryService) {
         this.offerRepository = offerRepository;
         this.categoryService = categoryService;
     }
 
     @Override
-    public Optional<Offer> createOffer(Offer offer, AppUser appUser) {
+    public Optional<Offer> createOffer(final Offer offer, final AppUser appUser) {
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
             offer.setSeller(appUser);
         } else offer.setBuyer(appUser);
@@ -42,12 +42,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<Offer> findOffer(Long offerId) {
+    public Optional<Offer> findOffer(final Long offerId) {
         return offerRepository.findById(offerId);
     }
 
     @Override
-    public Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO) {
+    public Offer mapCreateOfferDTOToOffer(final CreateOfferDTO createOfferDTO) {
         Offer offer = new Offer();
         offer.setOfferType(createOfferDTO.offerType());
         offer.setPrice(createOfferDTO.price());
@@ -79,12 +79,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<Offer> getAllSellOffersAssignedToClient(Long sellerId) {
+    public List<Offer> getAllSellOffersAssignedToClient(final Long sellerId) {
         return offerRepository.findBySellerId(sellerId);
     }
 
     @Override
-    public List<Offer> getAllPurchaseOffersAssignedToClient(Long buyerId) {
+    public List<Offer> getAllPurchaseOffersAssignedToClient(final Long buyerId) {
         return offerRepository.findByBuyerId(buyerId);
     }
 
@@ -115,6 +115,11 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public Page<List<Offer>> getPagedAndFilteredOffersOwnedByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection, final String keyword, final String category) {
         return offerRepository.findAllOffersOwnedByUser(PageRequest.of(pageNum, pageSize, Sort.by(sortDirection, sortField)), userId, offerType, offerStatus, keyword, category);
+    }
+
+    @Override
+    public void updateDisabledUserOffers(final Long userId) {
+        offerRepository.updateDisabledUserOffers(userId);
     }
 
     @Override

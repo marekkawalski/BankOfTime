@@ -14,23 +14,26 @@ import java.util.Optional;
 
 public interface OfferService {
 
-    Optional<Offer> createOffer(Offer offer, AppUser appUser);
+    Optional<Offer> createOffer(final Offer offer, final AppUser appUser);
 
-    Optional<Offer> findOffer(Long offerId);
+    Optional<Offer> findOffer(final Long offerId);
 
-    Offer mapCreateOfferDTOToOffer(CreateOfferDTO createOfferDTO);
+    Offer mapCreateOfferDTOToOffer(final CreateOfferDTO createOfferDTO);
 
-    Offer mapOfferDTOToOffer(UpdateOfferDTO OfferDTO);
+    Offer mapOfferDTOToOffer(final UpdateOfferDTO OfferDTO);
 
-    List<Offer> getAllSellOffersAssignedToClient(Long userId);
+    List<Offer> getAllSellOffersAssignedToClient(final Long userId);
 
-    List<Offer> getAllPurchaseOffersAssignedToClient(Long userId);
+    List<Offer> getAllPurchaseOffersAssignedToClient(final Long userId);
 
-    Optional<Offer> modifyOffer(Offer offerToSave);
+    Optional<Offer> modifyOffer(final Offer offerToSave);
 
     Page<List<Offer>> getSortedPagedAndFilteredOffers(final String sortField, final Integer pageSize, final Integer pageNum, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection, final String keyword, final String category);
 
     Page<List<Offer>> getPagedAndFilteredOffersOwnedByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection, final String keyword, final String category);
+
+
+    void updateDisabledUserOffers(final Long userId);
 
     Page<List<Offer>> getPagedAndFilteredOffersChosenByAppUser(final String sortField, final Integer pageSize, final Integer pageNum, final Long userId, final OfferType offerType, final OfferStatus offerStatus, final Sort.Direction sortDirection, final String keyword, final String category);
 }

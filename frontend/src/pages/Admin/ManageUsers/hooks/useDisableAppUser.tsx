@@ -24,6 +24,12 @@ function useDisableAppUser({ reload, setReload }: any) {
           ToastBackground.SUCCESS,
           "User has been disabled"
         );
+      } else if (resp.status === 404) {
+        toast?.make(
+          ToastTitle.ERROR,
+          ToastBackground.ERROR,
+          "User was not found!"
+        );
       }
       setReload(!reload);
     } catch (e: any) {

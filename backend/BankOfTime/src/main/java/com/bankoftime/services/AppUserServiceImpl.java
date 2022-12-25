@@ -35,6 +35,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
 
+    private final OfferService offerService;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return appUserRepository.findByEmail(email)
@@ -71,6 +73,11 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     @Override
     public int disableAppUser(String email) {
+        Optional<AppUser> oAppUser = findByEmail(email);
+        if ((oAppUser.isEmpty())) {
+            return 0;
+        }
+        offerService.updateDisabledUserOffers(oAppUser.get().getId());
         return appUserRepository.disableAppUser(email);
     }
 
