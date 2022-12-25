@@ -45,4 +45,16 @@ public class AppUserController {
                 .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUser))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    @PutMapping(path = "/clients/disableClient/{email}")
+    public ResponseEntity<String> disableClient(@PathVariable String email) {
+        return appUserService.disableAppUser(email) > 0 ?
+                ResponseEntity.status(HttpStatus.OK).body("AppUser has been disabled") : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @PutMapping(path = "/clients/enableClient/{email}")
+    public ResponseEntity<String> enableAppUser(@PathVariable String email) {
+        return appUserService.enableAppUser(email) > 0 ?
+                ResponseEntity.status(HttpStatus.OK).body("AppUser has been enabled") : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
 }

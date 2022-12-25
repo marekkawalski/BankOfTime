@@ -145,8 +145,6 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
-//        buyer.getPurchaseTransactions().add(timeTransaction);
-//        seller.getSellTransactions().add(timeTransaction);
 
         offerService.modifyOffer(offer);
         timeTransactionRepository.save(timeTransaction);

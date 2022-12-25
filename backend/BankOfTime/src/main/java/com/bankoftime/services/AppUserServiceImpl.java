@@ -66,10 +66,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public String getUserRoleByUsername(String email) {
-
-        Optional<AppUser> appUser = appUserRepository.findByEmail(email);
-        return appUser.map(user -> user.getUserType().toString()).orElse(null);
+    public int disableAppUser(String email) {
+        return appUserRepository.disableAppUser(email);
     }
 
     @Override

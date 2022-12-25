@@ -13,7 +13,7 @@ public interface AppUserService {
 
     int enableAppUser(String email);
 
-    String getUserRoleByUsername(String username);
+    int disableAppUser(String email);
 
     Optional<AppUser> findById(Long id);
 
