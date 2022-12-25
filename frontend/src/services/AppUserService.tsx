@@ -46,6 +46,21 @@ class AppUserService implements IAppUserService {
     }
   }
 
+  async enableAppUser(email: string): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.put(`${API_URL}/clients/enableClient/${email}`, null);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
+  async disableAppUser(email: string): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.put(`${API_URL}/clients/disableClient/${email}`, null);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   getAppUser(): IAppUser {
     return JSON.parse(`${sessionStorage.getItem(APP_USER)}`);
   }

@@ -1,5 +1,7 @@
 import { IAppUser } from '@/models/AppUser';
 
+import { Role } from '../../enums/Role';
+
 export interface RegisterProps {
   appUser?: IAppUser;
   submit: any;
@@ -17,6 +19,7 @@ export interface ValuesProps {
   aboutMe?: string;
   phone?: string;
   occupation?: string;
+  userRole?: Role;
 }
 
 export interface UseUpdateUserProps {

@@ -20,7 +20,7 @@ function FilterBar({
   handleSettingFilters,
 }: FilterBarProps) {
   const location = useLocation();
-  const user = useGetAppUser();
+  const { loggedInAppUser } = useGetAppUser();
   const { categories } = useGetCategories();
   const submit = useSubmitFilters({
     handleGetOffers,
@@ -119,7 +119,7 @@ function FilterBar({
                       <option value={OfferStatus.UNAVAILABLE}>
                         UNAVAILABLE
                       </option>
-                      {user.appUser?.userType === Role.ROLE_ADMIN && (
+                      {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
                         <option value={OfferStatus.DELETED}>DELETED</option>
                       )}
                     </Form.Select>

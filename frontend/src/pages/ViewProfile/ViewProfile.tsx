@@ -12,18 +12,18 @@ import useGetUserToView from './useGetUserToView';
 function ViewProfile() {
   const services = useServices();
   const [manageProfile, setManageProfile] = useState<IManageProfile>();
-  const { appUser } = useGetAppUser();
+  const { loggedInAppUser } = useGetAppUser();
   const { userToView } = useGetUserToView();
 
   useEffect(() => {
     if (!services || !userToView) return;
-    setManageProfile(new ManageProfile(userToView, appUser));
-  }, [services, userToView, appUser]);
+    setManageProfile(new ManageProfile(userToView, loggedInAppUser));
+  }, [services, userToView, loggedInAppUser]);
 
   return (
     <section>
-      <MySpinner show={!appUser || !userToView}>
-        {appUser &&
+      <MySpinner show={!loggedInAppUser || !userToView}>
+        {loggedInAppUser &&
           userToView &&
           (manageProfile?.canEdit() ? <EditView /> : <NoEditView />)}
       </MySpinner>

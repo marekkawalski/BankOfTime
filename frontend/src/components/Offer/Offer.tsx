@@ -17,24 +17,24 @@ import { IManageOffer } from './types';
 
 function Offer({ offer, handleGetOffers, filters }: OfferProps) {
   const navigate = useNavigate();
-  const { appUser } = useGetAppUser();
+  const { loggedInAppUser } = useGetAppUser();
   const services = useServices();
   const [manageOffer, setManageOffer] = useState<IManageOffer>();
   const toast = useMyToast();
 
   useEffect(() => {
-    setManageOffer(new ManageOffer(offer, appUser));
-  }, [appUser]);
+    setManageOffer(new ManageOffer(offer, loggedInAppUser));
+  }, [loggedInAppUser]);
 
   const makeTransaction = useCallback(async () => {
     console.log("Make transaction");
     let result: any;
-    if (!(services && appUser && offer)) return;
+    if (!(services && loggedInAppUser && offer)) return;
     try {
       result = await services.timeTransactionService.makeTransaction(
         offer.id,
-        offer?.seller?.id ?? appUser.id,
-        offer?.buyer?.id ?? appUser.id
+        offer?.seller?.id ?? loggedInAppUser.id,
+        offer?.buyer?.id ?? loggedInAppUser.id
       );
       console.log(result);
       toast?.make(
@@ -51,7 +51,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
       );
     }
     await handleGetOffers(filters);
-  }, [offer, services, appUser, toast]);
+  }, [offer, services, loggedInAppUser, toast]);
 
   const rejectPendingApproval = useCallback(async () => {
     console.log("Reject approval");

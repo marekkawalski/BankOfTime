@@ -117,7 +117,11 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO) {
         AppUser appUser = new AppUser();
-        appUser.setUserType(UserRole.ROLE_NORMAL);
+        if (updateUserDTO.userRole() != null) {
+            appUser.setUserType(updateUserDTO.userRole());
+        } else {
+            appUser.setUserType(UserRole.ROLE_NORMAL);
+        }
         appUser.setEnabled(true);
         appUser.setId(updateUserDTO.id());
         appUser.setFirstName(updateUserDTO.firstName());

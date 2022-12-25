@@ -11,6 +11,8 @@ export interface IAppUserService {
     appUserRequestParams: AppUserRequestParams
   ): Promise<AxiosResponse<any, any>>;
   updateAppUser(appUser: IAppUserToUpdate): Promise<AxiosResponse<any, any>>;
+  enableAppUser(email: string): Promise<AxiosResponse<any, any>>;
+  disableAppUser(email: string): Promise<AxiosResponse<any, any>>;
 }
 export interface IAuthenticationService {
   executeBasicAuthenticationService(

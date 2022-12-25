@@ -1,5 +1,7 @@
 package com.bankoftime.dto;
 
+import com.bankoftime.enums.UserRole;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -20,6 +22,8 @@ public record UpdateUserDTO(
         String country,
         String phoneNumber,
         String aboutMe,
-        String occupation
+        String occupation,
+
+        UserRole userRole
 ) implements Serializable {
 }

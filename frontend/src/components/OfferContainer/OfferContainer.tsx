@@ -37,6 +37,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
               {data?.content.map((offer) => {
                 return (
                   <Offer
+                    key={offer.id}
                     offer={offer}
                     handleGetOffers={handleGetOffers}
                     filters={filters}

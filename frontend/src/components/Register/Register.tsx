@@ -1,16 +1,19 @@
 import './Register.scss';
 
+import { Role } from '@/enums/Role';
 import { Formik } from 'formik';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useLocation } from 'react-router-dom';
 
+import useGetAppUser from '../../hooks/useGetAppUser';
 import { RegisterProps, ValuesProps } from './types';
 import { registrationValidationSchema } from './validation/registrationValidation';
 import { updateUserValidationSchema } from './validation/updateUserValidation';
 
 function Register({ appUser, submit, loading }: RegisterProps) {
   const location = useLocation();
+  const { loggedInAppUser } = useGetAppUser();
 
   return (
     <>
@@ -39,6 +42,7 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                 aboutMe: appUser?.aboutMe ?? "",
                 phone: appUser?.phoneNumber ?? "",
                 occupation: appUser?.occupation ?? "",
+                userRole: appUser?.userType,
               } as ValuesProps
             }
           >
@@ -186,6 +190,25 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                         </Form.Control.Feedback>
                       </FloatingLabel>
                     </Form.Group>
+                    {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
+                      <Form.Group
+                        as={Col}
+                        md="8"
+                        className="mb-3"
+                        controlId="validateUserRole"
+                      >
+                        <Form.Select
+                          aria-label="User role select"
+                          name="userRole"
+                          defaultValue={values?.userRole}
+                          value={values.userRole}
+                          onChange={handleChange}
+                        >
+                          <option value={Role.ROLE_NORMAL}>Role normal</option>
+                          <option value={Role.ROLE_ADMIN}>Role admin</option>
+                        </Form.Select>
+                      </Form.Group>
+                    )}
                   </Col>
                   <Col>
                     <Form.Group

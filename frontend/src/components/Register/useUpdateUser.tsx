@@ -26,6 +26,7 @@ export function useUpdateUser() {
         country: values.country,
         aboutMe: values.aboutMe,
         occupation: values.occupation,
+        userRole: values.userRole,
       });
       if (resp.status === 200) {
         toast?.make(

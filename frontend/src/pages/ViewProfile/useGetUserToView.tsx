@@ -13,17 +13,17 @@ function useGetUserToView() {
   const params = useParams();
   const services = useServices();
   const toast = useMyToast();
-  const { appUser } = useGetAppUser();
+  const { loggedInAppUser } = useGetAppUser();
 
   useEffect(() => {
     handleGetUser();
-  }, [appUser, services]);
+  }, [loggedInAppUser, services]);
 
   const handleGetUser = async () => {
-    if (!appUser || !services) return;
+    if (!loggedInAppUser || !services) return;
     try {
       const result = await services.appUserService.getAppUserByEmail(
-        params?.email ?? appUser.email
+        params?.email ?? loggedInAppUser.email
       );
       setUserToView(result?.data ?? {});
     } catch (error) {

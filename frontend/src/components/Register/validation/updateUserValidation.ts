@@ -1,4 +1,5 @@
 import { PWD_REGEX } from '@/constants/constants';
+import { Role } from '@/enums/Role';
 import * as Yup from 'yup';
 
 export const updateUserValidationSchema = Yup.object().shape({
@@ -24,6 +25,7 @@ export const updateUserValidationSchema = Yup.object().shape({
     [Yup.ref("password"), null],
     "Confirm Password does not match"
   ),
+  userRole: Yup.string().oneOf([Role.ROLE_ADMIN, Role.ROLE_NORMAL]),
   country: Yup.string()
     .min(3, "Country must be at least 3 characters")
     .max(25, "Country must not exceed 25 characters"),
