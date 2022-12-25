@@ -79,7 +79,7 @@ function MyNavbar() {
                       Wallet
                     </NavDropdown.Item>
                   </NavDropdown>
-                  <ProtectedComponent allowedRole={Role.ADMIN}>
+                  <ProtectedComponent allowedRole={Role.ROLE_ADMIN}>
                     <NavDropdown
                       title="Admin"
                       id={`offcanvasNavbarDropdown-expand-${false}`}

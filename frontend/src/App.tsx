@@ -50,7 +50,7 @@ function App() {
         <Route path="/appUser" element={<ViewProfile />} />
         <Route path="/appUser/:email" element={<ViewProfile />} />
         {/** Admin Routes */}
-        <Route element={<ProtectedRoute allowedRole={Role.ADMIN} />}>
+        <Route element={<ProtectedRoute allowedRole={Role.ROLE_ADMIN} />}>
           <Route path="/admin/manage-users" element={<ManageUsers />} />
         </Route>
 

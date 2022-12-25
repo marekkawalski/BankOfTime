@@ -4,6 +4,7 @@ import { IAppUser } from '@/models/AppUser';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { IAppUserToUpdate } from '../models/AppUser';
+import { AppUserRequestParams } from '../pages/Admin/ManageUsers/types';
 import { IAppUserService } from './types';
 
 class AppUserService implements IAppUserService {
@@ -23,6 +24,18 @@ class AppUserService implements IAppUserService {
     }
   }
 
+  async getAllUsers(
+    appUserRequestParams: AppUserRequestParams
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(
+        `${API_URL}/clients?${this.getUrlString(appUserRequestParams)}`
+      );
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
+
   async updateAppUser(
     appUser: IAppUserToUpdate
   ): Promise<AxiosResponse<any, any>> {
@@ -35,6 +48,14 @@ class AppUserService implements IAppUserService {
 
   getAppUser(): IAppUser {
     return JSON.parse(`${sessionStorage.getItem(APP_USER)}`);
+  }
+
+  private getUrlString(appUserRequestParams: AppUserRequestParams): string {
+    return "".concat(
+      appUserRequestParams?.pageNumUrl ?? "",
+      appUserRequestParams?.pageSizeUrl ?? "",
+      appUserRequestParams?.sortFieldUrl ?? ""
+    );
   }
 }
 

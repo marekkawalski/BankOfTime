@@ -1,6 +1,6 @@
 package com.bankoftime.models;
 
-import com.bankoftime.enums.UserType;
+import com.bankoftime.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.lang.Nullable;
@@ -70,7 +70,7 @@ public class AppUser implements UserDetails {
     private boolean enabled;
     @Enumerated(EnumType.STRING)
     @NotNull
-    private UserType userType = UserType.NORMAL;
+    private UserRole userType = UserRole.ROLE_NORMAL;
 
     @OneToMany(mappedBy = "seller")
     @ToString.Exclude
@@ -100,7 +100,7 @@ public class AppUser implements UserDetails {
     @OneToOne(mappedBy = "appUser")
     private Image image;
 
-    public AppUser(String firstName, String lastName, String email, String password, UserType userType) {
+    public AppUser(String firstName, String lastName, String email, String password, UserRole userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -108,7 +108,7 @@ public class AppUser implements UserDetails {
         this.userType = userType;
     }
 
-    public AppUser(final String firstName, final String lastName, @Nullable final String city, @Nullable final String country, final String email, final String password, @Nullable final String phoneNumber, final UserType userType) {
+    public AppUser(final String firstName, final String lastName, @Nullable final String city, @Nullable final String country, final String email, final String password, @Nullable final String phoneNumber, final UserRole userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;

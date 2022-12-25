@@ -1,11 +1,15 @@
 import { IAppUser, IAppUserToRegister, IAppUserToUpdate } from '@/models/AppUser';
 import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
+import { AppUserRequestParams } from '@/pages/Admin/ManageUsers/types';
 import { AxiosResponse } from 'axios';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;
   getAppUserById(id: number): Promise<AxiosResponse>;
   getAppUser(): IAppUser;
+  getAllUsers(
+    appUserRequestParams: AppUserRequestParams
+  ): Promise<AxiosResponse<any, any>>;
   updateAppUser(appUser: IAppUserToUpdate): Promise<AxiosResponse<any, any>>;
 }
 export interface IAuthenticationService {

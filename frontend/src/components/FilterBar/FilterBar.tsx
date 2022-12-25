@@ -119,7 +119,7 @@ function FilterBar({
                       <option value={OfferStatus.UNAVAILABLE}>
                         UNAVAILABLE
                       </option>
-                      {user.appUser?.userType === Role.ADMIN && (
+                      {user.appUser?.userType === Role.ROLE_ADMIN && (
                         <option value={OfferStatus.DELETED}>DELETED</option>
                       )}
                     </Form.Select>

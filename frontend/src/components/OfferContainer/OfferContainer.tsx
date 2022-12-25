@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Row } from 'react-bootstrap';
 
 import FilterBar from '../FilterBar/FilterBar';
-import MyPagination from '../MyPagination/MyPagination';
+import OffersPagination from '../MyPagination/OffersPagination/OffersPagination';
 import MySpinner from '../MySpinner/MySpinner';
 import Offer from '../Offer/Offer';
 import { OfferContainerProps } from './types';
@@ -46,7 +46,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
             </Row>
           </div>
           <div className="pagination">
-            <MyPagination
+            <OffersPagination
               offersData={data}
               filters={filters}
               handleGetOffers={handleGetOffers}

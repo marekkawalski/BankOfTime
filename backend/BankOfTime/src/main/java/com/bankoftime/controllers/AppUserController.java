@@ -7,6 +7,7 @@ import com.bankoftime.services.AppUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ public class AppUserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/clients")
     public ResponseEntity<Page<List<AppUser>>> getClients(
             @RequestParam(value = "sort", defaultValue = "lastName") String sortField,
@@ -61,12 +63,14 @@ public class AppUserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/clients/disableClient/{email}")
     public ResponseEntity<String> disableClient(@PathVariable String email) {
         return appUserService.disableAppUser(email) > 0 ?
                 ResponseEntity.status(HttpStatus.OK).body("AppUser has been disabled") : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/clients/enableClient/{email}")
     public ResponseEntity<String> enableAppUser(@PathVariable String email) {
         return appUserService.enableAppUser(email) > 0 ?

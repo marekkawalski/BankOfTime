@@ -3,7 +3,7 @@ package com.bankoftime.services;
 import com.bankoftime.dto.AppUserDTO;
 import com.bankoftime.dto.RegistrationDTO;
 import com.bankoftime.dto.UpdateUserDTO;
-import com.bankoftime.enums.UserType;
+import com.bankoftime.enums.UserRole;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
@@ -93,7 +93,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public AppUser mapRegistrationDtoToAppUser(RegistrationDTO registrationDTO) {
         AppUser appUser = new AppUser();
-        appUser.setUserType(UserType.NORMAL);
+        appUser.setUserType(UserRole.ROLE_NORMAL);
         appUser.setFirstName(registrationDTO.firstName());
         appUser.setLastName(registrationDTO.lastName());
         appUser.setPassword(registrationDTO.password());
@@ -117,7 +117,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO) {
         AppUser appUser = new AppUser();
-        appUser.setUserType(UserType.NORMAL);
+        appUser.setUserType(UserRole.ROLE_NORMAL);
         appUser.setEnabled(true);
         appUser.setId(updateUserDTO.id());
         appUser.setFirstName(updateUserDTO.firstName());
