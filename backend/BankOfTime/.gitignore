@@ -6,9 +6,18 @@ build/
 !**/src/test/**/build/
 !**/src/main/**/target/
 !**/src/test/**/target/
-!target/bankoftime.war
 !build/libs/
 !.mvn/wrapper/maven-wrapper.jar
+
+# Java Class Files #
+*.class
+
+#Gradle
+.gradle
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradletasknamecache
 
 ### STS ###
 .apt_generated
@@ -24,15 +33,26 @@ build/
 *.iws
 *.iml
 *.ipr
+out
 
 ### VS Code ###
 .vscode/
 /src/main/resources/secrets.properties
 /src/test/httpTests/http-client.private.env.json
 
-#Gradle
-.gradle
-gradle-app.setting
-!gradle-wrapper.jar
-!gradle-wrapper.properties
-.gradletasknamecache
+# Miscellaneous
+*.java.hsp
+*.sonarj
+*.sw*
+.DS_Store
+build.sh
+integration-repo
+ivy-cache
+argfile*
+activemq-data/
+classes/
+
+# Log files
+jxl.log
+jmx.log
+derby.log
