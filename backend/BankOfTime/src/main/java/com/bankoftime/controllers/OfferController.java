@@ -118,7 +118,7 @@ public class OfferController {
 
     @PutMapping(value = "/offers")
     public ResponseEntity<Offer> updateOffer(@Valid @RequestBody UpdateOfferDTO offerDTO) {
-        return offerService.modifyOffer(offerService.mapOfferDTOToOffer(offerDTO))
+        return offerService.modifyOffer(offerService.mapUpdateOfferDTOToOffer(offerDTO))
                 .map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
     }

@@ -86,8 +86,6 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
         return "text-success";
       case offer.state === OfferStatus.ON_HOLD:
         return "text-warning";
-      case offer.state === OfferStatus.UNAVAILABLE:
-        return "text-secondary";
       default:
         return "text-secondary";
     }

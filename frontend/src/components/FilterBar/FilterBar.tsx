@@ -81,52 +81,53 @@ function FilterBar({
                 </Form.Select>
               </Form.Group>
             </div>
-            {location.pathname.includes("appUser") && (
-              <div>
-                <div className="filter-bar-container-child">
-                  <Form.Group className="mb-3" controlId="validateOfferType">
-                    <Form.Label>OfferType</Form.Label>
-                    <Form.Select
-                      aria-label="Offer type select"
-                      name="offerType"
-                      value={values.offerType}
-                      defaultValue={getDefaultOfferType()}
-                      onChange={handleChange}
-                    >
-                      <option value={OfferType.ALL}>All</option>
-                      <option value={OfferType.SELL_OFFER}>Sell offer</option>
-                      <option value={OfferType.PURCHASE_OFFER}>
-                        Purchase offer
-                      </option>
-                    </Form.Select>
-                  </Form.Group>
-                </div>
+            {location.pathname.includes("appUser") ||
+              (location.pathname.includes("admin") && (
+                <div>
+                  <div className="filter-bar-container-child">
+                    <Form.Group className="mb-3" controlId="validateOfferType">
+                      <Form.Label>OfferType</Form.Label>
+                      <Form.Select
+                        aria-label="Offer type select"
+                        name="offerType"
+                        value={values.offerType}
+                        defaultValue={getDefaultOfferType()}
+                        onChange={handleChange}
+                      >
+                        <option value={OfferType.ALL}>All</option>
+                        <option value={OfferType.SELL_OFFER}>Sell offer</option>
+                        <option value={OfferType.PURCHASE_OFFER}>
+                          Purchase offer
+                        </option>
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
 
-                <div className="filter-bar-container-child">
-                  <Form.Group className="mb-3" controlId="validateOfferStatus">
-                    <Form.Label>OfferStatus</Form.Label>
-                    <Form.Select
-                      aria-label="Offer status select"
-                      name="offerStatus"
-                      defaultValue={undefined}
-                      value={values.offerStatus}
-                      onChange={handleChange}
+                  <div className="filter-bar-container-child">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="validateOfferStatus"
                     >
-                      <option value={""}>All</option>
-                      <option value={OfferStatus.ACTIVE}>ACTIVE</option>
-                      <option value={OfferStatus.APPROVED}>APPROVED</option>
-                      <option value={OfferStatus.ON_HOLD}>ON_HOLD</option>
-                      <option value={OfferStatus.UNAVAILABLE}>
-                        UNAVAILABLE
-                      </option>
-                      {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
-                        <option value={OfferStatus.DELETED}>DELETED</option>
-                      )}
-                    </Form.Select>
-                  </Form.Group>
+                      <Form.Label>OfferStatus</Form.Label>
+                      <Form.Select
+                        aria-label="Offer status select"
+                        name="offerStatus"
+                        defaultValue={undefined}
+                        value={values.offerStatus}
+                        onChange={handleChange}
+                      >
+                        <option value={""}>All</option>
+                        <option value={OfferStatus.ACTIVE}>ACTIVE</option>
+                        <option value={OfferStatus.APPROVED}>APPROVED</option>
+                        <option value={OfferStatus.ON_HOLD}>ON_HOLD</option>
+                        {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
+                          <option value={OfferStatus.DELETED}>DELETED</option>
+                        )}
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
                 </div>
-              </div>
-            )}
+              ))}
 
             <div className="filter-bar-container-child">
               <Form.Group className="mb-3" controlId="validateOfferCategory">

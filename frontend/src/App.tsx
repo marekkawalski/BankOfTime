@@ -1,6 +1,5 @@
 import './App.scss';
 
-import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import MyNavbar from './components/Navbar/MyNavbar';
@@ -8,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import MyToastComponent from './components/Toast/MyToastComponent';
 import { Role } from './enums/Role';
 import AddCategory from './pages/Admin/AddCategory/AddCategory';
+import ManageOffers from './pages/Admin/ManageOffers/ManageOffers';
 import ManageUsers from './pages/Admin/ManageUsers/ManageUsers';
 import AppUserChosenOffers from './pages/AppUserChosenOffers/AppUserChosenOffers';
 import AppUserOffers from './pages/AppUserOffers/AppUserOffers';
@@ -29,6 +29,7 @@ function App() {
         {/** Public Routes */}
         <Route path="login" element={<LoginComponent />} />
         <Route path="register" element={<RegisterPage />} />
+
         {/** Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Navigate to="/sellOffers" />} />
@@ -50,10 +51,16 @@ function App() {
         </Route>
         <Route path="/appUser" element={<ViewProfile />} />
         <Route path="/appUser/:email" element={<ViewProfile />} />
+
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ROLE_ADMIN} />}>
           <Route path="/admin/manage-users" element={<ManageUsers />} />
           <Route path="/admin/add-category" element={<AddCategory />} />
+          <Route path="/admin/manage-offers" element={<ManageOffers />} />
+          <Route
+            path="/admin/manage-offers/:id"
+            element={<ViewOfferDetails />}
+          />
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>

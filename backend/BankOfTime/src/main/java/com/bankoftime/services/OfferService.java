@@ -20,7 +20,7 @@ public interface OfferService {
 
     Offer mapCreateOfferDTOToOffer(final CreateOfferDTO createOfferDTO);
 
-    Offer mapOfferDTOToOffer(final UpdateOfferDTO OfferDTO);
+    Offer mapUpdateOfferDTOToOffer(final UpdateOfferDTO OfferDTO);
 
     List<Offer> getAllSellOffersAssignedToClient(final Long userId);
 

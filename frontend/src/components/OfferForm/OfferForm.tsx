@@ -1,11 +1,14 @@
 import './OfferForm.scss';
 
+import { OfferStatus } from '@/enums/OfferState';
 import { OfferType } from '@/enums/OfferType';
+import { Role } from '@/enums/Role';
 import useGetCategories from '@/hooks/useGetCategories';
 import { Field, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap';
 
+import useGetAppUser from '../../hooks/useGetAppUser';
 import MyReactSelect from '../MyReactSelect/MyReactSelect';
 import MySpinner from '../MySpinner/MySpinner';
 import { OfferFormProps } from './types';
@@ -21,6 +24,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
   const [defaultCategoriesOptions, seDefaultCategoriesOptions] = useState<
     { value: string; label: string }[]
   >([]);
+  const { loggedInAppUser } = useGetAppUser();
 
   useEffect(() => {
     let tempArray: { value: string; label: string }[] = [];
@@ -55,6 +59,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
               location: offer?.location ?? "",
               offerType: offer?.offerType ?? OfferType.SELL_OFFER,
               categories: defaultCategoriesOptions.map((value) => value.label),
+              offerStatus: offer?.state,
             }}
           >
             {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -253,6 +258,26 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                         {errors?.categories as string}
                       </div>
                     </Form.Group>
+                    {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
+                      <Form.Group
+                        as={Col}
+                        md="8"
+                        className="mb-3"
+                        controlId="validateOfferStatus"
+                      >
+                        <Form.Select
+                          aria-label="Offer status select"
+                          name="offerStatus"
+                          defaultValue={offer?.state}
+                          onChange={handleChange}
+                        >
+                          <option value={OfferStatus.ACTIVE}>Active</option>
+                          <option value={OfferStatus.APPROVED}>Approved</option>
+                          <option value={OfferStatus.ON_HOLD}>On hold</option>
+                          <option value={OfferStatus.DELETED}>Deleted</option>
+                        </Form.Select>
+                      </Form.Group>
+                    )}
                   </Col>
                 </Row>
                 <Button
