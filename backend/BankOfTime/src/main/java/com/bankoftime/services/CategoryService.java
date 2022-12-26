@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CategoryDTO;
+import com.bankoftime.exceptions.CategoryException;
 import com.bankoftime.models.Category;
 
 import javax.validation.constraints.NotNull;
@@ -16,4 +17,6 @@ public interface CategoryService {
     Category mapCategoryDtoToCategory(final @NotNull CategoryDTO categoryDto);
 
     CategoryDTO mapCategoryToCategoryDto(final @NotNull Category category);
+
+    Optional<Category> addCategory(Category category) throws CategoryException;
 }

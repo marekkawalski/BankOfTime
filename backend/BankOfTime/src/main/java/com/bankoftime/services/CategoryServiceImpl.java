@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.CategoryDTO;
+import com.bankoftime.exceptions.CategoryException;
 import com.bankoftime.models.Category;
 import com.bankoftime.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id);
     }
 
+
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
@@ -38,5 +40,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO mapCategoryToCategoryDto(final Category category) {
         return new CategoryDTO(category.getId(), category.getName());
+    }
+
+    @Override
+    public Optional<Category> addCategory(final Category category) throws CategoryException {
+        if (categoryRepository.findByName(category.getName()).isPresent()) {
+            throw new CategoryException("Category exists!");
+        }
+        return Optional.of(categoryRepository.save(category));
     }
 }
