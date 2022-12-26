@@ -1,5 +1,3 @@
-import './Offer.scss';
-
 import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { OfferStatus } from '@/enums/OfferState';

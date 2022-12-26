@@ -11,8 +11,7 @@ import {
   IRegistrationService,
   ITimeTransactionService,
 } from '@/services/types';
-import { createContext, useContext, useEffect } from 'react';
-import { useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import { ICategoryService } from '../services/types';
 import { ContextProps, ServicesContextProviderProps } from './types';

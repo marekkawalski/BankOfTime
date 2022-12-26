@@ -1,4 +1,3 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
 import Select from 'react-select';
 
 import { CustomSelectProps, Option } from './types';
