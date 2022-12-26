@@ -90,7 +90,7 @@ function MyNavbar() {
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
                       <NavDropdown.Header>Offers</NavDropdown.Header>
-                      <NavDropdown.Item as={Link} to="/">
+                      <NavDropdown.Item as={Link} to="/admin/manage-offers">
                         Manage offers
                       </NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/admin/add-category">

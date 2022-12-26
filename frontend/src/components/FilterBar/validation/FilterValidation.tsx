@@ -21,7 +21,6 @@ export const Filter_Validation = Yup.object().shape({
     OfferStatus.APPROVED,
     OfferStatus.DELETED,
     OfferStatus.ON_HOLD,
-    OfferStatus.UNAVAILABLE,
   ]),
   offerType: Yup.string().oneOf([
     OfferType.ALL,

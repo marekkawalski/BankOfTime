@@ -63,7 +63,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Offer mapOfferDTOToOffer(final UpdateOfferDTO offerDTO) {
+    public Offer mapUpdateOfferDTOToOffer(final UpdateOfferDTO offerDTO) {
         Offer offer = new Offer();
         offer.setId(offerDTO.id());
         offer.setOfferType(offerDTO.offerType());
@@ -75,6 +75,9 @@ public class OfferServiceImpl implements OfferService {
             offer.setLocation(offerDTO.location());
         if (offerDTO.longDescription() != null)
             offer.setLongDescription(offerDTO.longDescription());
+        if (offerDTO.offerStatus() != null) {
+            offer.setState(offerDTO.offerStatus());
+        }
         return offer;
     }
 
@@ -101,6 +104,7 @@ public class OfferServiceImpl implements OfferService {
                     ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
                     offer.setCategories(categories);
                     offer.setUpdatedAt(LocalDateTime.now());
+                    offer.setState(offerToSave.getState());
                     offer = offerRepository.save(offer);
                     return Optional.of(offer);
                 })

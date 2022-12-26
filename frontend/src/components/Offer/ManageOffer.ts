@@ -1,5 +1,6 @@
 import { OfferStatus } from '@/enums/OfferState';
 import { OfferType } from '@/enums/OfferType';
+import { Role } from '@/enums/Role';
 import { IAppUser } from '@/models/AppUser';
 import { IOffer } from '@/models/Offer';
 
@@ -12,11 +13,12 @@ export class ManageOffer implements IManageOffer {
   }
   canEdit = (): boolean => {
     if (
-      ((this.offer.offerType === OfferType.SELL_OFFER &&
+      (((this.offer.offerType === OfferType.SELL_OFFER &&
         this.appUser?.id === this.offer?.seller?.id) ||
         (this.offer.offerType === OfferType.PURCHASE_OFFER &&
           this.appUser?.id === this.offer?.buyer?.id)) &&
-      this.offer.state !== OfferStatus.ON_HOLD
+        this.offer.state === OfferStatus.ACTIVE) ||
+      this.appUser?.userType === Role.ROLE_ADMIN
     ) {
       return true;
     } else {
