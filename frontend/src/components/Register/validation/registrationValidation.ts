@@ -4,14 +4,14 @@ import * as Yup from 'yup';
 export const registrationValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, "Name must be at least 3 characters")
-    .max(25, "Name must not exceed 20 characters")
+    .max(25, "Name must not exceed 25 characters")
     .matches(/^([^\d]*)$/, "Name should not contain numbers")
     .required("Name is required"),
   lastName: Yup.string()
     .required("Last name is required")
     .matches(/^([^\d]*)$/, "Last name should not contain numbers")
-    .min(3, "Last name  must be at least 6 characters")
-    .max(20, "Last name  must not exceed 20 characters"),
+    .min(3, "Last name  must be at least 3 characters")
+    .max(25, "Last name  must not exceed 25 characters"),
   email: Yup.string().email("Email is invalid").required("Email is required"),
   password: Yup.string()
     .required("Password is required")
@@ -24,4 +24,19 @@ export const registrationValidationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .required("Confirm Password is required")
     .oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
+  country: Yup.string()
+    .min(3, "Country must be at least 3 characters")
+    .max(25, "Country must not exceed 25 characters"),
+  city: Yup.string()
+    .min(3, "City must be at least 3 characters")
+    .max(25, "City must not exceed 25 characters"),
+  aboutMe: Yup.string()
+    .min(3, "About me must be at least 3 characters")
+    .max(250, "About me must not exceed 250 characters"),
+  phone: Yup.string()
+    .min(9, "Phone me must be at least 9 characters")
+    .max(13, "Phone me must not exceed 13 characters"),
+  occupation: Yup.string()
+    .min(3, "City must be at least 3 characters")
+    .max(25, "City must not exceed 25 characters"),
 });

@@ -1,5 +1,6 @@
 import MySpinner from '@/components/MySpinner/MySpinner';
-import { IManageOffer, ManageOffer } from '@/components/Offer/ManageOffer';
+import { ManageOffer } from '@/components/Offer/ManageOffer';
+import { IManageOffer } from '@/components/Offer/types';
 import { useServices } from '@/context/ServicesContext';
 import useGetOffer from '@/hooks/useGetOffer';
 import { IAppUser } from '@/models/AppUser';

@@ -50,19 +50,15 @@ function MyNavbar() {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <ProtectedComponent>
-                  <Nav.Link as={Link} to="/">
-                    Home
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/createOffer">
-                    Create offer
+                  <Nav.Link as={Link} to="/sellOffers">
+                    Sell offers
                   </Nav.Link>
                   <Nav.Link as={Link} to="/purchaseOffers">
                     Purchase offers
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/sellOffers">
-                    Sell offers
+                  <Nav.Link as={Link} to="/createOffer">
+                    Create offer
                   </Nav.Link>
-
                   <NavDropdown
                     title="My stuff"
                     id={`offcanvasNavbarDropdown-expand-${false}`}
@@ -75,7 +71,7 @@ function MyNavbar() {
                       Chosen offers
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/">
+                    <NavDropdown.Item as={Link} to="/appUser">
                       Profile
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
@@ -83,26 +79,26 @@ function MyNavbar() {
                       Wallet
                     </NavDropdown.Item>
                   </NavDropdown>
-                  <ProtectedComponent allowedRole={Role.ADMIN}>
+                  <ProtectedComponent allowedRole={Role.ROLE_ADMIN}>
                     <NavDropdown
                       title="Admin"
                       id={`offcanvasNavbarDropdown-expand-${false}`}
                     >
-                      <NavDropdown.Header>Manage users</NavDropdown.Header>
-                      <NavDropdown.Item as={Link} to="/">
-                        All users
+                      <NavDropdown.Header>Users</NavDropdown.Header>
+                      <NavDropdown.Item as={Link} to="/admin/manage-users">
+                        Manage users
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
-                      <NavDropdown.Header>Manage offers</NavDropdown.Header>
+                      <NavDropdown.Header>Offers</NavDropdown.Header>
                       <NavDropdown.Item as={Link} to="/">
-                        Offers
+                        Manage offers
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/admin/add-category">
+                        Add category
                       </NavDropdown.Item>
                     </NavDropdown>
                   </ProtectedComponent>
                 </ProtectedComponent>
-                <Nav.Link as={Link} to="/about">
-                  About
-                </Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

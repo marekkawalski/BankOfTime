@@ -1,7 +1,7 @@
 package com.bankoftime.controllers;
 
 import com.bankoftime.dto.CreateOfferDTO;
-import com.bankoftime.dto.OfferDTO;
+import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.models.AppUser;
@@ -43,11 +43,12 @@ public class OfferController {
     public ResponseEntity<Page<List<Offer>>> getOffers(@RequestParam(required = false, value = "type") OfferType offerType,
                                                        @RequestParam(required = false, value = "keyword") String keyword,
                                                        @RequestParam(required = false, value = "status") OfferStatus offerStatus,
+                                                       @RequestParam(required = false, value = "category") String category,
                                                        @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                        @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                        @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                        @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final Page<List<Offer>> offers = offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection, keyword);
+        final Page<List<Offer>> offers = offerService.getSortedPagedAndFilteredOffers(sortField, pageSize, pageNum, offerType, offerStatus, sortDirection, keyword, category);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -58,11 +59,12 @@ public class OfferController {
                                                                         @RequestParam(required = false, value = "type") OfferType offerType,
                                                                         @RequestParam(required = false, value = "keyword") String keyword,
                                                                         @RequestParam(required = false, value = "status") OfferStatus offerStatus,
+                                                                        @RequestParam(required = false, value = "category") String category,
                                                                         @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                                         @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                                         @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                                         @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersOwnedByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection, keyword);
+        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersOwnedByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection, keyword, category);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -73,11 +75,12 @@ public class OfferController {
                                                                          @RequestParam(required = false, value = "type") OfferType offerType,
                                                                          @RequestParam(required = false, value = "keyword") String keyword,
                                                                          @RequestParam(required = false, value = "status") OfferStatus offerStatus,
+                                                                         @RequestParam(required = false, value = "category") String category,
                                                                          @RequestParam(value = "sort", defaultValue = "title") String sortField,
                                                                          @RequestParam(value = "sort-dir", defaultValue = "ASC") Sort.Direction sortDirection,
                                                                          @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
                                                                          @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
-        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersChosenByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection, keyword);
+        final Page<List<Offer>> offers = offerService.getPagedAndFilteredOffersChosenByAppUser(sortField, pageSize, pageNum, appUserId, offerType, offerStatus, sortDirection, keyword, category);
         if (offers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(offers);
@@ -101,7 +104,7 @@ public class OfferController {
 
     @PostMapping(path = "/offers/{clientId}")
     public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody CreateOfferDTO offerDTO) {
-        Optional<AppUser> oAppUser = appUserService.find(clientId);
+        Optional<AppUser> oAppUser = appUserService.findById(clientId);
         return oAppUser
                 .map(appUser -> offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), appUser)
                         .map(value -> ResponseEntity
@@ -114,7 +117,7 @@ public class OfferController {
     }
 
     @PutMapping(value = "/offers")
-    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody OfferDTO offerDTO) {
+    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody UpdateOfferDTO offerDTO) {
         return offerService.modifyOffer(offerService.mapOfferDTOToOffer(offerDTO))
                 .map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));

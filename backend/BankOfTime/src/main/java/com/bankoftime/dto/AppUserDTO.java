@@ -1,6 +1,6 @@
 package com.bankoftime.dto;
 
-import com.bankoftime.enums.UserType;
+import com.bankoftime.enums.UserRole;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,5 +21,9 @@ public record AppUserDTO(Long id,
                          @Email @NotBlank(message = "Email is mandatory")
                          String email,
                          String phoneNumber,
-                         @NotNull UserType userType) implements Serializable {
+                         @NotNull UserRole userType,
+
+                         String aboutMe,
+                         String occupation
+) implements Serializable {
 }

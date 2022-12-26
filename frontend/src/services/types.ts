@@ -1,10 +1,19 @@
-import { IAppUser, IAppUserToRegister } from '@/models/AppUser';
-import { ICreateOffer, IOffer } from '@/models/Offer';
+import { IAppUser, IAppUserToRegister, IAppUserToUpdate } from '@/models/AppUser';
+import { CategoryToCreate } from '@/models/Category';
+import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
+import { AppUserRequestParams } from '@/pages/Admin/ManageUsers/types';
 import { AxiosResponse } from 'axios';
 
 export interface IAppUserService {
   getAppUserByEmail(email: string): Promise<AxiosResponse>;
+  getAppUserById(id: number): Promise<AxiosResponse>;
   getAppUser(): IAppUser;
+  getAllUsers(
+    appUserRequestParams: AppUserRequestParams
+  ): Promise<AxiosResponse<any, any>>;
+  updateAppUser(appUser: IAppUserToUpdate): Promise<AxiosResponse<any, any>>;
+  enableAppUser(email: string): Promise<AxiosResponse<any, any>>;
+  disableAppUser(email: string): Promise<AxiosResponse<any, any>>;
 }
 export interface IAuthenticationService {
   executeBasicAuthenticationService(
@@ -21,7 +30,7 @@ export interface IRegistrationService {
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(offer: ICreateOffer): Promise<AxiosResponse>;
-  updateOffer(offer: IOffer): Promise<AxiosResponse>;
+  updateOffer(offer: IUpdateOffer): Promise<AxiosResponse>;
   getOffers(offerRequestParams: OfferRequestParams): Promise<AxiosResponse>;
   getAppUserOffers(
     offerRequestParams: OfferRequestParams,
@@ -44,10 +53,12 @@ export interface ITimeTransactionService {
     sellerId: number,
     buyerId: number
   ): Promise<AxiosResponse>;
+  rejectPendingApproval(offerId: number): Promise<AxiosResponse>;
 }
 
 export interface ICategoryService {
   getAllCategories(): Promise<AxiosResponse<any, any>>;
+  addCategory(category: CategoryToCreate): Promise<AxiosResponse<any, any>>;
 }
 export interface OfferRequestParams {
   offerTypeUrl?: string;
@@ -57,4 +68,5 @@ export interface OfferRequestParams {
   pageSizeUrl?: string;
   pageNumUrl?: string;
   keywordUrl?: string;
+  categoryUrl?: string;
 }

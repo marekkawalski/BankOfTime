@@ -3,7 +3,7 @@ import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import { IUpdateOffer } from '@/models/Offer';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function useEditOffer() {
   const [loading, setLoading] = useState<boolean>(false);

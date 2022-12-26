@@ -47,4 +47,16 @@ public class TimeTransactionController {
         }
     }
 
+    @PutMapping(path = "timeTransactions/offers/{offerId}/rejectPendingApproval")
+    public ResponseEntity<Offer> rejectPendingApproval(@PathVariable Long offerId) {
+        try {
+            return timeTransactionService.rejectPendingApproval(offerId)
+                    .map(timeTransaction -> ResponseEntity.status(HttpStatus.OK).body(timeTransaction))
+                    .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+        } catch (TimeTransactionException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage(), e.getCause());
+        }
+    }
+
 }

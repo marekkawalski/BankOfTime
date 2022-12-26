@@ -30,5 +30,14 @@ class TimeTransactionService implements ITimeTransactionService {
       throw new AxiosError(err);
     }
   }
+  async rejectPendingApproval(offerId: number): Promise<AxiosResponse> {
+    try {
+      return await axios.put(
+        `${API_URL}/timeTransactions/offers/${offerId}/rejectPendingApproval`
+      );
+    } catch (err: any) {
+      throw new AxiosError(err);
+    }
+  }
 }
 export default new TimeTransactionService();

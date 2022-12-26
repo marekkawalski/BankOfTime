@@ -14,6 +14,7 @@ function useSubmitFilters({
     offerStatus?: OfferStatus;
     sortBy: SortBy;
     keyword: string;
+    category: string;
   }) => {
     let sortFieldUrl = "";
     let sortDirectionUrl = "";
@@ -34,6 +35,14 @@ function useSubmitFilters({
         sortFieldUrl = `sort=title&`;
         sortDirectionUrl = `sort-dir=${SortDir.DESC}&`;
         break;
+      case SortBy.NEWEST_FIRST === submittedValues.sortBy:
+        sortFieldUrl = `sort=createdAt&`;
+        sortDirectionUrl = `sort-dir=${SortDir.DESC}&`;
+        break;
+      case SortBy.OLDEST_FIRST === submittedValues.sortBy:
+        sortFieldUrl = `sort=createdAt&`;
+        sortDirectionUrl = `sort-dir=${SortDir.ASC}&`;
+        break;
       default:
         console.log("Error");
         break;
@@ -48,9 +57,14 @@ function useSubmitFilters({
         : `status=${submittedValues.offerStatus}&`;
 
     const keywordUrl =
-      submittedValues?.keyword === undefined
+      submittedValues?.keyword === ""
         ? ""
         : `keyword=${submittedValues.keyword}&`;
+
+    const categoryUrl =
+      submittedValues?.category === ""
+        ? ""
+        : `category=${submittedValues.category}&`;
 
     await handleGetOffers({
       offerTypeUrl: offerTypeUrl,
@@ -58,6 +72,7 @@ function useSubmitFilters({
       sortFieldUrl: sortFieldUrl,
       sortDirectionUrl: sortDirectionUrl,
       keywordUrl: keywordUrl,
+      categoryUrl: categoryUrl,
     });
 
     handleSettingFilters({
@@ -66,6 +81,7 @@ function useSubmitFilters({
       sortFieldUrl: sortFieldUrl,
       sortDirectionUrl: sortDirectionUrl,
       keywordUrl: keywordUrl,
+      categoryUrl: categoryUrl,
     });
   };
 

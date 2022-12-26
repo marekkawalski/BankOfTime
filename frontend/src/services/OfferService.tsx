@@ -1,5 +1,5 @@
 import { API_URL } from '@/config/config';
-import { ICreateOffer, IOffer } from '@/models/Offer';
+import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import AppUserService from './AppUserService';
@@ -61,7 +61,7 @@ class OfferService implements IOfferService {
     }
   }
 
-  async updateOffer(offer: IOffer): Promise<AxiosResponse<any, any>> {
+  async updateOffer(offer: IUpdateOffer): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.put(`${API_URL}/offers`, offer);
     } catch (error: any) {
@@ -77,7 +77,8 @@ class OfferService implements IOfferService {
       offerRequestParams?.pageSizeUrl ?? "",
       offerRequestParams?.sortDirectionUrl ?? "",
       offerRequestParams?.sortFieldUrl ?? "",
-      offerRequestParams?.keywordUrl ?? ""
+      offerRequestParams?.keywordUrl ?? "",
+      offerRequestParams?.categoryUrl ?? ""
     );
   }
 }

@@ -5,6 +5,7 @@ import { OfferType } from '@/enums/OfferType';
 import { Role } from '@/enums/Role';
 import { SortBy } from '@/enums/SortBy';
 import useGetAppUser from '@/hooks/useGetAppUser';
+import useGetCategories from '@/hooks/useGetCategories';
 import { Formik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
@@ -19,7 +20,8 @@ function FilterBar({
   handleSettingFilters,
 }: FilterBarProps) {
   const location = useLocation();
-  const user = useGetAppUser();
+  const { loggedInAppUser } = useGetAppUser();
+  const { categories } = useGetCategories();
   const submit = useSubmitFilters({
     handleGetOffers,
     handleSettingFilters,
@@ -30,17 +32,17 @@ function FilterBar({
     if (location.pathname.endsWith("sellOffers")) return OfferType.SELL_OFFER;
     else return OfferType.PURCHASE_OFFER;
   };
+
   return (
     <div className="filter-bar-container">
       <h2>{title}</h2>
       <Formik
         validationSchema={Filter_Validation}
-        onSubmit={async (submittedValues) =>
-          submit.handleSubmit(submittedValues)
-        }
+        onSubmit={submit.handleSubmit}
         enableReinitialize={false}
         initialValues={{
           keyword: "",
+          category: "",
           sortBy: SortBy.NAME_A_Z,
           offerStatus: undefined,
           offerType: getDefaultOfferType(),
@@ -74,6 +76,8 @@ function FilterBar({
                   <option value={SortBy.MOST_EXPENSIVE_FIRST}>
                     Most expensive first
                   </option>
+                  <option value={SortBy.NEWEST_FIRST}>Newest first</option>
+                  <option value={SortBy.OLDEST_FIRST}>Oldest first</option>
                 </Form.Select>
               </Form.Group>
             </div>
@@ -115,7 +119,7 @@ function FilterBar({
                       <option value={OfferStatus.UNAVAILABLE}>
                         UNAVAILABLE
                       </option>
-                      {user.appUser?.userType === Role.ADMIN && (
+                      {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
                         <option value={OfferStatus.DELETED}>DELETED</option>
                       )}
                     </Form.Select>
@@ -123,6 +127,31 @@ function FilterBar({
                 </div>
               </div>
             )}
+
+            <div className="filter-bar-container-child">
+              <Form.Group className="mb-3" controlId="validateOfferCategory">
+                <Form.Label>Category</Form.Label>
+                <Form.Select
+                  aria-label="Offer category select"
+                  name="category"
+                  defaultValue={undefined}
+                  value={values.category}
+                  onChange={handleChange}
+                >
+                  <option value={""}>All</option>
+                  {categories?.map((category) => {
+                    return (
+                      <option
+                        key={category.id + category.name}
+                        value={category.name}
+                      >
+                        {category.name}
+                      </option>
+                    );
+                  })}
+                </Form.Select>
+              </Form.Group>
+            </div>
             <Button type="submit" variant="primary">
               Apply filters
             </Button>

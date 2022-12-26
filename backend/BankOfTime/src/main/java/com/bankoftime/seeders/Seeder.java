@@ -1,7 +1,7 @@
 package com.bankoftime.seeders;
 
 import com.bankoftime.enums.OfferType;
-import com.bankoftime.enums.UserType;
+import com.bankoftime.enums.UserRole;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Category;
 import com.bankoftime.models.Offer;
@@ -69,9 +69,9 @@ public class Seeder {
 
     @SneakyThrows
     private void seedAppUsers() {
-        userNormal = new AppUser("user", "normal", "New York", "USA", "user@normal.com", PASSWORD, "123456789", UserType.NORMAL);
-        user2Normal = new AppUser("user2", "normal", "Wahsington", "USA", "user2@normal.com", PASSWORD, "123456789", UserType.NORMAL);
-        admin = new AppUser("admin", "admin", "Chicago", "USA", "admin@admin.com", PASSWORD, "123456789", UserType.ADMIN);
+        userNormal = new AppUser("user", "normal", "New York", "USA", "user@normal.com", PASSWORD, "123456789", UserRole.ROLE_NORMAL);
+        user2Normal = new AppUser("user2", "normal", "Wahsington", "USA", "user2@normal.com", PASSWORD, "123456789", UserRole.ROLE_NORMAL);
+        admin = new AppUser("admin", "admin", "Chicago", "USA", "admin@admin.com", PASSWORD, "123456789", UserRole.ROLE_ADMIN);
         registrationService.confirmToken(appUserService.signUpUser(userNormal));
         registrationService.confirmToken(appUserService.signUpUser(user2Normal));
         registrationService.confirmToken(appUserService.signUpUser(admin));

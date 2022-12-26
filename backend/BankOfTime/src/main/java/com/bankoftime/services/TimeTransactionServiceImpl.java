@@ -1,6 +1,7 @@
 package com.bankoftime.services;
 
 import com.bankoftime.enums.OfferStatus;
+import com.bankoftime.enums.OfferType;
 import com.bankoftime.enums.TransactionStatus;
 import com.bankoftime.exceptions.TimeTransactionException;
 import com.bankoftime.models.AppUser;
@@ -73,10 +74,10 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Optional<AppUser> oSeller = appUserService.find(sellerId);
+        Optional<AppUser> oSeller = appUserService.findById(sellerId);
         if (oSeller.isEmpty())
             throw new TimeTransactionException("Seller doesn't exist");
-        Optional<AppUser> oBuyer = appUserService.find(buyerId);
+        Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
 
@@ -95,16 +96,33 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         return Optional.of(offer);
     }
 
+    @Override
+    public Optional<Offer> rejectPendingApproval(Long offerId) throws TimeTransactionException {
+        Optional<Offer> oOffer = offerService.findOffer(offerId);
+        if (oOffer.isEmpty())
+            throw new TimeTransactionException("Offer doesn't exist");
+        Offer offer = oOffer.get();
+        offer.setState(OfferStatus.ACTIVE);
+        if (offer.getOfferType() == OfferType.SELL_OFFER) {
+            offer.setBuyer(null);
+        } else {
+            offer.setSeller(null);
+        }
+        offerService.modifyOffer(offer);
+        return Optional.of(offer);
+    }
+
+
     @Transactional
     @Override
     public Optional<TimeTransaction> makeTransaction(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException {
         Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Optional<AppUser> oSeller = appUserService.find(sellerId);
+        Optional<AppUser> oSeller = appUserService.findById(sellerId);
         if (oSeller.isEmpty())
             throw new TimeTransactionException("Seller doesn't exist");
-        Optional<AppUser> oBuyer = appUserService.find(buyerId);
+        Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
         Offer offer = oOffer.get();
@@ -127,8 +145,6 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
-//        buyer.getPurchaseTransactions().add(timeTransaction);
-//        seller.getSellTransactions().add(timeTransaction);
 
         offerService.modifyOffer(offer);
         timeTransactionRepository.save(timeTransaction);

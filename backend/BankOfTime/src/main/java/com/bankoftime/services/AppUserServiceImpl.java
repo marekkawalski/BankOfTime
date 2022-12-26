@@ -1,6 +1,9 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.AppUserDTO;
+import com.bankoftime.dto.RegistrationDTO;
+import com.bankoftime.dto.UpdateUserDTO;
+import com.bankoftime.enums.UserRole;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
@@ -8,6 +11,9 @@ import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.AppUserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +34,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
+
+    private final OfferService offerService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -63,14 +72,17 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public String getUserRoleByUsername(String email) {
-
-        Optional<AppUser> appUser = appUserRepository.findByEmail(email);
-        return appUser.map(user -> user.getUserType().toString()).orElse(null);
+    public int disableAppUser(String email) {
+        Optional<AppUser> oAppUser = findByEmail(email);
+        if ((oAppUser.isEmpty())) {
+            return 0;
+        }
+        offerService.updateDisabledUserOffers(oAppUser.get().getId());
+        return appUserRepository.disableAppUser(email);
     }
 
     @Override
-    public Optional<AppUser> find(Long id) {
+    public Optional<AppUser> findById(Long id) {
         return appUserRepository.findById(id);
     }
 
@@ -82,49 +94,107 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     @Override
     public AppUserDTO mapAppUserToAppUserDto(AppUser appUser) {
         return new AppUserDTO(appUser.getId(), appUser.getFirstName(), appUser.getLastName(), appUser.getCity(),
-                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType());
+                appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType(), appUser.getAboutMe(), appUser.getOccupation());
+    }
+
+    @Override
+    public AppUser mapRegistrationDtoToAppUser(RegistrationDTO registrationDTO) {
+        AppUser appUser = new AppUser();
+        appUser.setUserType(UserRole.ROLE_NORMAL);
+        appUser.setFirstName(registrationDTO.firstName());
+        appUser.setLastName(registrationDTO.lastName());
+        appUser.setPassword(registrationDTO.password());
+        appUser.setEmail(registrationDTO.email());
+        appUser.setOccupation(registrationDTO.occupation());
+        if (registrationDTO.city() != null) {
+            appUser.setCity(registrationDTO.city());
+        }
+        if (registrationDTO.country() != null) {
+            appUser.setCountry(registrationDTO.country());
+        }
+        if (registrationDTO.phoneNumber() != null) {
+            appUser.setPhoneNumber(registrationDTO.phoneNumber());
+        }
+        if (registrationDTO.aboutMe() != null) {
+            appUser.setAboutMe(registrationDTO.aboutMe());
+        }
+        return appUser;
+    }
+
+    @Override
+    public AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO) {
+        AppUser appUser = new AppUser();
+        if (updateUserDTO.userRole() != null) {
+            appUser.setUserType(updateUserDTO.userRole());
+        } else {
+            appUser.setUserType(UserRole.ROLE_NORMAL);
+        }
+        appUser.setEnabled(true);
+        appUser.setId(updateUserDTO.id());
+        appUser.setFirstName(updateUserDTO.firstName());
+        appUser.setLastName(updateUserDTO.lastName());
+        appUser.setEmail(updateUserDTO.email());
+        appUser.setOccupation(updateUserDTO.occupation());
+
+        if (updateUserDTO.password() != null) {
+            appUser.setPassword(bCryptPasswordEncoder.encode(updateUserDTO.password()));
+        }
+        if (updateUserDTO.city() != null) {
+            appUser.setCity(updateUserDTO.city());
+        }
+        if (updateUserDTO.country() != null) {
+            appUser.setCountry(updateUserDTO.country());
+        }
+        if (updateUserDTO.phoneNumber() != null) {
+            appUser.setPhoneNumber(updateUserDTO.phoneNumber());
+        }
+        if (updateUserDTO.aboutMe() != null) {
+            appUser.setAboutMe(updateUserDTO.aboutMe());
+        }
+        return appUser;
     }
 
     @Override
     public Optional<Double> calculateClientAccountBalance(Long clientId) {
-        Optional<Double> sum = find(clientId)
+        return findById(clientId)
                 .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
                         - appUser.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
-        log.info("sum= " + sum.get());
-        return sum;
 
     }
 
     @Override
     public double calculateClientAccountBalance(AppUser client) {
-        double sum = client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
+        return client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
                 - client.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum();
-        log.info("sum= " + sum);
-        return sum;
     }
 
     @Override
     public Optional<AppUser> modifyAppUser(final AppUser appUserToSave) {
         return appUserRepository.findById(appUserToSave.getId())
                 .map(appUser -> {
+                    appUser.setFirstName(appUserToSave.getFirstName());
+                    appUser.setLastName(appUserToSave.getLastName());
+                    if (appUserToSave.getPassword() != null) {
+                        appUser.setPassword(appUserToSave.getPassword());
+                    }
                     appUser.setUserType(appUserToSave.getUserType());
                     appUser.setCountry(appUserToSave.getCountry());
                     appUser.setPhoneNumber(appUserToSave.getPhoneNumber());
-                    appUser.setLastName(appUserToSave.getLastName());
-                    appUser.setPassword(appUserToSave.getPassword());
-                    appUser.setFirstName(appUserToSave.getFirstName());
                     appUser.setCity(appUserToSave.getCity());
                     appUser.setEmail(appUserToSave.getEmail());
                     appUser.setEnabled(appUserToSave.isEnabled());
                     appUser.setConfirmationTokens(appUserToSave.getConfirmationTokens());
-                    appUser.setSellTransactions(appUserToSave.getSellTransactions());
-                    appUser.setPurchaseOffers(appUserToSave.getPurchaseOffers());
-                    appUser.setSellOffers(appUserToSave.getSellOffers());
-                    appUser.setPurchaseTransactions(appUserToSave.getPurchaseTransactions());
                     appUser.setImage(appUserToSave.getImage());
                     appUser.setLocked(appUser.isLocked());
+                    appUser.setAboutMe(appUserToSave.getAboutMe());
+                    appUser.setOccupation(appUserToSave.getOccupation());
                     appUser = appUserRepository.save(appUser);
                     return Optional.of(appUser);
                 }).orElse(Optional.empty());
+    }
+
+    @Override
+    public Page<List<AppUser>> getPagedAppUsers(final String sortField, final Integer pageSize, final Integer pageNum) {
+        return appUserRepository.findAllBy(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.ASC, sortField)));
     }
 }

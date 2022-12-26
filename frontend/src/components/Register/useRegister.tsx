@@ -2,20 +2,27 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
-import React from 'react';
+import { useState } from 'react';
 
-function useRegister() {
+export function useRegister() {
   const services = useServices();
   const toast = useMyToast();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (values: any) => {
     try {
       if (!services) return;
+      setLoading(true);
       const resp = await services.registrationService.register({
         firstName: values.firstName,
         lastName: values.lastName,
         password: values.password,
         email: values.email,
+        phoneNumber: values.phone,
+        city: values.city,
+        country: values.country,
+        aboutMe: values.aboutMe,
+        occupation: values.occupation,
       });
       if (resp.status === 201) {
         toast?.make(ToastTitle.SUCCESS, ToastBackground.SUCCESS, resp.data);
@@ -29,8 +36,7 @@ function useRegister() {
       );
       console.log(e);
     }
+    setLoading(false);
   };
-  return handleSubmit;
+  return { handleSubmit, loading };
 }
-
-export default useRegister;

@@ -1,9 +1,13 @@
 package com.bankoftime.services;
 
 import com.bankoftime.dto.AppUserDTO;
+import com.bankoftime.dto.RegistrationDTO;
+import com.bankoftime.dto.UpdateUserDTO;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
+import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AppUserService {
@@ -11,13 +15,17 @@ public interface AppUserService {
 
     int enableAppUser(String email);
 
-    String getUserRoleByUsername(String username);
+    int disableAppUser(String email);
 
-    Optional<AppUser> find(Long id);
+    Optional<AppUser> findById(Long id);
 
     Optional<AppUser> findByEmail(String email);
 
     AppUserDTO mapAppUserToAppUserDto(AppUser appUser);
+
+    AppUser mapRegistrationDtoToAppUser(RegistrationDTO registrationDTO);
+
+    AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO);
 
     Optional<Double> calculateClientAccountBalance(Long clientId);
 
@@ -25,4 +33,5 @@ public interface AppUserService {
 
     Optional<AppUser> modifyAppUser(AppUser appUserToSave);
 
+    Page<List<AppUser>> getPagedAppUsers(String sortField, Integer pageSize, Integer pageNum);
 }

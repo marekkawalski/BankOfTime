@@ -6,14 +6,15 @@ import { Field, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap';
 
-import { Category } from '../../models/Category';
 import MyReactSelect from '../MyReactSelect/MyReactSelect';
 import MySpinner from '../MySpinner/MySpinner';
-import { OfferFormProps, OfferToSubmit } from './types';
+import { OfferFormProps } from './types';
+import useSubmitOffer from './useSubmitOffer';
 import { offerValidation } from './validation/offerValidation';
 
 function OfferForm({ offer, submit }: OfferFormProps) {
   const { categories, loading } = useGetCategories();
+  const { handleSubmitOffer } = useSubmitOffer({ categories, submit });
   const [categoriesOptions, seCategoriesOptions] = useState<
     { value: string; label: string }[]
   >([]);
@@ -44,27 +45,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
           {offer ? <h2>Edit offer</h2> : <h2>Create offer</h2>}
           <Formik
             validationSchema={offerValidation}
-            onSubmit={(fOffer: OfferToSubmit) => {
-              if (!categories) return;
-              const chosenCategories: Category[] = [];
-              for (const category of categories) {
-                for (const categoryString of fOffer.categories) {
-                  if (categoryString === category.name) {
-                    chosenCategories.push(category);
-                  }
-                }
-              }
-              submit.handleSubmit({
-                id: fOffer.id,
-                title: fOffer.title,
-                shortDescription: fOffer.shortDescription,
-                price: fOffer.price,
-                offerType: fOffer.offerType,
-                longDescription: fOffer.longDescription,
-                location: fOffer.location,
-                categories: chosenCategories,
-              });
-            }}
+            onSubmit={handleSubmitOffer}
             initialValues={{
               id: offer?.id ?? undefined,
               title: offer?.title ?? "",

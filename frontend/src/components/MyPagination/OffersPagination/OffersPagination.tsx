@@ -1,12 +1,12 @@
 import Pagination from 'react-bootstrap/Pagination';
 
-import { MyPaginationProps } from './types';
+import { OffersPaginationProps } from './types';
 
-function MyPagination({
+function OffersPagination({
   offersData,
   handleGetOffers,
   filters,
-}: MyPaginationProps) {
+}: OffersPaginationProps) {
   if (!offersData) return <></>;
   return (
     <Pagination>
@@ -107,4 +107,4 @@ function MyPagination({
   );
 }
 
-export default MyPagination;
+export default OffersPagination;

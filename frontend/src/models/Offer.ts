@@ -21,4 +21,6 @@ export interface IOffer extends ICreateOffer {
   seller?: IAppUser;
   buyer?: IAppUser;
   previousPrice?: number;
+  createdAt: string;
+  updatedAt?: string;
 }

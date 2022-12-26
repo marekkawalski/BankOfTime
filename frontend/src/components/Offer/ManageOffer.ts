@@ -3,18 +3,10 @@ import { OfferType } from '@/enums/OfferType';
 import { IAppUser } from '@/models/AppUser';
 import { IOffer } from '@/models/Offer';
 
-export interface IManageOffer {
-  canEdit(): boolean;
-  isOfferOwner(): boolean;
-  isAssignedToOffer(): boolean;
-  canViewApprovalStatus(): boolean;
-}
+import { IManageOffer } from './types';
 
 export class ManageOffer implements IManageOffer {
-  private offer: IOffer;
-  private appUser?: IAppUser;
-
-  constructor(offer: IOffer, appUser?: IAppUser) {
+  constructor(private offer: IOffer, private appUser?: IAppUser) {
     this.offer = offer;
     this.appUser = appUser;
   }
