@@ -8,6 +8,7 @@ build/
 !**/src/test/**/target/
 !build/libs/
 !.mvn/wrapper/maven-wrapper.jar
+bin/
 
 # Java Class Files #
 *.class
@@ -44,8 +45,6 @@ out
 
 ### VS Code ###
 .vscode/
-/src/main/resources/secrets.properties
-/src/test/httpTests/http-client.private.env.json
 
 # Miscellaneous
 *.java.hsp
@@ -58,6 +57,8 @@ ivy-cache
 argfile*
 activemq-data/
 classes/
+/src/main/resources/secrets.properties
+/src/test/httpTests/http-client.private.env.json
 
 # Log files
 jxl.log
