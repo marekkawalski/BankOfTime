@@ -2,7 +2,6 @@ import './OfferContainer.scss';
 
 import { OfferRequestParams } from '@/services/types';
 import React, { useState } from 'react';
-import { Row } from 'react-bootstrap';
 
 import FilterBar from '../FilterBar/FilterBar';
 import OffersPagination from '../MyPagination/OffersPagination/OffersPagination';
@@ -21,7 +20,7 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
     setFilers(offerRequestParams);
   };
   return (
-    <section>
+    <section className="offers-section">
       <div className="main-container">
         <div className="filters">
           <FilterBar
@@ -32,8 +31,8 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
         </div>
         <MySpinner show={loading || data === undefined}>
           {data?.content.length === 0 && <div>No offers</div>}
-          <div className="offers">
-            <Row xs={1} md={2} className="g-4 mb-3">
+          <div className="offers-pagination">
+            <div className="offers">
               {data?.content.map((offer) => {
                 return (
                   <Offer
@@ -44,14 +43,14 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
                   />
                 );
               })}
-            </Row>
-          </div>
-          <div className="pagination">
-            <OffersPagination
-              offersData={data}
-              filters={filters}
-              handleGetOffers={handleGetOffers}
-            />
+            </div>
+            <div className="pagination">
+              <OffersPagination
+                offersData={data}
+                filters={filters}
+                handleGetOffers={handleGetOffers}
+              />
+            </div>
           </div>
         </MySpinner>
       </div>

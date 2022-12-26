@@ -9,11 +9,12 @@ import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import useGetOffer from '@/hooks/useGetOffer';
 import { IAppUser } from '@/models/AppUser';
-import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPerson, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
+import { Link } from 'react-router-dom';
 
 const images = [
   {
@@ -153,8 +154,16 @@ function NoEditView() {
                   <div className="appUser-name">Contact info</div>
                   {offer?.offerType === OfferType.PURCHASE_OFFER && (
                     <div>
-                      <span className="pe-1">{offer.buyer?.firstName}</span>
-                      <span>{offer.buyer?.lastName}</span>
+                      <Link
+                        className="links"
+                        to={`/appUser/${offer.buyer?.email}`}
+                      >
+                        <span>
+                          <FontAwesomeIcon className="pe-2" icon={faPerson} />
+                          {offer.buyer?.firstName} {offer.buyer?.lastName}
+                        </span>
+                      </Link>
+
                       <div>
                         <span className="pe-1">
                           <FontAwesomeIcon icon={faEnvelope} />
@@ -174,8 +183,15 @@ function NoEditView() {
                   )}
                   {offer?.offerType === OfferType.SELL_OFFER && (
                     <div>
-                      <span className="pe-1">{offer.seller?.firstName}</span>
-                      <span>{offer.seller?.lastName}</span>
+                      <Link
+                        className="links"
+                        to={`/appUser/${offer.seller?.email}`}
+                      >
+                        <span>
+                          <FontAwesomeIcon className="pe-2" icon={faPerson} />
+                          {offer.seller?.firstName} {offer.seller?.lastName}
+                        </span>
+                      </Link>
                       <div>
                         <span className="pe-1">
                           <FontAwesomeIcon icon={faEnvelope} />
