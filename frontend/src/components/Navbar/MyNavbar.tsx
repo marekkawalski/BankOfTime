@@ -93,6 +93,9 @@ function MyNavbar() {
                       <NavDropdown.Item as={Link} to="/">
                         Manage offers
                       </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/admin/add-category">
+                        Add category
+                      </NavDropdown.Item>
                     </NavDropdown>
                   </ProtectedComponent>
                 </ProtectedComponent>

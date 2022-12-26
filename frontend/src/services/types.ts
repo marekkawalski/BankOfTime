@@ -1,4 +1,5 @@
 import { IAppUser, IAppUserToRegister, IAppUserToUpdate } from '@/models/AppUser';
+import { CategoryToCreate } from '@/models/Category';
 import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import { AppUserRequestParams } from '@/pages/Admin/ManageUsers/types';
 import { AxiosResponse } from 'axios';
@@ -57,6 +58,7 @@ export interface ITimeTransactionService {
 
 export interface ICategoryService {
   getAllCategories(): Promise<AxiosResponse<any, any>>;
+  addCategory(category: CategoryToCreate): Promise<AxiosResponse<any, any>>;
 }
 export interface OfferRequestParams {
   offerTypeUrl?: string;

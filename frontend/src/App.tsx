@@ -7,6 +7,7 @@ import MyNavbar from './components/Navbar/MyNavbar';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import MyToastComponent from './components/Toast/MyToastComponent';
 import { Role } from './enums/Role';
+import AddCategory from './pages/Admin/AddCategory/AddCategory';
 import ManageUsers from './pages/Admin/ManageUsers/ManageUsers';
 import AppUserChosenOffers from './pages/AppUserChosenOffers/AppUserChosenOffers';
 import AppUserOffers from './pages/AppUserOffers/AppUserOffers';
@@ -52,6 +53,7 @@ function App() {
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ROLE_ADMIN} />}>
           <Route path="/admin/manage-users" element={<ManageUsers />} />
+          <Route path="/admin/add-category" element={<AddCategory />} />
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>
