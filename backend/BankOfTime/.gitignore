@@ -12,6 +12,13 @@ build/
 # Java Class Files #
 *.class
 
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+!build/libs/BankOfTime-0.0.1-SNAPSHOT.jar
+
 #Gradle
 .gradle
 gradle-app.setting
