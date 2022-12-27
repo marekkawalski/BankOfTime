@@ -8,6 +8,9 @@ import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.models.TimeTransaction;
 import com.bankoftime.repositories.TimeTransactionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,21 +41,6 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     @Override
     public Optional<TimeTransaction> findTimeTransaction(Long transactionId) {
         return timeTransactionRepository.findById(transactionId);
-    }
-
-    @Override
-    public List<TimeTransaction> getAllClientTransactions(Long clientId) {
-        return timeTransactionRepository.findAllClientTransactions(clientId);
-    }
-
-    @Override
-    public List<TimeTransaction> getAllClientSellTransactions(Long clientId) {
-        return timeTransactionRepository.findAllBySellerId(clientId);
-    }
-
-    @Override
-    public List<TimeTransaction> getAllClientPurchaseTransactions(Long clientId) {
-        return timeTransactionRepository.findAllByBuyerId(clientId);
     }
 
     @Override
@@ -153,6 +141,12 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
 
         return Optional.of(timeTransaction);
 
+    }
+
+    @Override
+    public Page<List<TimeTransaction>> getSortedPagedAndFilteredTimeTransactions(final String sortField, final Integer pageSize, final Integer pageNum, final Long clientId) throws TimeTransactionException {
+        if (appUserService.findById(clientId).isEmpty()) throw new TimeTransactionException("AppUser doesn't exist");
+        return timeTransactionRepository.findAllClientTransactions(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.ASC, sortField)), clientId);
     }
 
 }

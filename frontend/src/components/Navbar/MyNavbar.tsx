@@ -75,7 +75,7 @@ function MyNavbar() {
                       Profile
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/">
+                    <NavDropdown.Item as={Link} to="/wallet">
                       Wallet
                     </NavDropdown.Item>
                   </NavDropdown>

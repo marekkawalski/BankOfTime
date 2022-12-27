@@ -19,6 +19,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import SellOffers from './pages/SellOffers/SellOffers';
 import ViewOfferDetails from './pages/ViewOfferDetails/ViewOfferDetails';
 import ViewProfile from './pages/ViewProfile/ViewProfile';
+import Wallet from './pages/Wallet/Wallet';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
         </Route>
         <Route path="/appUser" element={<ViewProfile />} />
         <Route path="/appUser/:email" element={<ViewProfile />} />
+        <Route path="/wallet" element={<Wallet />} />
 
         {/** Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={Role.ROLE_ADMIN} />}>

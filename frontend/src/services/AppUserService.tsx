@@ -24,6 +24,13 @@ class AppUserService implements IAppUserService {
     }
   }
 
+  async getAppUserAccountBalance(id: number): Promise<AxiosResponse<any, any>> {
+    try {
+      return await axios.get(`${API_URL}/clients/${id}/balance`);
+    } catch (error: any) {
+      throw new AxiosError(error);
+    }
+  }
   async getAllUsers(
     appUserRequestParams: AppUserRequestParams
   ): Promise<AxiosResponse<any, any>> {

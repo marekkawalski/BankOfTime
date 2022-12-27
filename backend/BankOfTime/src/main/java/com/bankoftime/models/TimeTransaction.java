@@ -1,6 +1,7 @@
 package com.bankoftime.models;
 
 import com.bankoftime.enums.TransactionStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +31,7 @@ public class TimeTransaction {
     @Enumerated(EnumType.STRING)
     @NotNull
     private TransactionStatus transactionStatus;
-
+    @JsonFormat(pattern = "dd:MM:yyyy HH:mm")
     @NotNull
     private LocalDateTime transactionDate;
     @ManyToOne
