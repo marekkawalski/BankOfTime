@@ -1,7 +1,7 @@
 import { OfferStatus } from '@/enums/OfferState';
 import { OfferType } from '@/enums/OfferType';
 import { IOffer } from '@/models/Offer';
-import { OfferRequestParams } from '@/services/types';
+import { OfferRequestParams } from '@/models/PageRequestParams';
 
 import { OffersData } from '../../hooks/types';
 
@@ -10,7 +10,7 @@ export interface OfferContainerProps {
   getOffers: {
     loading: boolean;
     data: OffersData | null;
-    handleGetOffers: (offerRequestParams: OfferRequestParams) => Promise<void>;
+    handleGetOffers: (offerRequestParams?: OfferRequestParams) => Promise<void>;
   };
 }
 
@@ -21,6 +21,6 @@ export interface GetOffersProps {
 
 export interface OfferProps {
   offer: IOffer;
-  handleGetOffers: (offerRequestParams: OfferRequestParams) => Promise<void>;
-  filters: OfferRequestParams;
+  handleGetOffers: (offerRequestParams?: OfferRequestParams) => Promise<void>;
+  filters?: OfferRequestParams;
 }

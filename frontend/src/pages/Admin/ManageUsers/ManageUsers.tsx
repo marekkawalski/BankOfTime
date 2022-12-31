@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-import AppUsersPagination from '../../../components/MyPagination/AppUsersPagination/AppUsersPagination';
+import MyPagination from '../../../components/MyPagination/MyPagination/MyPagination';
 import useGetAppUser from '../../../hooks/useGetAppUser';
+import { IAppUser } from '../../../models/AppUser';
 import useDisableAppUser from './hooks/useDisableAppUser';
 import useEnableAppUser from './hooks/useEnableAppUser';
 import useGetAppUsers from './hooks/useGetAppUsers';
@@ -35,51 +36,49 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {data?.content.map((user) => {
-              return (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.email}</td>
-                  <td>{user.userType}</td>
-                  <td>
-                    {user.enabled ? (
+            {data &&
+              (data?.content as IAppUser[]).map((user) => {
+                return (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.email}</td>
+                    <td>{user.userType}</td>
+                    <td>
+                      {user.enabled ? (
+                        <Button
+                          disabled={user.id === loggedInAppUser?.id}
+                          value={user.email}
+                          onClick={handleDisableAppUser}
+                        >
+                          Disable
+                        </Button>
+                      ) : (
+                        <Button
+                          disabled={user.id === loggedInAppUser?.id}
+                          value={user.email}
+                          onClick={handleEnableAppUser}
+                        >
+                          Enable
+                        </Button>
+                      )}
+                    </td>
+                    <td>
                       <Button
-                        disabled={user.id === loggedInAppUser?.id}
-                        value={user.email}
-                        onClick={handleDisableAppUser}
+                        onClick={() => {
+                          navigate(`/appUser/${user.email}`);
+                        }}
                       >
-                        Disable
+                        Edit
                       </Button>
-                    ) : (
-                      <Button
-                        disabled={user.id === loggedInAppUser?.id}
-                        value={user.email}
-                        onClick={handleEnableAppUser}
-                      >
-                        Enable
-                      </Button>
-                    )}
-                  </td>
-                  <td>
-                    <Button
-                      onClick={() => {
-                        navigate(`/appUser/${user.email}`);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </Table>
-        <AppUsersPagination
-          appUsersData={data}
-          handleGetAppUsers={handleGetAppUsers}
-        />
+        <MyPagination data={data} handleGetData={handleGetAppUsers} />
       </MySpinner>
     </section>
   );

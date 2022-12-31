@@ -2,9 +2,7 @@ import './FilterBar.scss';
 
 import { OfferStatus } from '@/enums/OfferState';
 import { OfferType } from '@/enums/OfferType';
-import { Role } from '@/enums/Role';
 import { SortBy } from '@/enums/SortBy';
-import useGetAppUser from '@/hooks/useGetAppUser';
 import useGetCategories from '@/hooks/useGetCategories';
 import { Formik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
@@ -20,7 +18,6 @@ function FilterBar({
   handleSettingFilters,
 }: FilterBarProps) {
   const location = useLocation();
-  const { loggedInAppUser } = useGetAppUser();
   const { categories } = useGetCategories();
   const submit = useSubmitFilters({
     handleGetOffers,
@@ -28,7 +25,11 @@ function FilterBar({
   });
 
   const getDefaultOfferType = (): OfferType => {
-    if (location.pathname.includes("appUser")) return OfferType.ALL;
+    if (
+      location.pathname.includes("appUser") ||
+      location.pathname.includes("admin")
+    )
+      return OfferType.ALL;
     if (location.pathname.endsWith("sellOffers")) return OfferType.SELL_OFFER;
     else return OfferType.PURCHASE_OFFER;
   };
@@ -44,7 +45,7 @@ function FilterBar({
           keyword: "",
           category: "",
           sortBy: SortBy.NAME_A_Z,
-          offerStatus: undefined,
+          offerStatus: OfferStatus.ACTIVE,
           offerType: getDefaultOfferType(),
         }}
       >
@@ -67,7 +68,6 @@ function FilterBar({
                   aria-label="Sort by"
                   name="sortBy"
                   value={values.sortBy}
-                  defaultValue={SortBy.NAME_A_Z}
                   onChange={handleChange}
                 >
                   <option value={SortBy.NAME_A_Z}>Name A-Z</option>
@@ -81,53 +81,48 @@ function FilterBar({
                 </Form.Select>
               </Form.Group>
             </div>
-            {location.pathname.includes("appUser") ||
-              (location.pathname.includes("admin") && (
-                <div>
-                  <div className="filter-bar-container-child">
-                    <Form.Group className="mb-3" controlId="validateOfferType">
-                      <Form.Label>OfferType</Form.Label>
-                      <Form.Select
-                        aria-label="Offer type select"
-                        name="offerType"
-                        value={values.offerType}
-                        defaultValue={getDefaultOfferType()}
-                        onChange={handleChange}
-                      >
-                        <option value={OfferType.ALL}>All</option>
-                        <option value={OfferType.SELL_OFFER}>Sell offer</option>
-                        <option value={OfferType.PURCHASE_OFFER}>
-                          Purchase offer
-                        </option>
-                      </Form.Select>
-                    </Form.Group>
-                  </div>
-
-                  <div className="filter-bar-container-child">
-                    <Form.Group
-                      className="mb-3"
-                      controlId="validateOfferStatus"
+            {(location.pathname.includes("admin") ||
+              location.pathname.includes("appUser")) && (
+              <div>
+                <div className="filter-bar-container-child">
+                  <Form.Group className="mb-3" controlId="validateOfferType">
+                    <Form.Label>OfferType</Form.Label>
+                    <Form.Select
+                      aria-label="Offer type select"
+                      name="offerType"
+                      value={values.offerType}
+                      onChange={handleChange}
                     >
-                      <Form.Label>OfferStatus</Form.Label>
-                      <Form.Select
-                        aria-label="Offer status select"
-                        name="offerStatus"
-                        defaultValue={undefined}
-                        value={values.offerStatus}
-                        onChange={handleChange}
-                      >
-                        <option value={""}>All</option>
-                        <option value={OfferStatus.ACTIVE}>ACTIVE</option>
-                        <option value={OfferStatus.APPROVED}>APPROVED</option>
-                        <option value={OfferStatus.ON_HOLD}>ON_HOLD</option>
-                        {loggedInAppUser?.userType === Role.ROLE_ADMIN && (
-                          <option value={OfferStatus.DELETED}>DELETED</option>
-                        )}
-                      </Form.Select>
-                    </Form.Group>
-                  </div>
+                      <option value={OfferType.ALL}>All</option>
+                      <option value={OfferType.SELL_OFFER}>Sell offer</option>
+                      <option value={OfferType.PURCHASE_OFFER}>
+                        Purchase offer
+                      </option>
+                    </Form.Select>
+                  </Form.Group>
                 </div>
-              ))}
+
+                <div className="filter-bar-container-child">
+                  <Form.Group className="mb-3" controlId="validateOfferStatus">
+                    <Form.Label>OfferStatus</Form.Label>
+                    <Form.Select
+                      aria-label="Offer status select"
+                      name="offerStatus"
+                      value={values.offerStatus}
+                      onChange={handleChange}
+                    >
+                      <option value={""}>All</option>
+                      <option value={OfferStatus.ACTIVE}>ACTIVE</option>
+                      <option value={OfferStatus.APPROVED}>APPROVED</option>
+                      <option value={OfferStatus.ON_HOLD}>ON_HOLD</option>
+                      {location.pathname.includes("admin") && (
+                        <option value={OfferStatus.DELETED}>DELETED</option>
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+              </div>
+            )}
 
             <div className="filter-bar-container-child">
               <Form.Group className="mb-3" controlId="validateOfferCategory">
@@ -135,7 +130,6 @@ function FilterBar({
                 <Form.Select
                   aria-label="Offer category select"
                   name="category"
-                  defaultValue={undefined}
                   value={values.category}
                   onChange={handleChange}
                 >

@@ -1,5 +1,5 @@
+import { PageRequestData } from '@/models/PageRequestParams';
 import { TimeTransaction } from '@/models/TimeTransaction';
-import { PageRequestData } from '@/types/pageRequestParams';
 
 export interface TimeTransactionsData extends PageRequestData {
   content: TimeTransaction[];

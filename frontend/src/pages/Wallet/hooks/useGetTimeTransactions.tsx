@@ -2,9 +2,9 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
+import useGetAppUser from '@/hooks/useGetAppUser';
 import { useEffect, useState } from 'react';
 
-import useGetAppUser from '../../../hooks/useGetAppUser';
 import { TimeTransactionRequestParams, TimeTransactionsData } from './types';
 
 function useGetTimeTransactions() {

@@ -2,7 +2,7 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
-import { OfferRequestParams } from '@/services/types';
+import { OfferRequestParams } from '@/models/PageRequestParams';
 import { useEffect, useState } from 'react';
 
 import { OffersData } from './types';
@@ -14,16 +14,16 @@ const useGetAppUserChosenOffers = () => {
   const toast = useMyToast();
 
   useEffect(() => {
-    handleGetOffers({});
+    handleGetOffers();
   }, [services]);
 
-  const handleGetOffers = async (offerRequestParams: OfferRequestParams) => {
+  const handleGetOffers = async (offerRequestParams?: OfferRequestParams) => {
     try {
       setLoading(true);
       if (services === undefined) return;
       const result = await services.offerService.getAppUserChosenOffers(
-        offerRequestParams,
-        services.appUserService.getAppUser().id
+        services.appUserService.getAppUser().id,
+        offerRequestParams
       );
       setLoading(false);
       if (result.status === 200) {
