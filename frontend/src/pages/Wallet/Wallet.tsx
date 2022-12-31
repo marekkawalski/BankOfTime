@@ -1,3 +1,4 @@
+import MyPagination from '@/components/MyPagination/MyPagination/MyPagination';
 import MySpinner from '@/components/MySpinner/MySpinner';
 import { Table } from 'react-bootstrap';
 
@@ -6,7 +7,7 @@ import { IOffer } from '../../models/Offer';
 import useGetTimeTransactions from './hooks/useGetTimeTransactions';
 
 function Wallet() {
-  const { loading, data } = useGetTimeTransactions();
+  const { loading, data, handleGetTimeTransactions } = useGetTimeTransactions();
   const { loggedInAppUser } = useGetAppUser();
 
   const isIncome = (offer: IOffer): boolean => {
@@ -52,6 +53,7 @@ function Wallet() {
             })}
           </tbody>
         </Table>
+        <MyPagination data={data} handleGetData={handleGetTimeTransactions} />
       </MySpinner>
     </section>
   );

@@ -47,11 +47,24 @@ class TimeTransactionService implements ITimeTransactionService {
   ): Promise<AxiosResponse> {
     try {
       return await axios.get(
-        `${API_URL}/clients/${appUserId}/timeTransactions`
+        `${API_URL}/clients/${appUserId}/timeTransactions?${this.getUrlString(
+          timeTransactionRequestParams
+        )}`
       );
     } catch (err: any) {
       throw new AxiosError(err);
     }
+  }
+
+  private getUrlString(
+    timeTransactionRequestParams?: TimeTransactionRequestParams
+  ): string {
+    if (!timeTransactionRequestParams) return "";
+    return "".concat(
+      timeTransactionRequestParams?.pageNumUrl ?? "",
+      timeTransactionRequestParams?.pageSizeUrl ?? "",
+      timeTransactionRequestParams?.sortFieldUrl ?? ""
+    );
   }
 }
 export default new TimeTransactionService();
