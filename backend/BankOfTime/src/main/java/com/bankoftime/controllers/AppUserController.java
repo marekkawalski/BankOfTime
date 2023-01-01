@@ -41,14 +41,6 @@ public class AppUserController {
         return ResponseEntity.status(HttpStatus.OK).body(appUsers);
     }
 
-
-    @GetMapping(path = "/clients/{id}/balance")
-    public ResponseEntity<Double> getClientAccountBalance(@PathVariable("id") Long id) {
-        return appUserService.calculateClientAccountBalance(id)
-                .map(balance -> ResponseEntity.status(HttpStatus.OK).body(balance))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
-    }
-
     @GetMapping(path = "/clients/id/{id}")
     public ResponseEntity<AppUser> getClientById(@PathVariable("id") Long id) {
         return appUserService.findById(id)

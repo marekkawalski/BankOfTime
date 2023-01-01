@@ -27,10 +27,6 @@ public interface AppUserService {
 
     AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO);
 
-    Optional<Double> calculateClientAccountBalance(Long clientId);
-
-    double calculateClientAccountBalance(AppUser client);
-
     Optional<AppUser> modifyAppUser(AppUser appUserToSave);
 
     Page<List<AppUser>> getPagedAppUsers(String sortField, Integer pageSize, Integer pageNum);

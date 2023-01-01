@@ -7,7 +7,6 @@ import com.bankoftime.enums.UserRole;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
-import com.bankoftime.models.Offer;
 import com.bankoftime.repositories.AppUserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,6 @@ import java.util.UUID;
 @Slf4j
 public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private static final String USER_WAS_NOT_FOUND = "User %s was not found!";
-    private static final double BONUS_CREDIT = 5;
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
@@ -152,20 +150,6 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
             appUser.setAboutMe(updateUserDTO.aboutMe());
         }
         return appUser;
-    }
-
-    @Override
-    public Optional<Double> calculateClientAccountBalance(Long clientId) {
-        return findById(clientId)
-                .map(appUser -> appUser.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
-                        - appUser.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum());
-
-    }
-
-    @Override
-    public double calculateClientAccountBalance(AppUser client) {
-        return client.getSellOffers().stream().mapToDouble(Offer::getPrice).sum() + BONUS_CREDIT
-                - client.getPurchaseOffers().stream().mapToDouble(Offer::getPrice).sum();
     }
 
     @Override

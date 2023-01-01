@@ -38,6 +38,13 @@ public class TimeTransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transactions);
     }
 
+    @GetMapping(path = "/clients/{id}/balance")
+    public ResponseEntity<Double> getClientAccountBalance(@PathVariable("id") Long id) {
+        return timeTransactionService.calculateClientAccountBalance(id)
+                .map(balance -> ResponseEntity.status(HttpStatus.OK).body(balance))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
     @PostMapping(path = "timeTransactions/offers/{offerId}/seller/{sellerId}/buyer/{buyerId}")
     public ResponseEntity<TimeTransaction> createTimeTransaction(@PathVariable Long offerId, @PathVariable Long sellerId,
                                                                  @PathVariable Long buyerId) {

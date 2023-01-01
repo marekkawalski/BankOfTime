@@ -21,11 +21,11 @@ import java.util.Optional;
 @Service
 public class TimeTransactionServiceImpl implements TimeTransactionService {
 
+    private static final double BONUS_CREDIT = 5;
     private final TimeTransactionRepository timeTransactionRepository;
-
     private final OfferService offerService;
-
     private final AppUserService appUserService;
+
 
     public TimeTransactionServiceImpl(TimeTransactionRepository timeTransactionRepository, final OfferService offerService, final AppUserService appUserService) {
         this.timeTransactionRepository = timeTransactionRepository;
@@ -73,7 +73,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         AppUser buyer = oBuyer.get();
         AppUser seller = oSeller.get();
 
-        if (appUserService.calculateClientAccountBalance(buyer) < offer.getPrice()) {
+        if (this.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             throw new TimeTransactionException("Not enough credits");
         }
 
@@ -123,7 +123,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
 
         TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);
 
-        if (appUserService.calculateClientAccountBalance(buyer) < offer.getPrice()) {
+        if (this.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             timeTransaction.setTransactionStatus(TransactionStatus.DECLINED);
             timeTransactionRepository.save(timeTransaction);
             throw new TimeTransactionException("Not enough credits");
@@ -147,6 +147,19 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     public Page<List<TimeTransaction>> getSortedPagedAndFilteredTimeTransactions(final String sortField, final Integer pageSize, final Integer pageNum, final Long clientId) throws TimeTransactionException {
         if (appUserService.findById(clientId).isEmpty()) throw new TimeTransactionException("AppUser doesn't exist");
         return timeTransactionRepository.findAllClientTransactions(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.ASC, sortField)), clientId);
+    }
+
+    @Override
+    public Optional<Double> calculateClientAccountBalance(Long clientId) {
+        return appUserService.findById(clientId).map(this::calculateClientAccountBalance);
+    }
+
+    @Override
+    public double calculateClientAccountBalance(AppUser client) {
+        return client.getSellTransactions().stream().filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
+                .mapToDouble(transaction -> transaction.getOffer().getPrice()).sum() + BONUS_CREDIT
+                - client.getPurchaseTransactions().stream().filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
+                .mapToDouble(transaction -> transaction.getOffer().getPrice()).sum();
     }
 
 }
