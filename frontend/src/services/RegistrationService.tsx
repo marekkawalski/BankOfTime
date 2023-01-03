@@ -5,9 +5,13 @@ import axios, { AxiosError } from 'axios';
 import { IRegistrationService } from './types';
 
 class RegistrationService implements IRegistrationService {
-  async register(user: IAppUserToRegister) {
+  async register(user: IAppUserToRegister, profilePhoto: any, coverPhoto: any) {
     try {
-      return await axios.post(`${API_URL}/registration`, user);
+      return await axios.post(`${API_URL}/registration`, {
+        request: user,
+        profilePhoto,
+        coverPhoto,
+      });
     } catch (err: any) {
       throw new AxiosError(err);
     }

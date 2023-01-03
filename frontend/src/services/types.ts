@@ -28,7 +28,11 @@ export interface IAuthenticationService {
   logout(): void;
 }
 export interface IRegistrationService {
-  register(user: IAppUserToRegister): Promise<AxiosResponse>;
+  register(
+    user: IAppUserToRegister,
+    profilePhoto: any,
+    coverPhoto: any
+  ): Promise<AxiosResponse>;
 }
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;

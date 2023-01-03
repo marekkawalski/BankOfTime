@@ -13,17 +13,24 @@ export function useRegister() {
     try {
       if (!services) return;
       setLoading(true);
-      const resp = await services.registrationService.register({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        password: values.password,
-        email: values.email,
-        phoneNumber: values.phone,
-        city: values.city,
-        country: values.country,
-        aboutMe: values.aboutMe,
-        occupation: values.occupation,
-      });
+      let images = new FormData();
+      images.append("profilePhoto", values.profilePhoto);
+      images.append("coverPhoto", values.coverPhoto);
+      const resp = await services.registrationService.register(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          password: values.password,
+          email: values.email,
+          phoneNumber: values.phone,
+          city: values.city,
+          country: values.country,
+          aboutMe: values.aboutMe,
+          occupation: values.occupation,
+        },
+        images.get("profilePhoto"),
+        images.get("coverPhoto")
+      );
       if (resp.status === 201) {
         toast?.make(ToastTitle.SUCCESS, ToastBackground.SUCCESS, resp.data);
       }

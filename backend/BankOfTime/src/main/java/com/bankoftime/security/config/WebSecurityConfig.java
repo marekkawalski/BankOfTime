@@ -1,6 +1,6 @@
 package com.bankoftime.security.config;
 
-import com.bankoftime.services.AppUserServiceImpl;
+import com.bankoftime.services.impl.AppUserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

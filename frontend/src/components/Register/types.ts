@@ -20,6 +20,8 @@ export interface ValuesProps {
   phone?: string;
   occupation?: string;
   userRole?: Role;
+  profilePhoto: File | null;
+  coverPhoto: File | null;
 }
 
 export interface UseUpdateUserProps {
