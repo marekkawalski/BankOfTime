@@ -104,43 +104,43 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     @Transactional
     @Override
     public Optional<TimeTransaction> makeTransaction(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException {
-        Optional<Offer> oOffer = offerService.findOffer(offerId);
+        final Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Optional<AppUser> oSeller = appUserService.findById(sellerId);
+        final Optional<AppUser> oSeller = appUserService.findById(sellerId);
         if (oSeller.isEmpty())
             throw new TimeTransactionException("Seller doesn't exist");
-        Optional<AppUser> oBuyer = appUserService.findById(buyerId);
+        final Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
-        Offer offer = oOffer.get();
-        AppUser buyer = oBuyer.get();
-        AppUser seller = oSeller.get();
+        final Offer offer = oOffer.get();
+        final AppUser buyer = oBuyer.get();
+        final AppUser seller = oSeller.get();
 
-        //todo check if is onhold and buyer is correct
-        if (!(offer.getState() != OfferStatus.ACTIVE || offer.getState() != OfferStatus.ON_HOLD))
+        if (offer.getState() != OfferStatus.ACTIVE && offer.getState() != OfferStatus.ON_HOLD)
             throw new TimeTransactionException("Offer is not active!");
+        if (offer.getState() == OfferStatus.ON_HOLD && offer.getSeller() != seller)
+            throw new TimeTransactionException("Seller is not assigned to offer!");
+        if (offer.getState() == OfferStatus.ON_HOLD && offer.getBuyer() != buyer)
+            throw new TimeTransactionException("Buyer is not assigned to offer!");
 
-        TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);
+        final TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);
 
         if (this.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             timeTransaction.setTransactionStatus(TransactionStatus.DECLINED);
             timeTransactionRepository.save(timeTransaction);
             throw new TimeTransactionException("Not enough credits");
         }
-
         offer.setState(OfferStatus.APPROVED);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);
-
         offerService.modifyOffer(offer);
         timeTransactionRepository.save(timeTransaction);
         appUserService.modifyAppUser(buyer);
         appUserService.modifyAppUser(seller);
 
         return Optional.of(timeTransaction);
-
     }
 
     @Override
