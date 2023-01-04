@@ -59,19 +59,19 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
 
     @Override
     public Optional<Offer> requestApproval(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException {
-        Optional<Offer> oOffer = offerService.findOffer(offerId);
+        final Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Optional<AppUser> oSeller = appUserService.findById(sellerId);
+        final Optional<AppUser> oSeller = appUserService.findById(sellerId);
         if (oSeller.isEmpty())
             throw new TimeTransactionException("Seller doesn't exist");
-        Optional<AppUser> oBuyer = appUserService.findById(buyerId);
+        final Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
 
-        Offer offer = oOffer.get();
-        AppUser buyer = oBuyer.get();
-        AppUser seller = oSeller.get();
+        final Offer offer = oOffer.get();
+        final AppUser buyer = oBuyer.get();
+        final AppUser seller = oSeller.get();
 
         if (this.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             throw new TimeTransactionException("Not enough credits");
@@ -85,11 +85,11 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     }
 
     @Override
-    public Optional<Offer> rejectPendingApproval(Long offerId) throws TimeTransactionException {
-        Optional<Offer> oOffer = offerService.findOffer(offerId);
+    public Optional<Offer> rejectPendingApproval(final Long offerId) throws TimeTransactionException {
+        final Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
-        Offer offer = oOffer.get();
+        final Offer offer = oOffer.get();
         offer.setState(OfferStatus.ACTIVE);
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
             offer.setBuyer(null);
