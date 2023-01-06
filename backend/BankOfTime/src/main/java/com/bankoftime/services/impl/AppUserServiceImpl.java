@@ -107,25 +107,20 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         appUser.setLastName(registrationDTO.lastName());
         appUser.setPassword(registrationDTO.password());
         appUser.setEmail(registrationDTO.email());
-        appUser.setOccupation(registrationDTO.occupation());
-        if (registrationDTO.city() != null) {
-            appUser.setCity(registrationDTO.city());
-        }
-        if (registrationDTO.country() != null) {
-            appUser.setCountry(registrationDTO.country());
-        }
-        if (registrationDTO.phoneNumber() != null) {
-            appUser.setPhoneNumber(registrationDTO.phoneNumber());
-        }
-        if (registrationDTO.aboutMe() != null) {
-            appUser.setAboutMe(registrationDTO.aboutMe());
-        }
+        appUser.setCity(registrationDTO.city().isEmpty() ? null : registrationDTO.city());
+        appUser.setCountry(registrationDTO.country().isEmpty() ? null : registrationDTO.country());
+        appUser.setPhoneNumber(registrationDTO.phoneNumber().isEmpty() ? null : registrationDTO.phoneNumber());
+        appUser.setAboutMe(registrationDTO.aboutMe().isEmpty() ? null : registrationDTO.aboutMe());
+        appUser.setOccupation(registrationDTO.occupation().isEmpty() ? null : registrationDTO.occupation());
         return appUser;
     }
 
     @Override
     public AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO) {
         AppUser appUser = new AppUser();
+        if (updateUserDTO.password() != null && !updateUserDTO.password().isEmpty()) {
+            appUser.setPassword(bCryptPasswordEncoder.encode(updateUserDTO.password()));
+        }
         if (updateUserDTO.userRole() != null) {
             appUser.setUserType(updateUserDTO.userRole());
         } else {
@@ -136,23 +131,11 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         appUser.setFirstName(updateUserDTO.firstName());
         appUser.setLastName(updateUserDTO.lastName());
         appUser.setEmail(updateUserDTO.email());
-        appUser.setOccupation(updateUserDTO.occupation());
-
-        if (updateUserDTO.password() != null) {
-            appUser.setPassword(bCryptPasswordEncoder.encode(updateUserDTO.password()));
-        }
-        if (updateUserDTO.city() != null) {
-            appUser.setCity(updateUserDTO.city());
-        }
-        if (updateUserDTO.country() != null) {
-            appUser.setCountry(updateUserDTO.country());
-        }
-        if (updateUserDTO.phoneNumber() != null) {
-            appUser.setPhoneNumber(updateUserDTO.phoneNumber());
-        }
-        if (updateUserDTO.aboutMe() != null) {
-            appUser.setAboutMe(updateUserDTO.aboutMe());
-        }
+        appUser.setCity(updateUserDTO.city().isEmpty() ? null : updateUserDTO.city());
+        appUser.setOccupation(updateUserDTO.occupation().isEmpty() ? null : updateUserDTO.occupation());
+        appUser.setCountry(updateUserDTO.country().isEmpty() ? null : updateUserDTO.country());
+        appUser.setPhoneNumber(updateUserDTO.phoneNumber().isEmpty() ? null : updateUserDTO.phoneNumber());
+        appUser.setAboutMe(updateUserDTO.aboutMe().isEmpty() ? null : updateUserDTO.aboutMe());
         return appUser;
     }
 
