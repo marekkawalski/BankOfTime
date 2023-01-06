@@ -2,13 +2,17 @@ package com.bankoftime.controllers;
 
 import com.bankoftime.dto.AppUserDTO;
 import com.bankoftime.dto.UpdateUserDTO;
+import com.bankoftime.exceptions.FileException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.services.AppUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,10 +53,17 @@ public class AppUserController {
     }
 
     @PutMapping(path = "/clients/updateClient")
-    public ResponseEntity<AppUser> updateClient(@Valid @RequestBody UpdateUserDTO updateUserDTO) {
-        return appUserService.modifyAppUser(appUserService.mapUpdateUserDtoToAppUser(updateUserDTO))
-                .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUser))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    public ResponseEntity<AppUser> updateClient(@Valid @RequestPart(value = "request") UpdateUserDTO updateUserDTO,
+                                                @RequestPart(value = "profilePhoto", required = false) @Nullable MultipartFile profilePhoto,
+                                                @RequestPart(value = "coverPhoto", required = false) @Nullable MultipartFile coverPhoto) {
+        try {
+            return appUserService.modifyAppUser(appUserService.mapUpdateUserDtoToAppUser(updateUserDTO), profilePhoto, coverPhoto)
+                    .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUser))
+                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+        } catch (FileException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage(), e.getCause());
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -11,6 +11,7 @@ import com.bankoftime.models.ConfirmationToken;
 import com.bankoftime.services.AppUserImageService;
 import com.bankoftime.services.EmailService;
 import com.bankoftime.services.RegistrationService;
+import com.bankoftime.utils.Constants;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,26 +33,23 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Transactional
     @Override
-    public String register(final RegistrationDTO request, final MultipartFile profilePhoto, final MultipartFile coverPhoto) throws EmailException, UserException, FileException {
+    public void register(final RegistrationDTO request, final MultipartFile profilePhoto, final MultipartFile coverPhoto) throws EmailException, UserException, FileException {
         if (!emailValidator.test(request.email())) {
             throw new EmailException("Email is invalid!");
         }
         try {
             final String token = appUserService.signUpUser(
                     appUserService.mapRegistrationDtoToAppUser(request));
-
-            Optional<AppUser> oAppUser = appUserService.findByEmail(request.email());
+            final Optional<AppUser> oAppUser = appUserService.findByEmail(request.email());
             if (oAppUser.isEmpty()) throw new UserException("An error occurred while saving user");
-            AppUser appUser = oAppUser.get();
-
-            AppUserImage appUserImage = new AppUserImage(
+            final AppUser appUser = oAppUser.get();
+            final AppUserImage appUserImage = new AppUserImage(
                     profilePhoto.getBytes().length > 0 ? profilePhoto.getBytes() : null,
                     coverPhoto.getBytes().length > 0 ? coverPhoto.getBytes() : null);
             appUserImage.setAppUser(appUser);
             appUserImageService.saveImage(appUserImage);
 
-            emailSender.send(request.email(), buildEmail(request.firstName(), "http://localhost:8080/registration/confirm?token=" + token));
-            return "User has been registered";
+            emailSender.send(request.email(), buildEmail(request.firstName(), Constants.API_URL + "/registration/confirm?token=" + token));
         } catch (UserException userException) {
             throw new UserException(userException.getMessage());
         } catch (IOException e) {

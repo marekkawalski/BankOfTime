@@ -1,4 +1,4 @@
-import { IAppUser, IAppUserToUpdate } from '@/models/AppUser';
+import { IAppUser } from '@/models/AppUser';
 import { CategoryToCreate } from '@/models/Category';
 import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import { OfferRequestParams } from '@/models/PageRequestParams';
@@ -13,7 +13,7 @@ export interface IAppUserService {
   getAllUsers(
     appUserRequestParams: AppUserRequestParams
   ): Promise<AxiosResponse<any, any>>;
-  updateAppUser(appUser: IAppUserToUpdate): Promise<AxiosResponse<any, any>>;
+  updateAppUser(formData: any): Promise<AxiosResponse<any, any>>;
   enableAppUser(email: string): Promise<AxiosResponse<any, any>>;
   disableAppUser(email: string): Promise<AxiosResponse<any, any>>;
   getAppUserAccountBalance(id: number): Promise<AxiosResponse<any, any>>;

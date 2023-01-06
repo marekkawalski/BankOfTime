@@ -15,19 +15,43 @@ export function useUpdateUser() {
     try {
       if (!services) return;
       setLoading(true);
-      const resp = await services.appUserService.updateAppUser({
-        id: values.id,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        password: values.password,
-        email: values.email,
-        phoneNumber: values.phone,
-        city: values.city,
-        country: values.country,
-        aboutMe: values.aboutMe,
-        occupation: values.occupation,
-        userRole: values.userRole,
-      });
+      const formData = new FormData();
+      formData.append(
+        "profilePhoto",
+        new Blob([values.profilePhoto ?? ""], {
+          type: "multipart/form-data",
+        })
+      );
+      formData.append(
+        "coverPhoto",
+        new Blob([values.coverPhoto ?? ""], {
+          type: "multipart/form-data",
+        })
+      );
+      formData.append(
+        "request",
+        new Blob(
+          [
+            JSON.stringify({
+              id: values.id,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              password: values.password,
+              email: values.email,
+              phoneNumber: values.phone,
+              city: values.city,
+              country: values.country,
+              aboutMe: values.aboutMe,
+              occupation: values.occupation,
+              userRole: values.userRole,
+            }),
+          ],
+          {
+            type: "application/json",
+          }
+        )
+      );
+      const resp = await services.appUserService.updateAppUser(formData);
       if (resp.status === 200) {
         toast?.make(
           ToastTitle.SUCCESS,

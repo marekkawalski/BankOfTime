@@ -4,9 +4,11 @@ import com.bankoftime.dto.AppUserDTO;
 import com.bankoftime.dto.RegistrationDTO;
 import com.bankoftime.dto.UpdateUserDTO;
 import com.bankoftime.enums.UserRole;
+import com.bankoftime.exceptions.FileException;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.ConfirmationToken;
+import com.bankoftime.repositories.AppUserImageRepository;
 import com.bankoftime.repositories.AppUserRepository;
 import com.bankoftime.services.AppUserImageService;
 import com.bankoftime.services.AppUserService;
@@ -21,7 +23,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,21 +36,21 @@ import java.util.UUID;
 @Slf4j
 public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private static final String USER_WAS_NOT_FOUND = "User %s was not found!";
+    private final AppUserImageRepository appUserImageRepository;
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
     private final OfferService offerService;
-
     private final AppUserImageService appUserImageService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         return appUserRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_WAS_NOT_FOUND, email)));
     }
 
     @Override
-    public String signUpUser(AppUser appUser) throws UserException {
+    public String signUpUser(final AppUser appUser) throws UserException {
         if (appUserRepository
                 .findByEmail(appUser.getEmail())
                 .isPresent()) {
@@ -55,8 +59,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         appUser.setPassword((bCryptPasswordEncoder.encode(appUser.getPassword())));
         appUserRepository.save(appUser);
 
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(
+        final String token = UUID.randomUUID().toString();
+        final ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
@@ -69,13 +73,13 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public int enableAppUser(String email) {
+    public int enableAppUser(final String email) {
         return appUserRepository.enableAppUser(email);
     }
 
     @Override
-    public int disableAppUser(String email) {
-        Optional<AppUser> oAppUser = findByEmail(email);
+    public int disableAppUser(final String email) {
+        final Optional<AppUser> oAppUser = findByEmail(email);
         if ((oAppUser.isEmpty())) {
             return 0;
         }
@@ -84,24 +88,24 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public Optional<AppUser> findById(Long id) {
+    public Optional<AppUser> findById(final Long id) {
         return appUserRepository.findById(id);
     }
 
     @Override
-    public Optional<AppUser> findByEmail(String email) {
+    public Optional<AppUser> findByEmail(final String email) {
         return appUserRepository.findByEmail(email);
     }
 
     @Override
-    public AppUserDTO mapAppUserToAppUserDto(AppUser appUser) {
+    public AppUserDTO mapAppUserToAppUserDto(final AppUser appUser) {
         return new AppUserDTO(appUser.getId(), appUser.getFirstName(), appUser.getLastName(), appUser.getCity(),
                 appUser.getCountry(), appUser.getEmail(), appUser.getPhoneNumber(), appUser.getUserType(), appUser.getAboutMe(), appUser.getOccupation());
     }
 
     @Override
-    public AppUser mapRegistrationDtoToAppUser(RegistrationDTO registrationDTO) {
-        AppUser appUser = new AppUser();
+    public AppUser mapRegistrationDtoToAppUser(final RegistrationDTO registrationDTO) {
+        final AppUser appUser = new AppUser();
         appUser.setUserType(UserRole.ROLE_NORMAL);
         appUser.setFirstName(registrationDTO.firstName());
         appUser.setLastName(registrationDTO.lastName());
@@ -116,8 +120,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public AppUser mapUpdateUserDtoToAppUser(UpdateUserDTO updateUserDTO) {
-        AppUser appUser = new AppUser();
+    public AppUser mapUpdateUserDtoToAppUser(final UpdateUserDTO updateUserDTO) {
+        final AppUser appUser = new AppUser();
         if (updateUserDTO.password() != null && !updateUserDTO.password().isEmpty()) {
             appUser.setPassword(bCryptPasswordEncoder.encode(updateUserDTO.password()));
         }
@@ -137,6 +141,25 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         appUser.setPhoneNumber(updateUserDTO.phoneNumber().isEmpty() ? null : updateUserDTO.phoneNumber());
         appUser.setAboutMe(updateUserDTO.aboutMe().isEmpty() ? null : updateUserDTO.aboutMe());
         return appUser;
+    }
+
+    @Override
+    public Optional<AppUser> modifyAppUser(final AppUser appUserToSave, final MultipartFile profilePhoto, final MultipartFile coverPhoto) throws FileException {
+        byte[] profilePhotoBytes;
+        byte[] coverPhotoBytes;
+        try {
+            profilePhotoBytes = profilePhoto.getBytes();
+            coverPhotoBytes = coverPhoto.getBytes();
+        } catch (IOException e) {
+            throw new FileException(e.getMessage());
+        }
+        return appUserRepository.findById(appUserToSave.getId())
+                .map(appUser -> {
+                    appUser.getImage().setProfilePhotoData(profilePhotoBytes.length > 0 ? profilePhotoBytes : appUser.getImage().getProfilePhotoData());
+                    appUser.getImage().setCoverPhotoData(coverPhotoBytes.length > 0 ? coverPhotoBytes : appUser.getImage().getCoverPhotoData());
+                    appUserRepository.save(appUser);
+                    return modifyAppUser(appUserToSave);
+                }).orElse(Optional.empty());
     }
 
     @Override

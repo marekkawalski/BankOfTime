@@ -3,7 +3,6 @@ import { APP_USER } from '@/constants/constants';
 import { IAppUser } from '@/models/AppUser';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { IAppUserToUpdate } from '../models/AppUser';
 import { AppUserRequestParams } from '../pages/Admin/ManageUsers/types';
 import { IAppUserService } from './types';
 
@@ -43,11 +42,9 @@ class AppUserService implements IAppUserService {
     }
   }
 
-  async updateAppUser(
-    appUser: IAppUserToUpdate
-  ): Promise<AxiosResponse<any, any>> {
+  async updateAppUser(formData: any): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.put(`${API_URL}/clients/updateClient`, appUser);
+      return await axios.put(`${API_URL}/clients/updateClient`, formData);
     } catch (error: any) {
       throw new AxiosError(error);
     }

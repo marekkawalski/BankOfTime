@@ -14,7 +14,7 @@ public class AppUserImageServiceImpl implements AppUserImageService {
     private final AppUserImageRepository imageRepository;
 
     @Override
-    public void saveImage(AppUserImage image) {
+    public void saveImage(final AppUserImage image) {
         imageRepository.save(image);
     }
 

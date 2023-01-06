@@ -3,11 +3,14 @@ package com.bankoftime.seeders;
 import com.bankoftime.enums.OfferType;
 import com.bankoftime.enums.UserRole;
 import com.bankoftime.models.AppUser;
+import com.bankoftime.models.AppUserImage;
 import com.bankoftime.models.Category;
 import com.bankoftime.models.Offer;
+import com.bankoftime.repositories.AppUserImageRepository;
 import com.bankoftime.repositories.AppUserRepository;
 import com.bankoftime.repositories.CategoryRepository;
 import com.bankoftime.repositories.OfferRepository;
+import com.bankoftime.services.AppUserImageService;
 import com.bankoftime.services.AppUserService;
 import com.bankoftime.services.OfferService;
 import com.bankoftime.services.RegistrationService;
@@ -28,6 +31,8 @@ public class Seeder {
     private final OfferRepository offerRepository;
     private final OfferService offerService;
     private final RegistrationService registrationService;
+    private final AppUserImageService appUserImageService;
+    private final AppUserImageRepository appUserImageRepository;
     private AppUser userNormal;
     private AppUser user2Normal;
     private AppUser admin;
@@ -45,26 +50,28 @@ public class Seeder {
     private Category cars;
 
 
-    public Seeder(final AppUserRepository appUserRepository, final CategoryRepository categoryRepository, final AppUserService appUserService, final OfferRepository offerRepository, final OfferService offerService, final RegistrationService registrationService) {
+    public Seeder(final AppUserRepository appUserRepository, final CategoryRepository categoryRepository, final AppUserService appUserService, final OfferRepository offerRepository, final OfferService offerService, final RegistrationService registrationService, final AppUserImageService appUserImageService, final AppUserImageRepository appUserImageRepository) {
         this.appUserRepository = appUserRepository;
         this.categoryRepository = categoryRepository;
         this.appUserService = appUserService;
         this.offerRepository = offerRepository;
         this.offerService = offerService;
         this.registrationService = registrationService;
+        this.appUserImageService = appUserImageService;
+        this.appUserImageRepository = appUserImageRepository;
     }
 
 
     @EventListener
     @Transactional
-    public void seedTables(ContextRefreshedEvent event) {
+    public void seedTables(ContextRefreshedEvent ignoredEvent) {
         if (!(appUserRepository.findAll().isEmpty() && offerRepository.findAll().isEmpty() && categoryRepository.findAll().isEmpty())) {
             return;
         }
         seedAppUsers();
         seedCategories();
         seedOffers();
-        seedTimeTransactions();
+        seedAppUserImages();
     }
 
     @SneakyThrows
@@ -75,6 +82,21 @@ public class Seeder {
         registrationService.confirmToken(appUserService.signUpUser(userNormal));
         registrationService.confirmToken(appUserService.signUpUser(user2Normal));
         registrationService.confirmToken(appUserService.signUpUser(admin));
+
+    }
+
+    private void seedAppUserImages() {
+        AppUserImage userNormalImage = new AppUserImage(null, null);
+        userNormalImage.setAppUser(userNormal);
+        appUserImageService.saveImage(userNormalImage);
+
+        AppUserImage user2NormalImage = new AppUserImage(null, null);
+        user2NormalImage.setAppUser(user2Normal);
+        appUserImageService.saveImage(user2NormalImage);
+
+        AppUserImage adminImage = new AppUserImage(null, null);
+        adminImage.setAppUser(admin);
+        appUserImageService.saveImage(adminImage);
     }
 
     private void seedOffers() {
@@ -102,9 +124,5 @@ public class Seeder {
 
         categoryRepository.save(cars);
         categoryRepository.save(other);
-    }
-
-    private void seedTimeTransactions() {
-
     }
 }
