@@ -101,7 +101,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
   const popover = (
     <Popover id="popover-basic">
       <Popover.Body>
-        <div className="profile-wrapper">
+        <div className="preview-profile-wrapper">
           <div className="">
             <div className="card">
               <div className="card-body little-profile text-center mt-5">

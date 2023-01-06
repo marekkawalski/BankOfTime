@@ -29,7 +29,7 @@ function Wallet() {
       <MySpinner show={loading || balanceLoading}>
         <div>
           <div className="pb-3">
-            <Card className="text-center">
+            <Card className="text-center wallet-card">
               <Card.Header>
                 <FontAwesomeIcon icon={faMoneyBillAlt} /> Account Balance
               </Card.Header>
