@@ -6,6 +6,8 @@ import com.bankoftime.services.AppUserImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class AppUserImageServiceImpl implements AppUserImageService {
@@ -14,6 +16,11 @@ public class AppUserImageServiceImpl implements AppUserImageService {
     @Override
     public void saveImage(AppUserImage image) {
         imageRepository.save(image);
+    }
+
+    @Override
+    public Optional<AppUserImage> findPhoto(final Long clientId) {
+        return imageRepository.findAppUserImageByAppUserId(clientId);
     }
 
 }

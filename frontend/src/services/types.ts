@@ -1,4 +1,4 @@
-import { IAppUser, IAppUserToRegister, IAppUserToUpdate } from '@/models/AppUser';
+import { IAppUser, IAppUserToUpdate } from '@/models/AppUser';
 import { CategoryToCreate } from '@/models/Category';
 import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
 import { OfferRequestParams } from '@/models/PageRequestParams';
@@ -28,11 +28,7 @@ export interface IAuthenticationService {
   logout(): void;
 }
 export interface IRegistrationService {
-  register(
-    user: IAppUserToRegister,
-    profilePhoto: any,
-    coverPhoto: any
-  ): Promise<AxiosResponse>;
+  register(formData: any): Promise<AxiosResponse>;
 }
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;

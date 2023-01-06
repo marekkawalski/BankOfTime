@@ -98,10 +98,9 @@ public class AppUser implements UserDetails {
     private Collection<ConfirmationToken> confirmationTokens = new ArrayList<>();
 
     @OneToOne(mappedBy = "appUser")
-    private AppUserImage profilePhoto;
+    @JsonIgnore
+    private AppUserImage image;
 
-    @OneToOne(mappedBy = "appUser")
-    private AppUserImage coverPhoto;
 
     public AppUser(String firstName, String lastName, String email, String password, UserRole userType) {
         this.firstName = firstName;

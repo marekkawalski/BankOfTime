@@ -43,8 +43,8 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                 phone: appUser?.phoneNumber ?? "",
                 occupation: appUser?.occupation ?? "",
                 userRole: appUser?.userType,
-                profilePhoto: null,
-                coverPhoto: null,
+                profilePhoto: undefined,
+                coverPhoto: undefined,
               } as ValuesProps
             }
           >
@@ -378,6 +378,7 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                       <Form.Label>Upload profile photo</Form.Label>
                       <Form.Control
                         type="file"
+                        accept="image/*"
                         name="profilePhoto"
                         onChange={(event: any): void => {
                           setFieldValue("profilePhoto", event.target.files[0]);
@@ -388,8 +389,10 @@ function Register({ appUser, submit, loading }: RegisterProps) {
                       <Form.Label>Upload cover photo</Form.Label>
                       <Form.Control
                         type="file"
+                        accept="image/*"
                         name="coverPhoto"
                         onChange={(event: any): void => {
+                          console.log(event.target.files[0]);
                           setFieldValue("coverPhoto", event.target.files[0]);
                         }}
                       />

@@ -175,8 +175,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                     appUser.setLocked(appUser.isLocked());
                     appUser.setAboutMe(appUserToSave.getAboutMe());
                     appUser.setOccupation(appUserToSave.getOccupation());
-                    appUser.setProfilePhoto(appUserToSave.getProfilePhoto());
-                    appUser.setCoverPhoto(appUserToSave.getCoverPhoto());
+                    appUser.setImage(appUserToSave.getImage());
                     appUser = appUserRepository.save(appUser);
                     return Optional.of(appUser);
                 }).orElse(Optional.empty());

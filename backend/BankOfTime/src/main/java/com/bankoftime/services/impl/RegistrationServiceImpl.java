@@ -12,7 +12,6 @@ import com.bankoftime.services.AppUserImageService;
 import com.bankoftime.services.EmailService;
 import com.bankoftime.services.RegistrationService;
 import lombok.AllArgsConstructor;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +27,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final AppUserServiceImpl appUserService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenServiceImpl confirmationTokenService;
-
     private final AppUserImageService appUserImageService;
     private final EmailService emailSender;
 
     @Transactional
     @Override
-    public String register(final RegistrationDTO request, @Nullable final MultipartFile profilePhoto, @Nullable final MultipartFile coverPhoto) throws EmailException, UserException, FileException {
+    public String register(final RegistrationDTO request, final MultipartFile profilePhoto, final MultipartFile coverPhoto) throws EmailException, UserException, FileException {
         if (!emailValidator.test(request.email())) {
             throw new EmailException("Email is invalid!");
         }
@@ -45,15 +43,12 @@ public class RegistrationServiceImpl implements RegistrationService {
             Optional<AppUser> oAppUser = appUserService.findByEmail(request.email());
             if (oAppUser.isEmpty()) throw new UserException("An error occurred while saving user");
             AppUser appUser = oAppUser.get();
-            if (profilePhoto != null && !profilePhoto.isEmpty()) {
-                AppUserImage appUserImage = new AppUserImage(profilePhoto.getBytes());
-                appUserImageService.saveImage(appUserImage);
-                appUser.setProfilePhoto(appUserImage);
-            }
-            if (coverPhoto != null && !coverPhoto.isEmpty()) {
-//                AppUserImage savedCoverPhoto = appUserImageService.saveImage(new AppUserImage(coverPhoto.getBytes()));
-//                appUser.setCoverPhoto(savedCoverPhoto);
-            }
+
+            AppUserImage appUserImage = new AppUserImage(
+                    profilePhoto.getBytes().length > 0 ? profilePhoto.getBytes() : null,
+                    coverPhoto.getBytes().length > 0 ? coverPhoto.getBytes() : null);
+            appUserImage.setAppUser(appUser);
+            appUserImageService.saveImage(appUserImage);
 
             emailSender.send(request.email(), buildEmail(request.firstName(), "http://localhost:8080/registration/confirm?token=" + token));
             return "User has been registered";
