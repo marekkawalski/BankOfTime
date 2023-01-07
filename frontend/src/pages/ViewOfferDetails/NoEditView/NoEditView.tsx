@@ -150,7 +150,7 @@ function NoEditView() {
                     <div>
                       <Link
                         className="links"
-                        to={`/appUser/${offer.buyer?.email}`}
+                        to={`/appUser?email=${offer.buyer?.email}`}
                       >
                         <span>
                           <FontAwesomeIcon className="pe-2" icon={faPerson} />
@@ -179,7 +179,7 @@ function NoEditView() {
                     <div>
                       <Link
                         className="links"
-                        to={`/appUser/${offer.seller?.email}`}
+                        to={`/appUser?email=${offer.seller?.email}`}
                       >
                         <span>
                           <FontAwesomeIcon className="pe-2" icon={faPerson} />

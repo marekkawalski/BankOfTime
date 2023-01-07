@@ -51,7 +51,6 @@ function App() {
           />
         </Route>
         <Route path="/appUser" element={<ViewProfile />} />
-        <Route path="/appUser/:email" element={<ViewProfile />} />
         <Route path="/wallet" element={<Wallet />} />
 
         {/** Admin Routes */}

@@ -14,7 +14,7 @@ function useGetAppUserImage({ userToView }: UseGetAppUserImageProps) {
   const toast = useMyToast();
 
   useEffect(() => {
-    if (userToView === undefined) return;
+    if (!userToView) return;
     handleGetAppUserImage(userToView.id);
   }, [services, userToView]);
 
