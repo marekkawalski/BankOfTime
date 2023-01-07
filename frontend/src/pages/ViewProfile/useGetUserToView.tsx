@@ -3,10 +3,9 @@ import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import useGetAppUser from '@/hooks/useGetAppUser';
-import React, { useEffect, useState } from 'react';
+import { IAppUser } from '@/models/AppUser';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { IAppUser } from '../../models/AppUser';
 
 function useGetUserToView() {
   const [userToView, setUserToView] = useState<IAppUser>();

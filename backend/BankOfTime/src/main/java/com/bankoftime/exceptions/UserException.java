@@ -1,7 +1,7 @@
 package com.bankoftime.exceptions;
 
 public class UserException extends Exception {
-    public UserException(String errorMessage) {
+    public UserException(final String errorMessage) {
         super(errorMessage);
     }
 }

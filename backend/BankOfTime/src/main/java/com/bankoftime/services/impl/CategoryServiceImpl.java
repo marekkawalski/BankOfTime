@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category mapCategoryDtoToCategory(final CategoryDTO categoryDto) {
-        Category category = new Category();
+        final Category category = new Category();
         category.setId(categoryDto.id());
         category.setName(categoryDto.name());
         return category;

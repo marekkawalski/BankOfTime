@@ -20,7 +20,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
     private final AppUserServiceImpl appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -30,7 +29,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
 
         return http
                 .cors(Customizer.withDefaults())
@@ -49,7 +48,7 @@ public class WebSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider =
+        final DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         provider.setUserDetailsService(appUserService);
@@ -58,13 +57,13 @@ public class WebSecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        final CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin(Constants.CLIENT_URL);
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setMaxAge(60L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

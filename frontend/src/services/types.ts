@@ -67,3 +67,7 @@ export interface ICategoryService {
   getAllCategories(): Promise<AxiosResponse<any, any>>;
   addCategory(category: CategoryToCreate): Promise<AxiosResponse<any, any>>;
 }
+
+export interface IAppUserImageService {
+  getAppUserImage(appUserId: number): Promise<AxiosResponse>;
+}

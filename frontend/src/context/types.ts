@@ -8,6 +8,8 @@ import {
   ITimeTransactionService,
 } from '@/services/types';
 
+import { IAppUserImageService } from '../services/types';
+
 export interface ServicesContextProviderProps {
   children: React.ReactNode;
 }
@@ -18,6 +20,7 @@ export interface ContextProps {
   authenticationService: IAuthenticationService;
   timeTransactionService: ITimeTransactionService;
   categoryService: ICategoryService;
+  appUserImageService: IAppUserImageService;
 }
 
 export interface ToastContextProviderProps {

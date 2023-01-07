@@ -16,17 +16,17 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
     @Override
-    public void saveConfirmationToken(ConfirmationToken confirmationToken) {
+    public void saveConfirmationToken(final ConfirmationToken confirmationToken) {
         confirmationTokenRepository.save(confirmationToken);
     }
 
     @Override
-    public Optional<ConfirmationToken> getToken(String token) {
+    public Optional<ConfirmationToken> getToken(final String token) {
         return confirmationTokenRepository.findByToken(token);
     }
 
     @Override
-    public int setConfirmedAt(String token) {
+    public int setConfirmedAt(final String token) {
         return confirmationTokenRepository.updateConfirmedAt(
                 token, LocalDateTime.now());
     }

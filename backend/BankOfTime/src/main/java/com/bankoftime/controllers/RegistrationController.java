@@ -22,9 +22,9 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public ResponseEntity<String> register(@Valid @RequestPart(value = "request") RegistrationDTO request,
-                                           @RequestPart(value = "profilePhoto", required = false) @Nullable MultipartFile profilePhoto,
-                                           @RequestPart(value = "coverPhoto", required = false) @Nullable MultipartFile coverPhoto) {
+    public ResponseEntity<String> register(@Valid @RequestPart(value = "request") final RegistrationDTO request,
+                                           @RequestPart(value = "profilePhoto", required = false) @Nullable final MultipartFile profilePhoto,
+                                           @RequestPart(value = "coverPhoto", required = false) @Nullable final MultipartFile coverPhoto) {
         try {
             registrationService.register(request, profilePhoto, coverPhoto);
             return ResponseEntity
@@ -36,7 +36,7 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "confirm")
-    public String confirm(@RequestParam("token") String token) {
+    public String confirm(@RequestParam("token") final String token) {
         try {
             return registrationService.confirmToken(token);
         } catch (TokenException tokenException) {

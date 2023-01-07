@@ -24,7 +24,6 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
-
     private final AppUserServiceImpl appUserService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenServiceImpl confirmationTokenService;

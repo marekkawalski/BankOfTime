@@ -34,7 +34,7 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "categories")
-    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody final CategoryDTO categoryDTO) {
         try {
             return categoryService.addCategory(categoryService.mapCategoryDtoToCategory(categoryDTO))
                     .map(category -> ResponseEntity.status(HttpStatus.CREATED).body(categoryService.mapCategoryToCategoryDto(category)))
@@ -44,6 +44,4 @@ public class CategoryController {
                     HttpStatus.CONFLICT, e.getMessage(), e.getCause());
         }
     }
-
-
 }

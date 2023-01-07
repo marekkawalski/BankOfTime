@@ -26,7 +26,6 @@ import java.util.Optional;
 @Slf4j
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
-
     private final CategoryService categoryService;
 
     public OfferServiceImpl(final OfferRepository offerRepository, final CategoryService categoryService) {
@@ -50,7 +49,7 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public Offer mapCreateOfferDTOToOffer(final CreateOfferDTO createOfferDTO) {
-        Offer offer = new Offer();
+        final Offer offer = new Offer();
         offer.setOfferType(createOfferDTO.offerType());
         offer.setPrice(createOfferDTO.price());
         offer.setShortDescription(createOfferDTO.shortDescription());
@@ -66,7 +65,7 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public Offer mapUpdateOfferDTOToOffer(final UpdateOfferDTO offerDTO) {
-        Offer offer = new Offer();
+        final Offer offer = new Offer();
         offer.setId(offerDTO.id());
         offer.setOfferType(offerDTO.offerType());
         offer.setPrice(offerDTO.price());

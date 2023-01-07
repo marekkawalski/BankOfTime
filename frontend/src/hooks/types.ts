@@ -3,6 +3,8 @@ import { OfferType } from '@/enums/OfferType';
 import { IOffer } from '@/models/Offer';
 import { OfferRequestParams } from '@/models/PageRequestParams';
 
+import { IAppUser } from '../models/AppUser';
+
 export interface UseGetAppUserOffersProps {
   offerType?: OfferType;
   offerStatus?: OfferStatus;
@@ -28,4 +30,8 @@ export interface OffersData {
 }
 export interface UseGetOffersProps {
   defaultOfferRequestParams: OfferRequestParams;
+}
+
+export interface UseGetAppUserImageProps {
+  readonly userToView?: IAppUser;
 }

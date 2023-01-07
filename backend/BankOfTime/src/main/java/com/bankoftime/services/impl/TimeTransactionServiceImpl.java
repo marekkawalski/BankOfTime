@@ -29,35 +29,10 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     private final OfferService offerService;
     private final AppUserService appUserService;
 
-
-    public TimeTransactionServiceImpl(TimeTransactionRepository timeTransactionRepository, final OfferService offerService, final AppUserService appUserService) {
+    public TimeTransactionServiceImpl(final TimeTransactionRepository timeTransactionRepository, final OfferService offerService, final AppUserService appUserService) {
         this.timeTransactionRepository = timeTransactionRepository;
         this.offerService = offerService;
         this.appUserService = appUserService;
-    }
-
-    @Override
-    public Optional<TimeTransaction> createTimeTransaction(TimeTransaction timeTransaction) {
-        return Optional.of(timeTransactionRepository.save(timeTransaction));
-    }
-
-    @Override
-    public Optional<TimeTransaction> findTimeTransaction(Long transactionId) {
-        return timeTransactionRepository.findById(transactionId);
-    }
-
-    @Override
-    public Optional<TimeTransaction> modifyTimeTransaction(TimeTransaction timeTransactionToSave) {
-        return timeTransactionRepository.findById(timeTransactionToSave.getId())
-                .map(timeTransaction ->
-                {
-                    timeTransaction.setBuyer(timeTransactionToSave.getBuyer());
-                    timeTransaction.setTransactionStatus(timeTransactionToSave.getTransactionStatus());
-                    timeTransaction.setSeller(timeTransactionToSave.getSeller());
-                    timeTransaction.setOffer(timeTransactionToSave.getOffer());
-                    return Optional.of(timeTransaction);
-                })
-                .orElse(Optional.empty());
     }
 
     @Override
@@ -164,5 +139,4 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
                 - client.getPurchaseTransactions().stream().filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
                 .mapToDouble(transaction -> transaction.getOffer().getPrice()).sum();
     }
-
 }

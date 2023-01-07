@@ -22,12 +22,12 @@ public class AppUserController {
     private static final String DEFAULT_PAGE_SIZE = " 10";
     private final AppUserService appUserService;
 
-    public AppUserController(AppUserService appUserService) {
+    public AppUserController(final AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 
     @GetMapping(path = "/clients/{email}")
-    public ResponseEntity<AppUserDTO> findClientByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<AppUserDTO> findClientByEmail(@PathVariable("email") final String email) {
         return appUserService.findByEmail(email)
                 .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUserService.mapAppUserToAppUserDto(appUser)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
@@ -36,9 +36,9 @@ public class AppUserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/clients")
     public ResponseEntity<Page<List<AppUser>>> getClients(
-            @RequestParam(value = "sort", defaultValue = "lastName") String sortField,
-            @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
-            @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
+            @RequestParam(value = "sort", defaultValue = "lastName") final String sortField,
+            @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) final Integer pageSize,
+            @RequestParam(value = "page-num", defaultValue = "0") final Integer pageNum) {
         final Page<List<AppUser>> appUsers = appUserService.getPagedAppUsers(sortField, pageSize, pageNum);
         if (appUsers.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -46,16 +46,16 @@ public class AppUserController {
     }
 
     @GetMapping(path = "/clients/id/{id}")
-    public ResponseEntity<AppUser> getClientById(@PathVariable("id") Long id) {
+    public ResponseEntity<AppUser> getClientById(@PathVariable("id") final Long id) {
         return appUserService.findById(id)
                 .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUser))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @PutMapping(path = "/clients/updateClient")
-    public ResponseEntity<AppUser> updateClient(@Valid @RequestPart(value = "request") UpdateUserDTO updateUserDTO,
-                                                @RequestPart(value = "profilePhoto", required = false) @Nullable MultipartFile profilePhoto,
-                                                @RequestPart(value = "coverPhoto", required = false) @Nullable MultipartFile coverPhoto) {
+    public ResponseEntity<AppUser> updateClient(@Valid @RequestPart(value = "request") final UpdateUserDTO updateUserDTO,
+                                                @RequestPart(value = "profilePhoto", required = false) @Nullable final MultipartFile profilePhoto,
+                                                @RequestPart(value = "coverPhoto", required = false) @Nullable final MultipartFile coverPhoto) {
         try {
             return appUserService.modifyAppUser(appUserService.mapUpdateUserDtoToAppUser(updateUserDTO), profilePhoto, coverPhoto)
                     .map(appUser -> ResponseEntity.status(HttpStatus.OK).body(appUser))
@@ -68,14 +68,14 @@ public class AppUserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/clients/disableClient/{email}")
-    public ResponseEntity<String> disableClient(@PathVariable String email) {
+    public ResponseEntity<String> disableClient(@PathVariable final String email) {
         return appUserService.disableAppUser(email) > 0 ?
                 ResponseEntity.status(HttpStatus.OK).body("AppUser has been disabled") : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/clients/enableClient/{email}")
-    public ResponseEntity<String> enableAppUser(@PathVariable String email) {
+    public ResponseEntity<String> enableAppUser(@PathVariable final String email) {
         return appUserService.enableAppUser(email) > 0 ?
                 ResponseEntity.status(HttpStatus.OK).body("AppUser has been enabled") : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }

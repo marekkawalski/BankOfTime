@@ -18,7 +18,7 @@ public class AppUserImageController {
     }
 
     @GetMapping(path = "/clients/id/{clientId}/photo")
-    public ResponseEntity<AppUserImage> getClientProfilePhoto(@PathVariable("clientId") Long clientId) {
+    public ResponseEntity<AppUserImage> getClientPhoto(@PathVariable("clientId") final Long clientId) {
         return appUserImageService.findPhoto(clientId)
                 .map(appUserImage -> ResponseEntity.status(HttpStatus.OK).body(appUserImage))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));

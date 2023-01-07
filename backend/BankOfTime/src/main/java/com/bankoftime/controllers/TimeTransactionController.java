@@ -12,9 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.bankoftime.utils.Constants.DEFAULT_PAGE_SIZE;
+
 @RestController
 public class TimeTransactionController {
-    private static final String DEFAULT_PAGE_SIZE = " 10";
     private final TimeTransactionService timeTransactionService;
 
     public TimeTransactionController(final TimeTransactionService timeTransactionService) {
@@ -22,10 +23,10 @@ public class TimeTransactionController {
     }
 
     @GetMapping(path = "clients/{id}/timeTransactions")
-    public ResponseEntity<Page<List<TimeTransaction>>> getTransactions(@PathVariable("id") Long id,
-                                                                       @RequestParam(value = "sort", defaultValue = "transactionDate") String sortField,
-                                                                       @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
-                                                                       @RequestParam(value = "page-num", defaultValue = "0") Integer pageNum) {
+    public ResponseEntity<Page<List<TimeTransaction>>> getTransactions(@PathVariable("id") final Long id,
+                                                                       @RequestParam(value = "sort", defaultValue = "transactionDate") final String sortField,
+                                                                       @RequestParam(value = "page-size", defaultValue = DEFAULT_PAGE_SIZE) final Integer pageSize,
+                                                                       @RequestParam(value = "page-num", defaultValue = "0") final Integer pageNum) {
         final Page<List<TimeTransaction>> transactions;
         try {
             transactions = timeTransactionService.getSortedPagedAndFilteredTimeTransactions(sortField, pageSize, pageNum, id);
@@ -39,15 +40,15 @@ public class TimeTransactionController {
     }
 
     @GetMapping(path = "/clients/{id}/balance")
-    public ResponseEntity<Double> getClientAccountBalance(@PathVariable("id") Long id) {
+    public ResponseEntity<Double> getClientAccountBalance(@PathVariable("id") final Long id) {
         return timeTransactionService.calculateClientAccountBalance(id)
                 .map(balance -> ResponseEntity.status(HttpStatus.OK).body(balance))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @PostMapping(path = "timeTransactions/offers/{offerId}/seller/{sellerId}/buyer/{buyerId}")
-    public ResponseEntity<TimeTransaction> createTimeTransaction(@PathVariable Long offerId, @PathVariable Long sellerId,
-                                                                 @PathVariable Long buyerId) {
+    public ResponseEntity<TimeTransaction> createTimeTransaction(@PathVariable final Long offerId, @PathVariable final Long sellerId,
+                                                                 @PathVariable final Long buyerId) {
         try {
             return timeTransactionService.makeTransaction(sellerId, buyerId, offerId)
                     .map(timeTransaction -> ResponseEntity.status(HttpStatus.OK).body(timeTransaction))
@@ -59,8 +60,8 @@ public class TimeTransactionController {
     }
 
     @PutMapping(path = "timeTransactions/offers/{offerId}/seller/{sellerId}/buyer/{buyerId}")
-    public ResponseEntity<Offer> requestApproval(@PathVariable Long offerId, @PathVariable Long sellerId,
-                                                 @PathVariable Long buyerId) {
+    public ResponseEntity<Offer> requestApproval(@PathVariable final Long offerId, @PathVariable final Long sellerId,
+                                                 @PathVariable final Long buyerId) {
         try {
             return timeTransactionService.requestApproval(sellerId, buyerId, offerId)
                     .map(timeTransaction -> ResponseEntity.status(HttpStatus.OK).body(timeTransaction))
@@ -72,7 +73,7 @@ public class TimeTransactionController {
     }
 
     @PutMapping(path = "timeTransactions/offers/{offerId}/rejectPendingApproval")
-    public ResponseEntity<Offer> rejectPendingApproval(@PathVariable Long offerId) {
+    public ResponseEntity<Offer> rejectPendingApproval(@PathVariable final Long offerId) {
         try {
             return timeTransactionService.rejectPendingApproval(offerId)
                     .map(timeTransaction -> ResponseEntity.status(HttpStatus.OK).body(timeTransaction))

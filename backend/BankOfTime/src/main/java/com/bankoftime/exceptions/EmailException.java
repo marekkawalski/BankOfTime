@@ -1,7 +1,7 @@
 package com.bankoftime.exceptions;
 
 public class EmailException extends Exception {
-    public EmailException(String errorMessage) {
+    public EmailException(final String errorMessage) {
         super(errorMessage);
     }
 }

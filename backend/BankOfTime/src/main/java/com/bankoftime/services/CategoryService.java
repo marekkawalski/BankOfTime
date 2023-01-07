@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-    Optional<Category> findById(Long id);
+    Optional<Category> findById(final Long id);
 
     List<Category> getAllCategories();
 
@@ -18,5 +18,5 @@ public interface CategoryService {
 
     CategoryDTO mapCategoryToCategoryDto(final @NotNull Category category);
 
-    Optional<Category> addCategory(Category category) throws CategoryException;
+    Optional<Category> addCategory(final Category category) throws CategoryException;
 }
