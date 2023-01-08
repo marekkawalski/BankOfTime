@@ -60,7 +60,7 @@ function NoEditView() {
     <section id="offer-details-section">
       <div className="offer-container">
         <div className="offer-container-child">
-          <ImageGallery items={images} />
+          <ImageGallery items={images} autoPlay={true} slideInterval={10000} />
         </div>
         <div className="offer-container-child">
           <div className="offer-content">
