@@ -1,5 +1,5 @@
 export interface AppUserImage {
   readonly id: number;
-  coverPhotoData: string;
-  profilePhotoData: string;
+  readonly coverPhotoData: string;
+  readonly profilePhotoData: string;
 }

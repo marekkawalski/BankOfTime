@@ -4,19 +4,26 @@ import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
+import com.bankoftime.exceptions.FileException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Category;
 import com.bankoftime.models.Offer;
+import com.bankoftime.models.OfferImage;
 import com.bankoftime.repositories.OfferRepository;
 import com.bankoftime.services.CategoryService;
+import com.bankoftime.services.OfferImageService;
 import com.bankoftime.services.OfferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +35,37 @@ public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
     private final CategoryService categoryService;
 
-    public OfferServiceImpl(final OfferRepository offerRepository, final CategoryService categoryService) {
+    private final OfferImageService offerImageService;
+
+    public OfferServiceImpl(final OfferRepository offerRepository, final CategoryService categoryService, final OfferImageService offerImageService) {
         this.offerRepository = offerRepository;
         this.categoryService = categoryService;
+        this.offerImageService = offerImageService;
     }
 
+    @Transactional
     @Override
-    public Optional<Offer> createOffer(final Offer offer, final AppUser appUser) {
+    public Optional<Offer> createOffer(final Offer offer, final AppUser appUser, @Nullable final List<MultipartFile> offerImagesData) throws FileException {
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
             offer.setSeller(appUser);
         } else offer.setBuyer(appUser);
         offer.setCreatedAt(LocalDateTime.now());
-        return Optional.of(offerRepository.save(offer));
+        final List<OfferImage> offerImageList = new ArrayList<>();
+        try {
+            if (offerImagesData != null) {
+                for (MultipartFile imageData : offerImagesData) {
+                    if (imageData.isEmpty()) continue;
+                    final OfferImage offerImage = new OfferImage(imageData.getBytes());
+                    offerImage.setOffer(offer);
+                    offerImageList.add(offerImage);
+                }
+            }
+        } catch (IOException e) {
+            throw new FileException(e.getMessage());
+        }
+        final Offer savedOffer = offerRepository.save(offer);
+        offerImageService.saveImages(offerImageList);
+        return Optional.of(savedOffer);
     }
 
     @Override

@@ -4,17 +4,19 @@ import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
+import com.bankoftime.exceptions.FileException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OfferService {
 
-    Optional<Offer> createOffer(final Offer offer, final AppUser appUser);
+    Optional<Offer> createOffer(final Offer offer, final AppUser appUser, final List<MultipartFile> offerImagesData) throws FileException;
 
     Optional<Offer> findOffer(final Long offerId);
 

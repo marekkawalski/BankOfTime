@@ -2,6 +2,7 @@ import { OfferType } from '@/enums/OfferType';
 
 import { IAppUser } from './AppUser';
 import { Category } from './Category';
+import { OfferImage } from './OfferImage';
 
 export interface ICreateOffer {
   title: string;
@@ -23,4 +24,5 @@ export interface IOffer extends ICreateOffer {
   previousPrice?: number;
   createdAt: string;
   updatedAt?: string;
+  images?: OfferImage[];
 }

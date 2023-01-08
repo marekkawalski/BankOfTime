@@ -16,20 +16,15 @@ import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 import { Link } from 'react-router-dom';
 
-const images = [
-  {
-    original:
-      "https://images.pexels.com/photos/6462662/pexels-photo-6462662.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    thumbnail:
-      "https://images.pexels.com/photos/6462662/pexels-photo-6462662.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  },
-];
+import useGetImages from './useGetImages';
+
 function NoEditView() {
   const [reload, setReload] = useState<boolean>(false);
   const { offer } = useGetOffer({ reload });
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const services = useServices();
   const toast = useMyToast();
+  const { images } = useGetImages({ offer });
 
   useEffect(() => {
     if (!services) return;

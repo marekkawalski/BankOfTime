@@ -20,6 +20,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 
 @Component
 public class Seeder {
@@ -99,6 +100,7 @@ public class Seeder {
         appUserImageService.saveImage(adminImage);
     }
 
+    @SneakyThrows
     private void seedOffers() {
         offer1 = new Offer("Washing the car", 1, "Deep cleaning and washing of car", OfferType.SELL_OFFER,
                 "The best car washing in the world! You have never seen a car being as clean as the ones leaving our car wash ",
@@ -112,10 +114,10 @@ public class Seeder {
         offer4 = new Offer("Washing Lamborghini", 1, "I need to have my car washed", OfferType.PURCHASE_OFFER,
                 "Car is Lamborghini Aventador. I would really appreciate having it as clean as possible ",
                 "New York");
-        offerService.createOffer(offer1, userNormal);
-        offerService.createOffer(offer2, user2Normal);
-        offerService.createOffer(offer3, userNormal);
-        offerService.createOffer(offer4, user2Normal);
+        offerService.createOffer(offer1, userNormal, new ArrayList<>());
+        offerService.createOffer(offer2, user2Normal, new ArrayList<>());
+        offerService.createOffer(offer3, userNormal, new ArrayList<>());
+        offerService.createOffer(offer4, user2Normal, new ArrayList<>());
     }
 
     private void seedCategories() {

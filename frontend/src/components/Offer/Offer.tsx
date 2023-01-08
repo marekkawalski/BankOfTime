@@ -1,5 +1,7 @@
 import './Offer.scss';
 
+import DefaultOfferImage from '@/assets/images/defaultOffer.jpg';
+import DefaultPerson from '@/assets/images/defaultPerson.png';
 import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { OfferStatus } from '@/enums/OfferState';
@@ -114,7 +116,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
                   <img
                     src={ImageService.convertToImage({
                       imageData: data?.profilePhotoData,
-                      defaultImage: "https://i.imgur.com/8RKXAIV.jpg",
+                      defaultImage: DefaultPerson,
                     })}
                     alt="user"
                   />
@@ -156,7 +158,10 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
         <Card className="my-card">
           <Card.Img
             variant="top"
-            src="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+            src={ImageService.convertToImage({
+              imageData: offer?.images && offer?.images[0]?.photoData,
+              defaultImage: DefaultOfferImage,
+            })}
           />
           <Card.Body>
             <Card.Title>

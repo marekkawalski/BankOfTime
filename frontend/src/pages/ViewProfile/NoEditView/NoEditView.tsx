@@ -1,5 +1,7 @@
 import './NoEditView.scss';
 
+import DefaultCoverPhoto from '@/assets/images/defaultCover.jpg';
+import DefaultProfilePhoto from '@/assets/images/defaultPerson.png';
 import MySpinner from '@/components/MySpinner/MySpinner';
 import useGetAppUserImage from '@/hooks/useGetAppUserImage';
 import { ImageService } from '@/services/ImageService';
@@ -23,7 +25,7 @@ function NoEditView() {
               className="card-img-top"
               src={ImageService.convertToImage({
                 imageData: data?.coverPhotoData,
-                defaultImage: "https://i.imgur.com/K7A78We.jpg",
+                defaultImage: DefaultCoverPhoto,
               })}
               alt="Card image cap"
             />
@@ -32,7 +34,7 @@ function NoEditView() {
                 <img
                   src={ImageService.convertToImage({
                     imageData: data?.profilePhotoData,
-                    defaultImage: "https://i.imgur.com/8RKXAIV.jpg",
+                    defaultImage: DefaultProfilePhoto,
                   })}
                   alt="user"
                 />

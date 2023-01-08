@@ -4,6 +4,7 @@ import com.bankoftime.dto.CreateOfferDTO;
 import com.bankoftime.dto.UpdateOfferDTO;
 import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
+import com.bankoftime.exceptions.FileException;
 import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Offer;
 import com.bankoftime.services.AppUserService;
@@ -12,7 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -102,17 +106,27 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOffers);
     }
 
-    @PostMapping(path = "/offers/{clientId}")
-    public ResponseEntity<Offer> createOffer(@PathVariable Long clientId, @Valid @RequestBody final CreateOfferDTO offerDTO) {
+    @PostMapping(path = "/offers")
+    public ResponseEntity<Offer> createOffer(@RequestParam(value = "clientId") Long clientId,
+                                             @Valid @RequestPart(value = "request") final CreateOfferDTO offerDTO,
+                                             @RequestPart(value = "offerImages", required = false) @Nullable final List<MultipartFile> offerImagesData
+    ) {
         final Optional<AppUser> oAppUser = appUserService.findById(clientId);
         return oAppUser
-                .map(appUser -> offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), appUser)
-                        .map(value -> ResponseEntity
-                                .status(HttpStatus.CREATED)
-                                .body(value))
-                        .orElseGet(() -> ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(null)))
+                .map(appUser -> {
+                    try {
+                        return offerService.createOffer(offerService.mapCreateOfferDTOToOffer(offerDTO), appUser, offerImagesData)
+                                .map(value -> ResponseEntity
+                                        .status(HttpStatus.CREATED)
+                                        .body(value))
+                                .orElseGet(() -> ResponseEntity
+                                        .status(HttpStatus.BAD_REQUEST)
+                                        .body(null));
+                    } catch (FileException e) {
+                        throw new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST, e.getMessage(), e.getCause());
+                    }
+                })
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 

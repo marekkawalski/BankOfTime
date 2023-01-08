@@ -6,7 +6,6 @@ import com.bankoftime.exceptions.FileException;
 import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.exceptions.UserException;
 import com.bankoftime.services.RegistrationService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -17,9 +16,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/registration")
-@AllArgsConstructor
 public class RegistrationController {
     private final RegistrationService registrationService;
+
+    public RegistrationController(final RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
 
     @PostMapping
     public ResponseEntity<String> register(@Valid @RequestPart(value = "request") final RegistrationDTO request,
