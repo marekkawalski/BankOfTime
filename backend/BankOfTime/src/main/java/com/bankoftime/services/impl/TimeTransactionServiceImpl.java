@@ -35,8 +35,8 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         this.appUserService = appUserService;
     }
 
-    @Override
-    public Optional<Offer> requestApproval(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException {
+    private TransactionParams checkTransactionParams(final Long sellerId, final Long buyerId, final Long offerId)
+            throws TimeTransactionException {
         final Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
@@ -46,15 +46,20 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         final Optional<AppUser> oBuyer = appUserService.findById(buyerId);
         if (oBuyer.isEmpty())
             throw new TimeTransactionException("Buyer doesn't exist");
+        return new TransactionParams(oSeller.get(), oBuyer.get(), oOffer.get());
+    }
 
-        final Offer offer = oOffer.get();
-        final AppUser buyer = oBuyer.get();
-        final AppUser seller = oSeller.get();
+    @Override
+    public Optional<Offer> requestApproval(final Long sellerId, final Long buyerId, final Long offerId)
+            throws TimeTransactionException {
+        final TransactionParams transactionParams = this.checkTransactionParams(sellerId, buyerId, offerId);
+        final AppUser seller = transactionParams.seller;
+        final AppUser buyer = transactionParams.buyer;
+        final Offer offer = transactionParams.offer;
 
         if (this.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             throw new TimeTransactionException("Not enough credits");
         }
-
         offer.setState(OfferStatus.ON_HOLD);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
@@ -63,7 +68,8 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     }
 
     @Override
-    public Optional<Offer> rejectPendingApproval(final Long offerId) throws TimeTransactionException {
+    public Optional<Offer> rejectPendingApproval(final Long offerId)
+            throws TimeTransactionException {
         final Optional<Offer> oOffer = offerService.findOffer(offerId);
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
@@ -78,22 +84,14 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         return Optional.of(offer);
     }
 
-
     @Transactional
     @Override
-    public Optional<TimeTransaction> makeTransaction(final Long sellerId, final Long buyerId, final Long offerId) throws TimeTransactionException {
-        final Optional<Offer> oOffer = offerService.findOffer(offerId);
-        if (oOffer.isEmpty())
-            throw new TimeTransactionException("Offer doesn't exist");
-        final Optional<AppUser> oSeller = appUserService.findById(sellerId);
-        if (oSeller.isEmpty())
-            throw new TimeTransactionException("Seller doesn't exist");
-        final Optional<AppUser> oBuyer = appUserService.findById(buyerId);
-        if (oBuyer.isEmpty())
-            throw new TimeTransactionException("Buyer doesn't exist");
-        final Offer offer = oOffer.get();
-        final AppUser buyer = oBuyer.get();
-        final AppUser seller = oSeller.get();
+    public Optional<TimeTransaction> makeTransaction(final Long sellerId, final Long buyerId, final Long offerId)
+            throws TimeTransactionException {
+        final TransactionParams transactionParams = this.checkTransactionParams(sellerId, buyerId, offerId);
+        final AppUser seller = transactionParams.seller;
+        final AppUser buyer = transactionParams.buyer;
+        final Offer offer = transactionParams.offer;
 
         if (offer.getState() != OfferStatus.ACTIVE && offer.getState() != OfferStatus.ON_HOLD)
             throw new TimeTransactionException("Offer is not active!");
@@ -117,7 +115,6 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         timeTransactionRepository.save(timeTransaction);
         appUserService.modifyAppUser(buyer);
         appUserService.modifyAppUser(seller);
-
         return Optional.of(timeTransaction);
     }
 
@@ -134,9 +131,18 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
 
     @Override
     public double calculateClientAccountBalance(AppUser client) {
-        return client.getSellTransactions().stream().filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
-                .mapToDouble(transaction -> transaction.getOffer().getPrice()).sum() + BONUS_CREDIT
-                - client.getPurchaseTransactions().stream().filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
-                .mapToDouble(transaction -> transaction.getOffer().getPrice()).sum();
+        return client.getSellTransactions()
+                .stream()
+                .filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
+                .mapToDouble(transaction -> transaction.getOffer().getPrice())
+                .sum() + BONUS_CREDIT
+                - client.getPurchaseTransactions()
+                .stream()
+                .filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)
+                .mapToDouble(transaction -> transaction.getOffer().getPrice())
+                .sum();
+    }
+
+    private record TransactionParams(AppUser seller, AppUser buyer, Offer offer) {
     }
 }
