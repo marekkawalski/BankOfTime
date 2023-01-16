@@ -2,27 +2,25 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
-import { ICreateOffer } from '@/models/Offer';
+import { IUpdateOffer } from '@/models/Offer';
 import { useState } from 'react';
 
-function useCreateOffer() {
+function useEditOffer() {
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const toast = useMyToast();
 
-  const handleSubmit = async <T,>(offer: T) => {
+  const handleSubmit = async (offer: IUpdateOffer) => {
     try {
       setLoading(true);
       if (services === undefined) return;
-      const resp = await services.offerService.createOffer(
-        offer as ICreateOffer
-      );
+      const resp = await services.offerService.updateOffer(offer);
       setLoading(false);
-      if (resp.status === 201) {
+      if (resp.status === 200) {
         toast?.make(
           ToastTitle.SUCCESS,
           ToastBackground.SUCCESS,
-          "Offer has been created"
+          "Offer has been updated"
         );
       } else {
         toast?.make(
@@ -39,4 +37,4 @@ function useCreateOffer() {
   return { loading, handleSubmit };
 }
 
-export default useCreateOffer;
+export default useEditOffer;

@@ -1,7 +1,7 @@
 import OfferForm from '@/components/OfferForm/OfferForm';
 
+import useEditOffer from '../../../../components/OfferForm/useEditOffer';
 import { EditOfferProps } from './types';
-import useEditOffer from './useEditOffer';
 
 function EditOffer({ offer }: EditOfferProps) {
   return (

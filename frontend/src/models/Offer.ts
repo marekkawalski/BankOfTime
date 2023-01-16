@@ -12,6 +12,7 @@ export interface ICreateOffer {
   longDescription?: string;
   location?: string;
   categories: Category[];
+  offerImages: any[];
 }
 export interface IUpdateOffer extends ICreateOffer {
   readonly id: number;

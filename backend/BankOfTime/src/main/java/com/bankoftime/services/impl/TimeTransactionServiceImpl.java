@@ -125,12 +125,12 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
     }
 
     @Override
-    public Optional<Double> calculateClientAccountBalance(Long clientId) {
+    public Optional<Double> calculateClientAccountBalance(final Long clientId) {
         return appUserService.findById(clientId).map(this::calculateClientAccountBalance);
     }
 
     @Override
-    public double calculateClientAccountBalance(AppUser client) {
+    public double calculateClientAccountBalance(final AppUser client) {
         return client.getSellTransactions()
                 .stream()
                 .filter(transaction -> transaction.getTransactionStatus() == TransactionStatus.FINISHED)

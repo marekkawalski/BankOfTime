@@ -1,5 +1,5 @@
 import { API_URL } from '@/config/config';
-import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
+import { IUpdateOffer } from '@/models/Offer';
 import { OfferRequestParams } from '@/models/PageRequestParams';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
@@ -7,10 +7,13 @@ import AppUserService from './AppUserService';
 import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
-  async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
+  async createOffer(formData: any): Promise<AxiosResponse<any, any>> {
     try {
       const appUserId = AppUserService.getAppUser().id;
-      return await axios.post(`${API_URL}/offers/${appUserId}`, offer);
+      return await axios.post(
+        `${API_URL}/offers/?clientId=${appUserId}`,
+        formData
+      );
     } catch (error: any) {
       throw new AxiosError(error);
     }
