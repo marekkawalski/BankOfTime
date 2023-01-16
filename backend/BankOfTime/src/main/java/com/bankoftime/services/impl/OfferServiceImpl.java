@@ -9,6 +9,7 @@ import com.bankoftime.models.AppUser;
 import com.bankoftime.models.Category;
 import com.bankoftime.models.Offer;
 import com.bankoftime.models.OfferImage;
+import com.bankoftime.repositories.OfferImageRepository;
 import com.bankoftime.repositories.OfferRepository;
 import com.bankoftime.services.CategoryService;
 import com.bankoftime.services.OfferImageService;
@@ -34,13 +35,15 @@ import java.util.Optional;
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
     private final CategoryService categoryService;
-
     private final OfferImageService offerImageService;
 
-    public OfferServiceImpl(final OfferRepository offerRepository, final CategoryService categoryService, final OfferImageService offerImageService) {
+    private final OfferImageRepository offerImageRepository;
+
+    public OfferServiceImpl(final OfferRepository offerRepository, final CategoryService categoryService, final OfferImageService offerImageService, final OfferImageRepository offerImageRepository) {
         this.offerRepository = offerRepository;
         this.categoryService = categoryService;
         this.offerImageService = offerImageService;
+        this.offerImageRepository = offerImageRepository;
     }
 
     @Transactional
@@ -122,13 +125,14 @@ public class OfferServiceImpl implements OfferService {
     public Optional<Offer> modifyOffer(final @NotNull Offer offerToSave) {
         return offerRepository.findById(offerToSave.getId())
                 .map(offer -> {
+                    offer.setId(offerToSave.getId());
                     offer.setTitle(offerToSave.getTitle());
                     offer.setOfferType(offerToSave.getOfferType());
                     offer.setPrice(offerToSave.getPrice());
                     offer.setShortDescription(offerToSave.getShortDescription());
                     offer.setLongDescription(offerToSave.getLongDescription());
                     offer.setLocation(offerToSave.getLocation());
-                    ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
+                    final ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
                     offer.setCategories(categories);
                     offer.setUpdatedAt(LocalDateTime.now());
                     offer.setState(offerToSave.getState());
@@ -136,6 +140,31 @@ public class OfferServiceImpl implements OfferService {
                     return Optional.of(offer);
                 })
                 .orElse(Optional.empty());
+    }
+
+    @Transactional
+    @Override
+    public Optional<Offer> modifyOffer(final @NotNull Offer offerToSave, final List<MultipartFile> offerImages) throws FileException {
+        final ArrayList<OfferImage> offerImagesList = new ArrayList<>();
+        if (offerImages != null) {
+            for (final MultipartFile image : offerImages) {
+                try {
+                    offerImagesList.add(new OfferImage(image.getBytes(), offerToSave));
+                } catch (IOException e) {
+                    throw new FileException(e.getMessage());
+                }
+            }
+        }
+        return offerRepository.findById(offerToSave.getId())
+                .map(offer -> {
+                    if (!offerImagesList.isEmpty()) {
+                        offerImageRepository.deleteAll(offer.getImages());
+                        offerImageRepository.saveAll(offerImagesList);
+                        offer.setImages(offerImagesList);
+                    }
+                    offerRepository.save(offer);
+                    return this.modifyOffer(offer);
+                }).orElse(Optional.empty());
     }
 
     @Override

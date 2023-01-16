@@ -131,10 +131,16 @@ public class OfferController {
     }
 
     @PutMapping(value = "/offers")
-    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody final UpdateOfferDTO offerDTO) {
-        return offerService.modifyOffer(offerService.mapUpdateOfferDTOToOffer(offerDTO))
-                .map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
-                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+    public ResponseEntity<Offer> updateOffer(@Valid @RequestPart final UpdateOfferDTO request,
+                                             @RequestPart(value = "offerImages", required = false) @Nullable final List<MultipartFile> offerImagesData) {
+        try {
+            return offerService.modifyOffer(offerService.mapUpdateOfferDTOToOffer(request), offerImagesData)
+                    .map(modifiedOffer -> ResponseEntity.status(HttpStatus.OK).body(modifiedOffer))
+                    .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+        } catch (FileException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage(), e.getCause());
+        }
     }
 
 }

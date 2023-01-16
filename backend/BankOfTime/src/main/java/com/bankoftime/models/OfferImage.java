@@ -38,4 +38,9 @@ public class OfferImage {
     public OfferImage(final byte[] photoData) {
         this.photoData = photoData;
     }
+
+    public OfferImage(final byte[] photoData, final Offer offer) {
+        this.photoData = photoData;
+        this.offer = offer;
+    }
 }

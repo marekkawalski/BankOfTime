@@ -20,7 +20,6 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "Offer")
 public class Offer {
