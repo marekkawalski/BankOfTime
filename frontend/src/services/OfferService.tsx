@@ -1,5 +1,4 @@
 import { API_URL } from '@/config/config';
-import { IUpdateOffer } from '@/models/Offer';
 import { OfferRequestParams } from '@/models/PageRequestParams';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
@@ -65,9 +64,9 @@ class OfferService implements IOfferService {
     }
   }
 
-  async updateOffer(offer: IUpdateOffer): Promise<AxiosResponse<any, any>> {
+  async updateOffer(formData: any): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.put(`${API_URL}/offers`, offer);
+      return await axios.put(`${API_URL}/offers`, formData);
     } catch (error: any) {
       throw new AxiosError(error);
     }

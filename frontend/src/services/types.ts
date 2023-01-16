@@ -1,6 +1,5 @@
 import { IAppUser } from '@/models/AppUser';
 import { CategoryToCreate } from '@/models/Category';
-import { IUpdateOffer } from '@/models/Offer';
 import { OfferRequestParams } from '@/models/PageRequestParams';
 import { AppUserRequestParams } from '@/pages/Admin/ManageUsers/types';
 import { TimeTransactionRequestParams } from '@/pages/Wallet/hooks/types';
@@ -33,7 +32,7 @@ export interface IRegistrationService {
 export interface IOfferService {
   getOfferById(offerId: number): Promise<AxiosResponse>;
   createOffer(formData: any): Promise<AxiosResponse>;
-  updateOffer(offer: IUpdateOffer): Promise<AxiosResponse>;
+  updateOffer(formData: any): Promise<AxiosResponse>;
   getOffers(offerRequestParams?: OfferRequestParams): Promise<AxiosResponse>;
   getAppUserOffers(
     id: number,

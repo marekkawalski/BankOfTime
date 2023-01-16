@@ -14,8 +14,36 @@ function useEditOffer() {
     try {
       setLoading(true);
       if (services === undefined) return;
-      const resp = await services.offerService.updateOffer(offer);
-      setLoading(false);
+      const formData = new FormData();
+      for (let image of offer.offerImages) {
+        formData.append(
+          "offerImages",
+          new Blob([image ?? ""], {
+            type: "multipart/form-data",
+          })
+        );
+      }
+      formData.append(
+        "request",
+        new Blob(
+          [
+            JSON.stringify({
+              id: offer.id,
+              title: offer.title,
+              shortDescription: offer.shortDescription,
+              price: offer.price,
+              offerType: offer.offerType,
+              longDescription: offer.longDescription,
+              location: offer.location,
+              categories: offer.categories,
+            }),
+          ],
+          {
+            type: "application/json",
+          }
+        )
+      );
+      const resp = await services.offerService.updateOffer(formData);
       if (resp.status === 200) {
         toast?.make(
           ToastTitle.SUCCESS,
@@ -30,9 +58,16 @@ function useEditOffer() {
         );
       }
     } catch (e: any) {
-      toast?.make(ToastTitle.ERROR, ToastBackground.ERROR, e as string);
+      toast?.make(
+        ToastTitle.ERROR,
+        ToastBackground.ERROR,
+        e?.error ??
+          e?.message?.response?.data?.toString() ??
+          e?.message?.message?.toString()
+      );
       console.log(e);
     }
+    setLoading(false);
   };
   return { loading, handleSubmit };
 }
