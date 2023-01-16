@@ -3,14 +3,14 @@ import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import useGetAppUser from '@/hooks/useGetAppUser';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
-import { IAppUser } from '../../models/AppUser';
+import { IAppUser } from '@/models/AppUser';
+import { useEffect, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 function useGetUserToView() {
   const [userToView, setUserToView] = useState<IAppUser>();
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const services = useServices();
   const toast = useMyToast();
   const { loggedInAppUser } = useGetAppUser();
@@ -23,7 +23,7 @@ function useGetUserToView() {
     if (!loggedInAppUser || !services) return;
     try {
       const result = await services.appUserService.getAppUserByEmail(
-        params?.email ?? loggedInAppUser.email
+        searchParams.get("email") ?? loggedInAppUser.email
       );
       setUserToView(result?.data ?? {});
     } catch (error) {

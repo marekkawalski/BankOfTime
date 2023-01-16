@@ -13,17 +13,42 @@ export function useRegister() {
     try {
       if (!services) return;
       setLoading(true);
-      const resp = await services.registrationService.register({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        password: values.password,
-        email: values.email,
-        phoneNumber: values.phone,
-        city: values.city,
-        country: values.country,
-        aboutMe: values.aboutMe,
-        occupation: values.occupation,
-      });
+      const formData = new FormData();
+      formData.append(
+        "profilePhoto",
+        new Blob([values.profilePhoto ?? ""], {
+          type: "multipart/form-data",
+        })
+      );
+      formData.append(
+        "coverPhoto",
+        new Blob([values.coverPhoto ?? ""], {
+          type: "multipart/form-data",
+        })
+      );
+      formData.append(
+        "request",
+        new Blob(
+          [
+            JSON.stringify({
+              firstName: values.firstName,
+              lastName: values.lastName,
+              password: values.password,
+              email: values.email,
+              phoneNumber: values.phone,
+              city: values.city,
+              country: values.country,
+              aboutMe: values.aboutMe,
+              occupation: values.occupation,
+            }),
+          ],
+          {
+            type: "application/json",
+          }
+        )
+      );
+      console.log(values);
+      const resp = await services.registrationService.register(formData);
       if (resp.status === 201) {
         toast?.make(ToastTitle.SUCCESS, ToastBackground.SUCCESS, resp.data);
       }

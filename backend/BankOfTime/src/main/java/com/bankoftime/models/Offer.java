@@ -20,7 +20,6 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "Offer")
 public class Offer {
@@ -91,7 +90,6 @@ public class Offer {
     @OneToMany(mappedBy = "offer")
     @ToString.Exclude
     @NotNull
-    @JsonIgnore
     private Collection<OfferImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "offer")

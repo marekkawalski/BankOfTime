@@ -1,5 +1,7 @@
 import './Offer.scss';
 
+import DefaultOfferImage from '@/assets/images/defaultOffer.jpg';
+import DefaultPerson from '@/assets/images/defaultPerson.png';
 import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { OfferStatus } from '@/enums/OfferState';
@@ -7,13 +9,15 @@ import { OfferType } from '@/enums/OfferType';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
 import useGetAppUser from '@/hooks/useGetAppUser';
+import useGetAppUserImage from '@/hooks/useGetAppUserImage';
+import { IAppUser } from '@/models/AppUser';
+import { ImageService } from '@/services/ImageService';
 import { faEdit, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Col, OverlayTrigger, Popover } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { IAppUser } from '../../models/AppUser';
 import { OfferProps } from '../OfferContainer/types';
 import { ManageOffer } from './ManageOffer';
 import { IManageOffer } from './types';
@@ -25,6 +29,9 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
   const [manageOffer, setManageOffer] = useState<IManageOffer>();
   const toast = useMyToast();
   const [client, setClient] = useState<IAppUser | undefined>(undefined);
+  const { data } = useGetAppUserImage({
+    userToView: client,
+  });
 
   useEffect(() => {
     setManageOffer(new ManageOffer(offer, loggedInAppUser));
@@ -101,12 +108,18 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
   const popover = (
     <Popover id="popover-basic">
       <Popover.Body>
-        <div className="profile-wrapper">
+        <div className="preview-profile-wrapper">
           <div className="">
             <div className="card">
               <div className="card-body little-profile text-center mt-5">
                 <div className="pro-img">
-                  <img src="https://i.imgur.com/8RKXAIV.jpg" alt="user" />
+                  <img
+                    src={ImageService.convertToImage({
+                      imageData: data?.profilePhotoData,
+                      defaultImage: DefaultPerson,
+                    })}
+                    alt="user"
+                  />
                 </div>
                 <h5 className="m-b-0">
                   {client?.firstName} {client?.lastName}
@@ -131,7 +144,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
         <Button
           size="sm"
           variant="primary"
-          onClick={() => navigate(`/appUser/${client?.email}`)}
+          onClick={() => navigate(`/appUser?email=${client?.email}`)}
         >
           View Profile
         </Button>
@@ -145,7 +158,10 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
         <Card className="my-card">
           <Card.Img
             variant="top"
-            src="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+            src={ImageService.convertToImage({
+              imageData: offer?.images && offer?.images[0]?.photoData,
+              defaultImage: DefaultOfferImage,
+            })}
           />
           <Card.Body>
             <Card.Title>

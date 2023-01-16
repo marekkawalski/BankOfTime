@@ -1,5 +1,4 @@
 import { Category } from '@/models/Category';
-import React from 'react';
 
 import { OfferToSubmit, UseSubmitOfferProps } from './types';
 
@@ -23,6 +22,7 @@ function useSubmitOffer({ categories, submit }: UseSubmitOfferProps) {
       longDescription: offer.longDescription,
       location: offer.location,
       categories: chosenCategories,
+      offerImages: offer.offerImages,
     });
   };
   return { handleSubmitOffer };

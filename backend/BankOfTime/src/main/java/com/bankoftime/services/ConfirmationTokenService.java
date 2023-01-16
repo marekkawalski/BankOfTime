@@ -5,9 +5,9 @@ import com.bankoftime.models.ConfirmationToken;
 import java.util.Optional;
 
 public interface ConfirmationTokenService {
-    void saveConfirmationToken(ConfirmationToken confirmationToken);
+    void saveConfirmationToken(final ConfirmationToken confirmationToken);
 
-    Optional<ConfirmationToken> getToken(String token);
+    Optional<ConfirmationToken> getToken(final String token);
 
-    int setConfirmedAt(String token);
+    int setConfirmedAt(final String token);
 }

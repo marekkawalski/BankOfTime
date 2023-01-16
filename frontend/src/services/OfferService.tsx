@@ -1,15 +1,18 @@
 import { API_URL } from '@/config/config';
-import { ICreateOffer, IUpdateOffer } from '@/models/Offer';
+import { OfferRequestParams } from '@/models/PageRequestParams';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import AppUserService from './AppUserService';
-import { IOfferService, OfferRequestParams } from './types';
+import { IOfferService } from './types';
 
 class OfferService implements IOfferService {
-  async createOffer(offer: ICreateOffer): Promise<AxiosResponse<any, any>> {
+  async createOffer(formData: any): Promise<AxiosResponse<any, any>> {
     try {
       const appUserId = AppUserService.getAppUser().id;
-      return await axios.post(`${API_URL}/offers/${appUserId}`, offer);
+      return await axios.post(
+        `${API_URL}/offers/?clientId=${appUserId}`,
+        formData
+      );
     } catch (error: any) {
       throw new AxiosError(error);
     }
@@ -22,7 +25,7 @@ class OfferService implements IOfferService {
     }
   }
   async getOffers(
-    offerRequestParams: OfferRequestParams
+    offerRequestParams?: OfferRequestParams
   ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
@@ -33,8 +36,8 @@ class OfferService implements IOfferService {
     }
   }
   async getAppUserOffers(
-    offerRequestParams: OfferRequestParams,
-    id: number
+    id: number,
+    offerRequestParams?: OfferRequestParams
   ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
@@ -47,8 +50,8 @@ class OfferService implements IOfferService {
     }
   }
   async getAppUserChosenOffers(
-    offerRequestParams: OfferRequestParams,
-    id: number
+    id: number,
+    offerRequestParams?: OfferRequestParams
   ): Promise<AxiosResponse<any, any>> {
     try {
       return await axios.get(
@@ -61,15 +64,16 @@ class OfferService implements IOfferService {
     }
   }
 
-  async updateOffer(offer: IUpdateOffer): Promise<AxiosResponse<any, any>> {
+  async updateOffer(formData: any): Promise<AxiosResponse<any, any>> {
     try {
-      return await axios.put(`${API_URL}/offers`, offer);
+      return await axios.put(`${API_URL}/offers`, formData);
     } catch (error: any) {
       throw new AxiosError(error);
     }
   }
 
-  private getUrlString(offerRequestParams: OfferRequestParams): string {
+  private getUrlString(offerRequestParams?: OfferRequestParams): string {
+    if (!offerRequestParams) return "";
     return "".concat(
       offerRequestParams?.offerTypeUrl ?? "",
       offerRequestParams?.offerStatusUrl ?? "",

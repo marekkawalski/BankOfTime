@@ -39,4 +39,6 @@ export const registrationValidationSchema = Yup.object().shape({
   occupation: Yup.string()
     .min(3, "City must be at least 3 characters")
     .max(25, "City must not exceed 25 characters"),
+  profilePhoto: Yup.mixed(),
+  coverPhoto: Yup.mixed(),
 });

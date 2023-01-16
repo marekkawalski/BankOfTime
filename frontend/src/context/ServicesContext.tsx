@@ -1,3 +1,4 @@
+import AppUserImageService from '@/services/AppUserImageService';
 import AppUserService from '@/services/AppUserService';
 import AuthenticationService from '@/services/AuthenticationService';
 import CategoryService from '@/services/CategoryService';
@@ -13,7 +14,7 @@ import {
 } from '@/services/types';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { ICategoryService } from '../services/types';
+import { IAppUserImageService, ICategoryService } from '../services/types';
 import { ContextProps, ServicesContextProviderProps } from './types';
 
 const ServicesContext = createContext<ContextProps | undefined>(undefined);
@@ -32,6 +33,8 @@ export default function ServicesContextProvider({
     useState<ITimeTransactionService>(TimeTransactionService);
   const [categoryService, setCategoryService] =
     useState<ICategoryService>(CategoryService);
+  const [appUserImageService, setAppUserImageService] =
+    useState<IAppUserImageService>(AppUserImageService);
 
   useEffect(() => {
     setAppUserService(AppUserService);
@@ -40,6 +43,7 @@ export default function ServicesContextProvider({
     setAuthenticationService(AuthenticationService);
     setTimeTransactionService(TimeTransactionService);
     setCategoryService(CategoryService);
+    setAppUserImageService(AppUserImageService);
   }, []);
 
   return (
@@ -51,6 +55,7 @@ export default function ServicesContextProvider({
         authenticationService,
         timeTransactionService,
         categoryService,
+        appUserImageService,
       }}
     >
       {children}

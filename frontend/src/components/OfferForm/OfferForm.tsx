@@ -49,6 +49,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
           {offer ? <h2>Edit offer</h2> : <h2>Create offer</h2>}
           <Formik
             validationSchema={offerValidation}
+            encType="multipart/form-data"
             onSubmit={handleSubmitOffer}
             initialValues={{
               id: offer?.id ?? undefined,
@@ -60,9 +61,17 @@ function OfferForm({ offer, submit }: OfferFormProps) {
               offerType: offer?.offerType ?? OfferType.SELL_OFFER,
               categories: defaultCategoriesOptions.map((value) => value.label),
               offerStatus: offer?.state,
+              offerImages: [],
             }}
           >
-            {({ handleSubmit, handleChange, values, touched, errors }) => (
+            {({
+              handleSubmit,
+              handleChange,
+              values,
+              touched,
+              errors,
+              setFieldValue,
+            }) => (
               <Form noValidate onSubmit={handleSubmit}>
                 <Row>
                   <Col lg={true}>
@@ -278,6 +287,19 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                         </Form.Select>
                       </Form.Group>
                     )}
+                    <Form.Group controlId="formFile" className="mb-3" as={Col}>
+                      <Form.Label>Upload offer photos</Form.Label>
+                      <Form.Control
+                        type="file"
+                        accept="image/*"
+                        name="offerImages"
+                        multiple
+                        onChange={(event: any): void => {
+                          console.log(event.target.files);
+                          setFieldValue("offerImages", event.target.files);
+                        }}
+                      />
+                    </Form.Group>
                   </Col>
                 </Row>
                 <Button

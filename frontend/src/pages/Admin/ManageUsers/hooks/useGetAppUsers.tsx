@@ -2,16 +2,17 @@ import { useServices } from '@/context/ServicesContext';
 import { useMyToast } from '@/context/ToastContext';
 import { ToastBackground } from '@/enums/ToastBackground';
 import { ToastTitle } from '@/enums/ToastTitle';
+import { PageRequestData } from '@/models/PageRequestParams';
 import React, { useEffect, useState } from 'react';
 
-import { AppUserRequestParams, AppUsersData } from '../types';
+import { AppUserRequestParams } from '../types';
 import { UseGetAppUsersProps } from './types';
 
 function useGetAppUsers({ reload }: UseGetAppUsersProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const services = useServices();
   const toast = useMyToast();
-  const [data, setData] = useState<AppUsersData | null>(null);
+  const [data, setData] = useState<PageRequestData | null>(null);
 
   useEffect(() => {
     (async () => {

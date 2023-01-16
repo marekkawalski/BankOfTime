@@ -1,10 +1,10 @@
 import './OfferContainer.scss';
 
-import { OfferRequestParams } from '@/services/types';
-import React, { useState } from 'react';
+import { OfferRequestParams } from '@/models/PageRequestParams';
+import React, { useEffect, useState } from 'react';
 
 import FilterBar from '../FilterBar/FilterBar';
-import OffersPagination from '../MyPagination/OffersPagination/OffersPagination';
+import MyPagination from '../MyPagination/MyPagination/MyPagination';
 import MySpinner from '../MySpinner/MySpinner';
 import Offer from '../Offer/Offer';
 import { OfferContainerProps } from './types';
@@ -13,12 +13,16 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
   title,
   getOffers,
 }) => {
-  const [filters, setFilers] = useState({});
+  const [filters, setFilers] = useState<OfferRequestParams>();
   const { loading, data, handleGetOffers } = getOffers;
 
   const handleSettingFilters = (offerRequestParams: OfferRequestParams) => {
     setFilers(offerRequestParams);
   };
+
+  useEffect(() => {
+    console.log("filters" + filters);
+  }, [filters]);
   return (
     <section className="offers-section">
       <div className="main-container">
@@ -45,10 +49,10 @@ const OfferContainer: React.FC<OfferContainerProps> = ({
               })}
             </div>
             <div className="pagination">
-              <OffersPagination
-                offersData={data}
+              <MyPagination
+                data={data}
                 filters={filters}
-                handleGetOffers={handleGetOffers}
+                handleGetData={handleGetOffers}
               />
             </div>
           </div>

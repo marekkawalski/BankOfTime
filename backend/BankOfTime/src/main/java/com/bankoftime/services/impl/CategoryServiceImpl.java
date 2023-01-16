@@ -1,9 +1,10 @@
-package com.bankoftime.services;
+package com.bankoftime.services.impl;
 
 import com.bankoftime.dto.CategoryDTO;
 import com.bankoftime.exceptions.CategoryException;
 import com.bankoftime.models.Category;
 import com.bankoftime.repositories.CategoryRepository;
+import com.bankoftime.services.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category mapCategoryDtoToCategory(final CategoryDTO categoryDto) {
-        Category category = new Category();
+        final Category category = new Category();
         category.setId(categoryDto.id());
         category.setName(categoryDto.name());
         return category;

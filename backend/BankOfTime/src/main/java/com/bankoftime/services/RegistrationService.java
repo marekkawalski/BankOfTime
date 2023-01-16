@@ -2,15 +2,17 @@ package com.bankoftime.services;
 
 import com.bankoftime.dto.RegistrationDTO;
 import com.bankoftime.exceptions.EmailException;
+import com.bankoftime.exceptions.FileException;
 import com.bankoftime.exceptions.TokenException;
 import com.bankoftime.exceptions.UserException;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface RegistrationService {
-    String register(RegistrationDTO request) throws EmailException, UserException;
+    void register(final RegistrationDTO request, final MultipartFile profilePhoto, final MultipartFile coverPhoto) throws EmailException, UserException, FileException;
 
     @Transactional
-    String confirmToken(String token) throws TokenException;
+    String confirmToken(final String token) throws TokenException;
 
-    String buildEmail(String name, String link);
+    String buildEmail(final String name, final String link);
 }

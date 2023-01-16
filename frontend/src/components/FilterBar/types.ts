@@ -1,4 +1,4 @@
-import { OfferRequestParams } from '@/services/types';
+import { OfferRequestParams } from '@/models/PageRequestParams';
 
 export interface FilterBarProps {
   title: string;

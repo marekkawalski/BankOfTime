@@ -1,5 +1,6 @@
-package com.bankoftime.services;
+package com.bankoftime.services.impl;
 
+import com.bankoftime.services.EmailService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +20,10 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void send(String to, String email) {
+    public void send(final String to, final String email) {
         try {
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
+            final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            final MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
             mimeMessageHelper.setText(email, true);
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject("Confirm your email address");

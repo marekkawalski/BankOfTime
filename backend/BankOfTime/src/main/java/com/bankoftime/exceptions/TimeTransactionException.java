@@ -1,7 +1,7 @@
 package com.bankoftime.exceptions;
 
 public class TimeTransactionException extends Exception {
-    public TimeTransactionException(String message) {
+    public TimeTransactionException(final String message) {
         super(message);
     }
 }

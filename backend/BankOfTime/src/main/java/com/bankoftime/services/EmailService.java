@@ -1,5 +1,5 @@
 package com.bankoftime.services;
 
 public interface EmailService {
-    void send(String to, String email);
+    void send(final String to, final String email);
 }

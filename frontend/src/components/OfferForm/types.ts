@@ -6,7 +6,7 @@ export interface OfferFormProps {
   offer?: IOffer;
   submit: {
     loading: boolean;
-    handleSubmit: <T>(offer: T) => Promise<any>;
+    handleSubmit: (offer: any) => Promise<any>;
   };
 }
 
@@ -14,7 +14,13 @@ export interface CategoryOption {
   value: Category;
   label: string;
 }
-
+export interface UseSubmitOfferProps {
+  categories?: Category[];
+  submit: {
+    loading: boolean;
+    handleSubmit: (offer: any) => Promise<any>;
+  };
+}
 export interface OfferToSubmit {
   readonly id?: number;
   title: string;
@@ -24,12 +30,5 @@ export interface OfferToSubmit {
   longDescription?: string;
   location?: string;
   categories: string[];
-}
-
-export interface UseSubmitOfferProps {
-  categories?: Category[];
-  submit: {
-    loading: boolean;
-    handleSubmit: <T>(offer: T) => Promise<any>;
-  };
+  offerImages: any[];
 }

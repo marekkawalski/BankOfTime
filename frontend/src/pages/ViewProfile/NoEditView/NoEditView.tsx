@@ -1,6 +1,10 @@
 import './NoEditView.scss';
 
+import DefaultCoverPhoto from '@/assets/images/defaultCover.jpg';
+import DefaultProfilePhoto from '@/assets/images/defaultPerson.png';
 import MySpinner from '@/components/MySpinner/MySpinner';
+import useGetAppUserImage from '@/hooks/useGetAppUserImage';
+import { ImageService } from '@/services/ImageService';
 import { faEnvelope, faHome, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -8,20 +12,32 @@ import useGetUserToView from '../useGetUserToView';
 
 function NoEditView() {
   const { userToView } = useGetUserToView();
+  const { loading, data } = useGetAppUserImage({
+    userToView,
+  });
 
   return (
-    <MySpinner show={userToView === undefined}>
+    <MySpinner show={loading || data === undefined}>
       <div className="profile-wrapper">
         <div className="profile-wrapper-child col-md-8">
           <div className="card">
             <img
               className="card-img-top"
-              src="https://i.imgur.com/K7A78We.jpg"
+              src={ImageService.convertToImage({
+                imageData: data?.coverPhotoData,
+                defaultImage: DefaultCoverPhoto,
+              })}
               alt="Card image cap"
             />
             <div className="card-body little-profile text-center">
               <div className="pro-img">
-                <img src="https://i.imgur.com/8RKXAIV.jpg" alt="user" />
+                <img
+                  src={ImageService.convertToImage({
+                    imageData: data?.profilePhotoData,
+                    defaultImage: DefaultProfilePhoto,
+                  })}
+                  alt="user"
+                />
               </div>
               <h3 className="m-b-0">
                 {userToView?.firstName} {userToView?.lastName}

@@ -16,26 +16,15 @@ import { Button } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 import { Link } from 'react-router-dom';
 
-const images = [
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1015/1000/600/",
-    thumbnail: "https://picsum.photos/id/1015/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-];
+import useGetImages from './useGetImages';
+
 function NoEditView() {
   const [reload, setReload] = useState<boolean>(false);
   const { offer } = useGetOffer({ reload });
   const [appUser, setAppUser] = useState<IAppUser | undefined>();
   const services = useServices();
   const toast = useMyToast();
+  const { images } = useGetImages({ offer });
 
   useEffect(() => {
     if (!services) return;
@@ -71,7 +60,7 @@ function NoEditView() {
     <section id="offer-details-section">
       <div className="offer-container">
         <div className="offer-container-child">
-          <ImageGallery items={images} />
+          <ImageGallery items={images} autoPlay={true} slideInterval={10000} />
         </div>
         <div className="offer-container-child">
           <div className="offer-content">
@@ -156,7 +145,7 @@ function NoEditView() {
                     <div>
                       <Link
                         className="links"
-                        to={`/appUser/${offer.buyer?.email}`}
+                        to={`/appUser?email=${offer.buyer?.email}`}
                       >
                         <span>
                           <FontAwesomeIcon className="pe-2" icon={faPerson} />
@@ -185,7 +174,7 @@ function NoEditView() {
                     <div>
                       <Link
                         className="links"
-                        to={`/appUser/${offer.seller?.email}`}
+                        to={`/appUser?email=${offer.seller?.email}`}
                       >
                         <span>
                           <FontAwesomeIcon className="pe-2" icon={faPerson} />
