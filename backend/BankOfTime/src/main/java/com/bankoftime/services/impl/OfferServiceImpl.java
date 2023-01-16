@@ -163,7 +163,7 @@ public class OfferServiceImpl implements OfferService {
                         offer.setImages(offerImagesList);
                     }
                     offerRepository.save(offer);
-                    return this.modifyOffer(offer);
+                    return this.modifyOffer(offerToSave);
                 }).orElse(Optional.empty());
     }
 
