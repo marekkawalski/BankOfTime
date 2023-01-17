@@ -1,6 +1,6 @@
-import { Category } from '@/models/Category';
+import { Category } from "@/models/Category";
 
-import { OfferToSubmit, UseSubmitOfferProps } from './types';
+import { OfferToSubmit, UseSubmitOfferProps } from "./types";
 
 function useSubmitOffer({ categories, submit }: UseSubmitOfferProps) {
   const handleSubmitOffer = (offer: OfferToSubmit) => {
@@ -23,6 +23,7 @@ function useSubmitOffer({ categories, submit }: UseSubmitOfferProps) {
       location: offer.location,
       categories: chosenCategories,
       offerImages: offer.offerImages,
+      offerStatus: offer.offerStatus,
     });
   };
   return { handleSubmitOffer };

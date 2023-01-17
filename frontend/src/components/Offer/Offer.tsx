@@ -94,11 +94,11 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
 
   const setFooterClassName = (): string => {
     switch (true) {
-      case offer.state === OfferStatus.ACTIVE:
+      case offer.offerStatus === OfferStatus.ACTIVE:
         return "text-success";
-      case offer.state === OfferStatus.APPROVED:
+      case offer.offerStatus === OfferStatus.APPROVED:
         return "text-success";
-      case offer.state === OfferStatus.ON_HOLD:
+      case offer.offerStatus === OfferStatus.ON_HOLD:
         return "text-warning";
       default:
         return "text-secondary";
@@ -184,7 +184,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
             </Card.Text>
             <Card.Text> {offer.offerType}</Card.Text>
             {manageOffer?.isOfferOwner() &&
-              offer.state === OfferStatus.ON_HOLD && (
+              offer.offerStatus === OfferStatus.ON_HOLD && (
                 <>
                   <OverlayTrigger
                     trigger="click"
@@ -231,7 +231,7 @@ function Offer({ offer, handleGetOffers, filters }: OfferProps) {
               )}
           </Card.Body>
           <Card.Footer className={setFooterClassName()}>
-            {offer.state}
+            {offer.offerStatus}
           </Card.Footer>
         </Card>
       </Col>

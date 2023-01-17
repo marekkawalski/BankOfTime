@@ -67,7 +67,7 @@ public class Offer {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull
-    private OfferStatus state = OfferStatus.ACTIVE;
+    private OfferStatus offerStatus = OfferStatus.ACTIVE;
 
     @ManyToOne
     @JoinColumn(name = "SellerId")

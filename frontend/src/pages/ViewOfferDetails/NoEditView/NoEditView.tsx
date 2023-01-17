@@ -1,22 +1,29 @@
-import './NoEditView.scss';
+import "./NoEditView.scss";
 
-import { CallTo } from '@/components/CallTo/CallTo';
-import { useServices } from '@/context/ServicesContext';
-import { useMyToast } from '@/context/ToastContext';
-import { OfferStatus } from '@/enums/OfferState';
-import { OfferType } from '@/enums/OfferType';
-import { ToastBackground } from '@/enums/ToastBackground';
-import { ToastTitle } from '@/enums/ToastTitle';
-import useGetOffer from '@/hooks/useGetOffer';
-import { IAppUser } from '@/models/AppUser';
-import { faCheckCircle, faClock, faEnvelope, faMapMarkerAlt, faPerson, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import ImageGallery from 'react-image-gallery';
-import { Link } from 'react-router-dom';
+import { CallTo } from "@/components/CallTo/CallTo";
+import { useServices } from "@/context/ServicesContext";
+import { useMyToast } from "@/context/ToastContext";
+import { OfferStatus } from "@/enums/OfferState";
+import { OfferType } from "@/enums/OfferType";
+import { ToastBackground } from "@/enums/ToastBackground";
+import { ToastTitle } from "@/enums/ToastTitle";
+import useGetOffer from "@/hooks/useGetOffer";
+import { IAppUser } from "@/models/AppUser";
+import {
+  faCheckCircle,
+  faClock,
+  faEnvelope,
+  faMapMarkerAlt,
+  faPerson,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import ImageGallery from "react-image-gallery";
+import { Link } from "react-router-dom";
 
-import useGetImages from './useGetImages';
+import useGetImages from "./useGetImages";
 
 function NoEditView() {
   const [reload, setReload] = useState<boolean>(false);
@@ -100,7 +107,7 @@ function NoEditView() {
                     <Button
                       disabled={
                         offer?.seller?.id === appUser?.id ||
-                        offer?.state !== OfferStatus.ACTIVE
+                        offer?.offerStatus !== OfferStatus.ACTIVE
                       }
                       onClick={() => requestTransaction()}
                     >
@@ -110,7 +117,7 @@ function NoEditView() {
                     <Button
                       disabled={
                         offer?.buyer?.id === appUser?.id ||
-                        offer?.state !== OfferStatus.ACTIVE
+                        offer?.offerStatus !== OfferStatus.ACTIVE
                       }
                       onClick={() => requestTransaction()}
                     >
@@ -120,7 +127,7 @@ function NoEditView() {
                 </div>
                 <div>
                   <hr />
-                  {offer?.state === OfferStatus.ACTIVE ? (
+                  {offer?.offerStatus === OfferStatus.ACTIVE ? (
                     <div className="state-available">
                       <span className="pe-1">
                         <FontAwesomeIcon icon={faCheckCircle} />
@@ -128,7 +135,7 @@ function NoEditView() {
                       <span>Available</span>
                     </div>
                   ) : (
-                    <div>{offer?.state}</div>
+                    <div>{offer?.offerStatus}</div>
                   )}
                 </div>
                 <div>

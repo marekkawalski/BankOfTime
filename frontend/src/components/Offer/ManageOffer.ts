@@ -1,10 +1,10 @@
-import { OfferStatus } from '@/enums/OfferState';
-import { OfferType } from '@/enums/OfferType';
-import { Role } from '@/enums/Role';
-import { IAppUser } from '@/models/AppUser';
-import { IOffer } from '@/models/Offer';
+import { OfferStatus } from "@/enums/OfferState";
+import { OfferType } from "@/enums/OfferType";
+import { Role } from "@/enums/Role";
+import { IAppUser } from "@/models/AppUser";
+import { IOffer } from "@/models/Offer";
 
-import { IManageOffer } from './types';
+import { IManageOffer } from "./types";
 
 export class ManageOffer implements IManageOffer {
   constructor(private offer: IOffer, private appUser?: IAppUser) {
@@ -17,7 +17,7 @@ export class ManageOffer implements IManageOffer {
         this.appUser?.id === this.offer?.seller?.id) ||
         (this.offer.offerType === OfferType.PURCHASE_OFFER &&
           this.appUser?.id === this.offer?.buyer?.id)) &&
-        this.offer.state === OfferStatus.ACTIVE) ||
+        this.offer.offerStatus === OfferStatus.ACTIVE) ||
       this.appUser?.userType === Role.ROLE_ADMIN
     ) {
       return true;

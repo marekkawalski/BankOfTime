@@ -1,19 +1,27 @@
-import './OfferForm.scss';
+import "./OfferForm.scss";
 
-import { OfferStatus } from '@/enums/OfferState';
-import { OfferType } from '@/enums/OfferType';
-import { Role } from '@/enums/Role';
-import useGetCategories from '@/hooks/useGetCategories';
-import { Field, Formik } from 'formik';
-import { useEffect, useState } from 'react';
-import { Button, Col, Container, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap';
+import { OfferStatus } from "@/enums/OfferState";
+import { OfferType } from "@/enums/OfferType";
+import { Role } from "@/enums/Role";
+import useGetCategories from "@/hooks/useGetCategories";
+import { Field, Formik } from "formik";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 
-import useGetAppUser from '../../hooks/useGetAppUser';
-import MyReactSelect from '../MyReactSelect/MyReactSelect';
-import MySpinner from '../MySpinner/MySpinner';
-import { OfferFormProps } from './types';
-import useSubmitOffer from './useSubmitOffer';
-import { offerValidation } from './validation/offerValidation';
+import useGetAppUser from "../../hooks/useGetAppUser";
+import MyReactSelect from "../MyReactSelect/MyReactSelect";
+import MySpinner from "../MySpinner/MySpinner";
+import { OfferFormProps } from "./types";
+import useSubmitOffer from "./useSubmitOffer";
+import { offerValidation } from "./validation/offerValidation";
 
 function OfferForm({ offer, submit }: OfferFormProps) {
   const { categories, loading } = useGetCategories();
@@ -60,7 +68,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
               location: offer?.location ?? "",
               offerType: offer?.offerType ?? OfferType.SELL_OFFER,
               categories: defaultCategoriesOptions.map((value) => value.label),
-              offerStatus: offer?.state,
+              offerStatus: offer?.offerStatus ?? OfferStatus.ACTIVE,
               offerImages: [],
             }}
           >
@@ -277,7 +285,7 @@ function OfferForm({ offer, submit }: OfferFormProps) {
                         <Form.Select
                           aria-label="Offer status select"
                           name="offerStatus"
-                          defaultValue={offer?.state}
+                          defaultValue={offer?.offerStatus}
                           onChange={handleChange}
                         >
                           <option value={OfferStatus.ACTIVE}>Active</option>

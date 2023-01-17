@@ -83,6 +83,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setPrice(createOfferDTO.price());
         offer.setShortDescription(createOfferDTO.shortDescription());
         offer.setTitle(createOfferDTO.title());
+        offer.setOfferStatus(createOfferDTO.offerStatus());
         if (createOfferDTO.location() != null)
             offer.setLocation(createOfferDTO.location());
         if (createOfferDTO.longDescription() != null)
@@ -106,7 +107,7 @@ public class OfferServiceImpl implements OfferService {
         if (offerDTO.longDescription() != null)
             offer.setLongDescription(offerDTO.longDescription());
         if (offerDTO.offerStatus() != null) {
-            offer.setState(offerDTO.offerStatus());
+            offer.setOfferStatus(offerDTO.offerStatus());
         }
         return offer;
     }
@@ -135,7 +136,7 @@ public class OfferServiceImpl implements OfferService {
                     final ArrayList<Category> categories = new ArrayList<>(offerToSave.getCategories());
                     offer.setCategories(categories);
                     offer.setUpdatedAt(LocalDateTime.now());
-                    offer.setState(offerToSave.getState());
+                    offer.setOfferStatus(offerToSave.getOfferStatus());
                     offer = offerRepository.save(offer);
                     return Optional.of(offer);
                 })

@@ -1,5 +1,6 @@
 package com.bankoftime.dto;
 
+import com.bankoftime.enums.OfferStatus;
 import com.bankoftime.enums.OfferType;
 import org.springframework.lang.Nullable;
 
@@ -16,6 +17,7 @@ public record CreateOfferDTO(
         @Nullable String longDescription,
         @Nullable String location,
         @NotEmpty
-        List<CategoryDTO> categories
+        List<CategoryDTO> categories,
+        OfferStatus offerStatus
 ) {
 }

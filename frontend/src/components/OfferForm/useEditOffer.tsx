@@ -1,9 +1,9 @@
-import { useServices } from '@/context/ServicesContext';
-import { useMyToast } from '@/context/ToastContext';
-import { ToastBackground } from '@/enums/ToastBackground';
-import { ToastTitle } from '@/enums/ToastTitle';
-import { IUpdateOffer } from '@/models/Offer';
-import { useState } from 'react';
+import { useServices } from "@/context/ServicesContext";
+import { useMyToast } from "@/context/ToastContext";
+import { ToastBackground } from "@/enums/ToastBackground";
+import { ToastTitle } from "@/enums/ToastTitle";
+import { IUpdateOffer } from "@/models/Offer";
+import { useState } from "react";
 
 function useEditOffer() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +35,7 @@ function useEditOffer() {
               offerType: offer.offerType,
               longDescription: offer.longDescription,
               location: offer.location,
+              offerStatus: offer.offerStatus,
               categories: offer.categories,
             }),
           ],

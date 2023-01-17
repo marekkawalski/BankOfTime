@@ -1,11 +1,10 @@
-import { PWD_REGEX } from '@/constants/constants';
-import * as Yup from 'yup';
+import { PWD_REGEX } from "@/constants/constants";
+import * as Yup from "yup";
 
 export const registrationValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, "Name must be at least 3 characters")
     .max(25, "Name must not exceed 25 characters")
-    .matches(/^([^\d]*)$/, "Name should not contain numbers")
     .required("Name is required"),
   lastName: Yup.string()
     .required("Last name is required")

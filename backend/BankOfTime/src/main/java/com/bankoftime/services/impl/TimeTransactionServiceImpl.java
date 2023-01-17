@@ -60,7 +60,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         if (this.calculateClientAccountBalance(buyer) < offer.getPrice()) {
             throw new TimeTransactionException("Not enough credits");
         }
-        offer.setState(OfferStatus.ON_HOLD);
+        offer.setOfferStatus(OfferStatus.ON_HOLD);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         offerService.modifyOffer(offer);
@@ -74,7 +74,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         if (oOffer.isEmpty())
             throw new TimeTransactionException("Offer doesn't exist");
         final Offer offer = oOffer.get();
-        offer.setState(OfferStatus.ACTIVE);
+        offer.setOfferStatus(OfferStatus.ACTIVE);
         if (offer.getOfferType() == OfferType.SELL_OFFER) {
             offer.setBuyer(null);
         } else {
@@ -93,11 +93,11 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
         final AppUser buyer = transactionParams.buyer;
         final Offer offer = transactionParams.offer;
 
-        if (offer.getState() != OfferStatus.ACTIVE && offer.getState() != OfferStatus.ON_HOLD)
+        if (offer.getOfferStatus() != OfferStatus.ACTIVE && offer.getOfferStatus() != OfferStatus.ON_HOLD)
             throw new TimeTransactionException("Offer is not active!");
-        if (offer.getState() == OfferStatus.ON_HOLD && offer.getSeller() != seller)
+        if (offer.getOfferStatus() == OfferStatus.ON_HOLD && offer.getSeller() != seller)
             throw new TimeTransactionException("Seller is not assigned to offer!");
-        if (offer.getState() == OfferStatus.ON_HOLD && offer.getBuyer() != buyer)
+        if (offer.getOfferStatus() == OfferStatus.ON_HOLD && offer.getBuyer() != buyer)
             throw new TimeTransactionException("Buyer is not assigned to offer!");
 
         final TimeTransaction timeTransaction = new TimeTransaction(LocalDateTime.now(), offer, buyer, seller);
@@ -107,7 +107,7 @@ public class TimeTransactionServiceImpl implements TimeTransactionService {
             timeTransactionRepository.save(timeTransaction);
             throw new TimeTransactionException("Not enough credits");
         }
-        offer.setState(OfferStatus.APPROVED);
+        offer.setOfferStatus(OfferStatus.APPROVED);
         offer.setBuyer(buyer);
         offer.setSeller(seller);
         timeTransaction.setTransactionStatus(TransactionStatus.FINISHED);

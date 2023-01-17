@@ -1,8 +1,9 @@
-import { OfferType } from '@/enums/OfferType';
+import { OfferStatus } from "@/enums/OfferState";
+import { OfferType } from "@/enums/OfferType";
 
-import { IAppUser } from './AppUser';
-import { Category } from './Category';
-import { OfferImage } from './OfferImage';
+import { IAppUser } from "./AppUser";
+import { Category } from "./Category";
+import { OfferImage } from "./OfferImage";
 
 export interface ICreateOffer {
   title: string;
@@ -13,13 +14,13 @@ export interface ICreateOffer {
   location?: string;
   categories: Category[];
   offerImages: any[];
+  offerStatus?: OfferStatus;
 }
 export interface IUpdateOffer extends ICreateOffer {
   readonly id: number;
 }
 export interface IOffer extends ICreateOffer {
   readonly id: number;
-  state?: string;
   seller?: IAppUser;
   buyer?: IAppUser;
   previousPrice?: number;

@@ -1,6 +1,7 @@
-import { OfferType } from '@/enums/OfferType';
-import { Category } from '@/models/Category';
-import { IOffer } from '@/models/Offer';
+import { OfferStatus } from "@/enums/OfferState";
+import { OfferType } from "@/enums/OfferType";
+import { Category } from "@/models/Category";
+import { IOffer } from "@/models/Offer";
 
 export interface OfferFormProps {
   offer?: IOffer;
@@ -30,5 +31,6 @@ export interface OfferToSubmit {
   longDescription?: string;
   location?: string;
   categories: string[];
+  offerStatus: OfferStatus;
   offerImages: any[];
 }

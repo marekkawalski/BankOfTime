@@ -1,16 +1,16 @@
-import './ManageUsers.scss';
+import "./ManageUsers.scss";
 
-import MySpinner from '@/components/MySpinner/MySpinner';
-import { useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import MyPagination from "@/components/MyPagination/MyPagination/MyPagination";
+import MySpinner from "@/components/MySpinner/MySpinner";
+import useGetAppUser from "@/hooks/useGetAppUser";
+import { IAppUser } from "@/models/AppUser";
+import { useState } from "react";
+import { Button, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-import MyPagination from '../../../components/MyPagination/MyPagination/MyPagination';
-import useGetAppUser from '../../../hooks/useGetAppUser';
-import { IAppUser } from '../../../models/AppUser';
-import useDisableAppUser from './hooks/useDisableAppUser';
-import useEnableAppUser from './hooks/useEnableAppUser';
-import useGetAppUsers from './hooks/useGetAppUsers';
+import useDisableAppUser from "./hooks/useDisableAppUser";
+import useEnableAppUser from "./hooks/useEnableAppUser";
+import useGetAppUsers from "./hooks/useGetAppUsers";
 
 function ManageUsers() {
   const [reload, setReload] = useState<boolean>(false);
@@ -67,7 +67,7 @@ function ManageUsers() {
                     <td>
                       <Button
                         onClick={() => {
-                          navigate(`/appUser/${user.email}`);
+                          navigate(`/appUser?email=${user.email}`);
                         }}
                       >
                         Edit
