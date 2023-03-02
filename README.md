@@ -37,7 +37,7 @@ BankOfTime is a project which allows for a cashless exchange of services between
 <img src="https://user-images.githubusercontent.com/56251920/222392988-98c280a8-4103-4d54-8d3b-72acab464064.png" width="600" />
 <img src="https://user-images.githubusercontent.com/56251920/222393096-228b9a64-0c2f-45d8-befc-fa6b6e77c3a8.png" width="600" />
 <img src="https://user-images.githubusercontent.com/56251920/222393187-d409cb0d-9c4d-4960-8061-bfb8f34e563d.png" width="600" />
-<img src="https://user-images.githubusercontent.com/56251920/222393263-4c78cb2b-9616-4543-991d-4b8e72a04e6a.png" width="600" />
+<img src="https://user-images.githubusercontent.com/56251920/222394637-cafb429f-9c8f-4c29-80c9-50ba1a6d9370.png" width="600" />
 <img src="https://user-images.githubusercontent.com/56251920/222393340-90767685-8b16-437d-aa9d-8a50e86bb718.png" width="600" />
 <img src="https://user-images.githubusercontent.com/56251920/222393422-87eacb83-26c9-4d0f-b499-84428558df52.png" width="600" />
 
